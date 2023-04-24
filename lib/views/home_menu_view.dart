@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:metapp/enums/menu_action.dart';
 import 'package:metapp/services/auth/bloc/auth_bloc.dart';
 import 'package:metapp/services/auth/bloc/auth_events.dart';
+import 'package:metapp/utilities/dialogs/logout_dialog.dart';
 
 class HomeMenuView extends StatefulWidget {
   const HomeMenuView({super.key});
@@ -18,6 +20,32 @@ class _HomeMenuViewState extends State<HomeMenuView> {
         title: const Text('MET APP'),
         centerTitle: true,
         titleSpacing: 0.5,
+        actions: [
+          PopupMenuButton(
+            itemBuilder: (context) {
+              return [
+                const PopupMenuItem(
+                  value: MenuAction.logout,
+                  child: Text('Log out'),
+                )
+              ];
+            },
+            onSelected: (value) async {
+              switch (value) {
+                case MenuAction.logout:
+                  final shouldLogout = await showLogOutDialog(context);
+                  if (shouldLogout) {
+                    context.read<AuthBloc>().add(
+                          const AuthEventLogOut(),
+                        );
+                  }
+                  break;
+                default:
+                  break;
+              }
+            },
+          ),
+        ],
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -28,7 +56,7 @@ class _HomeMenuViewState extends State<HomeMenuView> {
           // ),
           image: DecorationImage(
             image: AssetImage(
-              "assets/images/diamond_background.jpeg",
+              "assets/images/black_background.jpeg",
             ),
             fit: BoxFit.cover,
           ),

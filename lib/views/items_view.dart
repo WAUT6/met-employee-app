@@ -72,30 +72,40 @@ class _ItemsViewState extends State<ItemsView> {
           ),
         ],
       ),
-      body: StreamBuilder(
-        stream: _cloudStorage.allItems(),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-            case ConnectionState.active:
-              if (snapshot.hasData) {
-                final allItems = snapshot.data as Iterable<CloudItem>;
-                return ItemsGridView(
-                  items: allItems,
-                  onTap: (item) {
-                    Navigator.of(context).pushNamed(
-                      createOrUpdateItemRoute,
-                      arguments: item,
-                    );
-                  },
-                );
-              } else {
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+              'assets/images/black_background.jpeg',
+            ),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: StreamBuilder(
+          stream: _cloudStorage.allItems(),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+              case ConnectionState.active:
+                if (snapshot.hasData) {
+                  final allItems = snapshot.data as Iterable<CloudItem>;
+                  return ItemsGridView(
+                    items: allItems,
+                    onTap: (item) {
+                      Navigator.of(context).pushNamed(
+                        createOrUpdateItemRoute,
+                        arguments: item,
+                      );
+                    },
+                  );
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              default:
                 return const CircularProgressIndicator();
-              }
-            default:
-              return const CircularProgressIndicator();
-          }
-        },
+            }
+          },
+        ),
       ),
     );
   }

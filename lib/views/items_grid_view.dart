@@ -36,7 +36,7 @@ class ItemsGridView extends StatelessWidget {
             ),
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.red,
+                color: Colors.blueGrey,
                 borderRadius: BorderRadius.circular(20),
               ),
               padding: const EdgeInsets.all(16),

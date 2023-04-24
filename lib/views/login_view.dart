@@ -47,50 +47,103 @@ class _LoginViewState extends State<LoginView> {
       },
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: const Text('Login'),
         ),
-        body: Column(
-          children: [
-            TextField(
-              controller: _email,
-              enableSuggestions: false,
-              autocorrect: false,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                hintText: 'Enter your email',
-              ),
-            ),
-            TextField(
-              controller: _password,
-              enableSuggestions: false,
-              obscureText: true,
-              autocorrect: false,
-              decoration: const InputDecoration(
-                hintText: 'Enter your password',
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                final String email = _email.text;
-                final String password = _password.text;
-                context.read<AuthBloc>().add(
-                      AuthEventLogIn(
-                        email: email,
-                        password: password,
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/images/black_background.jpeg'),
+                fit: BoxFit.cover),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    TextField(
+                      style: const TextStyle(
+                        color: Colors.white,
                       ),
-                    );
-              },
-              child: const Text('Login'),
-            ),
-            TextButton(
-              onPressed: () {
-                context.read<AuthBloc>().add(
-                      const AuthEventShouldRegister(),
-                    );
-              },
-              child: const Text('No account? Register here.'),
-            ),
-          ],
+                      controller: _email,
+                      enableSuggestions: false,
+                      autocorrect: false,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: const InputDecoration(
+                        hintText: 'Enter your email',
+                        hintStyle: TextStyle(color: Colors.white),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                        ),
+                        filled: true,
+                        fillColor: Colors.blueGrey,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                      height: 35,
+                    ),
+                    TextField(
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
+                      controller: _password,
+                      enableSuggestions: false,
+                      obscureText: true,
+                      autocorrect: false,
+                      decoration: const InputDecoration(
+                        hintText: 'Enter your password',
+                        hintStyle: TextStyle(color: Colors.white),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                        ),
+                        filled: true,
+                        fillColor: Colors.blueGrey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(15),
+                child: Column(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        final String email = _email.text;
+                        final String password = _password.text;
+                        context.read<AuthBloc>().add(
+                              AuthEventLogIn(
+                                email: email,
+                                password: password,
+                              ),
+                            );
+                      },
+                      child: const Text('Login'),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                      height: 15,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        context.read<AuthBloc>().add(
+                              const AuthEventShouldRegister(),
+                            );
+                      },
+                      child: const Text('No account? Register here.'),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
