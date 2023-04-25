@@ -15,32 +15,12 @@ class AuthStateUninitialized extends AuthState {
       : super(isLoading: isLoading);
 }
 
-class AuthStateAddingOrUpdatingItem extends AuthState {
-  AuthStateAddingOrUpdatingItem({required bool isLoading})
-      : super(isLoading: isLoading);
-}
-
 class AuthStateLoggedIn extends AuthState {
   final AuthUser user;
   const AuthStateLoggedIn({
     required this.user,
     required bool isLoading,
   }) : super(isLoading: isLoading);
-}
-
-class AuthStateViewingHomePage extends AuthState {
-  const AuthStateViewingHomePage({required bool isLoading})
-      : super(isLoading: isLoading);
-}
-
-class AuthStateViewingItemsList extends AuthState {
-  const AuthStateViewingItemsList({required bool isLoading})
-      : super(isLoading: isLoading);
-}
-
-class AuthStateViewingOrdersList extends AuthState {
-  const AuthStateViewingOrdersList({required bool isLoading})
-      : super(isLoading: isLoading);
 }
 
 class AuthStateNeedsVerification extends AuthState {

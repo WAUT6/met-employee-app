@@ -41,18 +41,12 @@ class HomePage extends StatelessWidget {
     return BlocConsumer<AuthBloc, AuthState>(builder: (context, state) {
       if (state is AuthStateLoggedIn) {
         return const HomeMenuView();
-      } else if (state is AuthStateViewingItemsList) {
-        return const ItemsView();
-      } else if (state is AuthStateViewingOrdersList) {
-        return const ItemsView();
       } else if (state is AuthStateNeedsVerification) {
         return const VerifyEmailView();
       } else if (state is AuthStateLoggedOut) {
         return const LoginView();
       } else if (state is AuthStateRegistering) {
         return const RegisterView();
-      } else if (state is AuthStateAddingOrUpdatingItem) {
-        return const CreateOrUpdateItemView();
       } else {
         return const Scaffold(
           body: CircularProgressIndicator(),

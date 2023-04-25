@@ -7,6 +7,8 @@ import 'package:metapp/services/auth/bloc/auth_events.dart';
 import 'package:metapp/services/cloud/cloud_item.dart';
 import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'package:metapp/utilities/dialogs/logout_dialog.dart';
+import 'package:metapp/views/bloc/view_bloc.dart';
+import 'package:metapp/views/bloc/view_events.dart';
 import 'package:metapp/views/items_grid_view.dart';
 
 class ItemsView extends StatefulWidget {
@@ -32,7 +34,7 @@ class _ItemsViewState extends State<ItemsView> {
         title: const Text('Notes'),
         leading: IconButton(
           onPressed: () {
-            context.read<AuthBloc>().add(const AuthEventGoToHomePage());
+            context.read<ViewBloc>().add(const ViewEventGoToHomePage());
           },
           icon: const Icon(Icons.home),
         ),

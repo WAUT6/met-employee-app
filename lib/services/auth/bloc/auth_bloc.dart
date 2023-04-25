@@ -131,48 +131,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
     );
 
-    on<AuthEventGoToHomePage>(
-      (event, emit) {
-        final user = service.currentUser;
-        emit(AuthStateLoggedIn(user: user!, isLoading: false));
-      },
-    );
-
-    on<AuthEventAddOrUpdateItem>(
-      (event, emit) {
-        emit(
-          AuthStateAddingOrUpdatingItem(
-            isLoading: false,
-          ),
-        );
-      },
-    );
-
     on<AuthEventShouldRegister>(
       (event, emit) {
         emit(
           const AuthStateRegistering(
             exception: null,
-            isLoading: false,
-          ),
-        );
-      },
-    );
-
-    on<AuthEventGoToItemsList>(
-      (event, emit) {
-        emit(
-          const AuthStateViewingItemsList(
-            isLoading: false,
-          ),
-        );
-      },
-    );
-
-    on<AuthEventGoToOrdersList>(
-      (event, emit) {
-        emit(
-          const AuthStateViewingOrdersList(
             isLoading: false,
           ),
         );

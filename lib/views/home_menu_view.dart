@@ -4,6 +4,8 @@ import 'package:metapp/enums/menu_action.dart';
 import 'package:metapp/services/auth/bloc/auth_bloc.dart';
 import 'package:metapp/services/auth/bloc/auth_events.dart';
 import 'package:metapp/utilities/dialogs/logout_dialog.dart';
+import 'package:metapp/views/bloc/view_bloc.dart';
+import 'package:metapp/views/bloc/view_events.dart';
 
 class HomeMenuView extends StatefulWidget {
   const HomeMenuView({super.key});
@@ -76,8 +78,8 @@ class _HomeMenuViewState extends State<HomeMenuView> {
                 ),
                 child: const Text('Items'),
                 onPressed: () {
-                  context.read<AuthBloc>().add(
-                        const AuthEventGoToItemsList(),
+                  context.read<ViewBloc>().add(
+                        const ViewEventGoToItems(),
                       );
                 },
               ),
@@ -96,8 +98,8 @@ class _HomeMenuViewState extends State<HomeMenuView> {
                 ),
                 child: const Text('Orders'),
                 onPressed: () {
-                  context.read<AuthBloc>().add(
-                        const AuthEventGoToOrdersList(),
+                  context.read<ViewBloc>().add(
+                        const ViewEventGoToOrders(),
                       );
                 },
               ),
