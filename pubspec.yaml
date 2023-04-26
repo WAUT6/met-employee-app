@@ -40,6 +40,7 @@ dependencies:
   bloc: ^8.1.1
   flutter_bloc: ^8.1.2
   cloud_firestore: ^4.5.2
+  nice_buttons: ^0.0.2
 
 dev_dependencies:
   flutter_test:

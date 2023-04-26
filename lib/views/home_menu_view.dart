@@ -1,11 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:metapp/constants/paths.dart';
 import 'package:metapp/enums/menu_action.dart';
 import 'package:metapp/services/auth/bloc/auth_bloc.dart';
 import 'package:metapp/services/auth/bloc/auth_events.dart';
 import 'package:metapp/utilities/dialogs/logout_dialog.dart';
-import 'package:metapp/views/bloc/view_bloc.dart';
-import 'package:metapp/views/bloc/view_events.dart';
+import 'package:nice_buttons/nice_buttons.dart';
 
 class HomeMenuView extends StatefulWidget {
   const HomeMenuView({super.key});
@@ -58,7 +60,7 @@ class _HomeMenuViewState extends State<HomeMenuView> {
           // ),
           image: DecorationImage(
             image: AssetImage(
-              "assets/images/black_background.jpeg",
+              backgroundImagePath,
             ),
             fit: BoxFit.cover,
           ),
@@ -67,40 +69,60 @@ class _HomeMenuViewState extends State<HomeMenuView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-                style: const ButtonStyle(
-                  minimumSize: MaterialStatePropertyAll(
-                    Size(
-                      200,
-                      50,
-                    ),
-                  ),
+              NiceButtons(
+                startColor: Colors.purple,
+                endColor: Colors.purple.shade800,
+                borderColor: Colors.purple.shade900,
+                stretch: false,
+                progress: true,
+                child: const Text(
+                  'Items',
+                  style: TextStyle(color: Colors.white),
                 ),
-                child: const Text('Items'),
-                onPressed: () {
-                  context.read<ViewBloc>().add(
-                        const ViewEventGoToItems(),
+                onTap: (finish) {
+                  context.read<AuthBloc>().add(
+                        const AuthEventGoToItems(),
                       );
+                  Timer(
+                    const Duration(seconds: 5),
+                    () {
+                      finish();
+                    },
+                  );
                 },
               ),
               const SizedBox(
                 width: 50,
                 height: 50,
               ),
-              ElevatedButton(
-                style: const ButtonStyle(
-                  minimumSize: MaterialStatePropertyAll(
-                    Size(
-                      200,
-                      50,
-                    ),
-                  ),
+              NiceButtons(
+                startColor: Colors.purple,
+                endColor: Colors.purple.shade800,
+                borderColor: Colors.purple.shade900,
+                stretch: false,
+                progress: true,
+                // style: const ButtonStyle(
+                //   minimumSize: MaterialStatePropertyAll(
+                //     Size(
+                //       200,
+                //       50,
+                //     ),
+                //   ),
+                // ),
+                child: const Text(
+                  'Orders',
+                  style: TextStyle(color: Colors.white),
                 ),
-                child: const Text('Orders'),
-                onPressed: () {
-                  context.read<ViewBloc>().add(
-                        const ViewEventGoToOrders(),
+                onTap: (finish) {
+                  context.read<AuthBloc>().add(
+                        const AuthEventGoToOrders(),
                       );
+                  Timer(
+                    const Duration(seconds: 5),
+                    () {
+                      finish();
+                    },
+                  );
                 },
               ),
             ],

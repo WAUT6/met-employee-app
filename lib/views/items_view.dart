@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:metapp/constants/paths.dart';
 import 'package:metapp/constants/routes.dart';
 import 'package:metapp/enums/menu_action.dart';
 import 'package:metapp/services/auth/bloc/auth_bloc.dart';
@@ -7,8 +8,6 @@ import 'package:metapp/services/auth/bloc/auth_events.dart';
 import 'package:metapp/services/cloud/cloud_item.dart';
 import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'package:metapp/utilities/dialogs/logout_dialog.dart';
-import 'package:metapp/views/bloc/view_bloc.dart';
-import 'package:metapp/views/bloc/view_events.dart';
 import 'package:metapp/views/items_grid_view.dart';
 
 class ItemsView extends StatefulWidget {
@@ -34,7 +33,7 @@ class _ItemsViewState extends State<ItemsView> {
         title: const Text('Notes'),
         leading: IconButton(
           onPressed: () {
-            context.read<ViewBloc>().add(const ViewEventGoToHomePage());
+            context.read<AuthBloc>().add(const AuthEventGoToHomePage());
           },
           icon: const Icon(Icons.home),
         ),
@@ -78,7 +77,7 @@ class _ItemsViewState extends State<ItemsView> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
-              'assets/images/black_background.jpeg',
+              backgroundImagePath,
             ),
             fit: BoxFit.cover,
           ),
@@ -101,10 +100,34 @@ class _ItemsViewState extends State<ItemsView> {
                     },
                   );
                 } else {
-                  return const CircularProgressIndicator();
+                  return Scaffold(
+                    body: Container(
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage(
+                                'assets/images/black_background.jpeg'),
+                            fit: BoxFit.cover),
+                      ),
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                  );
                 }
               default:
-                return const CircularProgressIndicator();
+                return Scaffold(
+                  body: Container(
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image:
+                              AssetImage('assets/images/black_background.jpeg'),
+                          fit: BoxFit.cover),
+                    ),
+                    child: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                );
             }
           },
         ),

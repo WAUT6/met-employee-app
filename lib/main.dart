@@ -20,10 +20,14 @@ void main() {
     theme: ThemeData(
       primarySwatch: Colors.purple,
     ),
-    home: BlocProvider<AuthBloc>(
-      create: (context) => AuthBloc(
-        AuthService.firebase(),
-      ),
+    home: MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthBloc>(
+          create: (context) => AuthBloc(
+            AuthService.firebase(),
+          ),
+        ),
+      ],
       child: const HomePage(),
     ),
     routes: {
@@ -38,26 +42,45 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<AuthBloc>().add(const AuthEventInitialize());
-    return BlocConsumer<AuthBloc, AuthState>(builder: (context, state) {
-      if (state is AuthStateLoggedIn) {
-        return const HomeMenuView();
-      } else if (state is AuthStateNeedsVerification) {
-        return const VerifyEmailView();
-      } else if (state is AuthStateLoggedOut) {
-        return const LoginView();
-      } else if (state is AuthStateRegistering) {
-        return const RegisterView();
-      } else {
-        return const Scaffold(
-          body: CircularProgressIndicator(),
-        );
-      }
-    }, listener: (context, state) {
-      if (state.isLoading) {
-        LoadingScreen().show(context: context, text: 'Please wait a moment...');
-      } else {
-        LoadingScreen().hide();
-      }
-    });
+    return BlocConsumer<AuthBloc, AuthState>(
+      builder: (context, state) {
+        if (state is AuthStateLoggedIn) {
+          return const HomeMenuView();
+        } else if (state is AuthStateNeedsVerification) {
+          return const VerifyEmailView();
+        } else if (state is AuthStateViewingHomePage) {
+          return const HomeMenuView();
+        } else if (state is AuthStateViewingItems) {
+          return const ItemsView();
+        } else if (state is AuthStateViewingOrders) {
+          return const ItemsView();
+        } else if (state is AuthStateLoggedOut) {
+          return const LoginView();
+        } else if (state is AuthStateRegistering) {
+          return const RegisterView();
+        } else {
+          return Scaffold(
+            body: Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/images/black_background.jpeg'),
+                    fit: BoxFit.cover),
+              ),
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          );
+        }
+      },
+      listener: (context, state) {
+        if (state.isLoading) {
+          LoadingScreen()
+              .show(context: context, text: 'Please wait a moment...');
+        } else {
+          LoadingScreen().hide();
+        }
+      },
+    );
   }
 }

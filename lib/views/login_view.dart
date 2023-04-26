@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:metapp/constants/paths.dart';
 import 'package:metapp/services/auth/auth_exceptions.dart';
 import 'package:metapp/services/auth/bloc/auth_bloc.dart';
 import 'package:metapp/services/auth/bloc/auth_events.dart';
 import 'package:metapp/services/auth/bloc/auth_states.dart';
 import 'package:metapp/utilities/dialogs/error_dialog.dart';
+import 'package:nice_buttons/nice_buttons.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -53,8 +57,7 @@ class _LoginViewState extends State<LoginView> {
         body: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/images/black_background.jpeg'),
-                fit: BoxFit.cover),
+                image: AssetImage(backgroundImagePath), fit: BoxFit.cover),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -114,8 +117,13 @@ class _LoginViewState extends State<LoginView> {
                 padding: const EdgeInsets.all(15),
                 child: Column(
                   children: [
-                    ElevatedButton(
-                      onPressed: () {
+                    NiceButtons(
+                      stretch: false,
+                      progress: true,
+                      startColor: Colors.purple,
+                      endColor: Colors.purple.shade800,
+                      borderColor: Colors.purple.shade900,
+                      onTap: (finish) {
                         final String email = _email.text;
                         final String password = _password.text;
                         context.read<AuthBloc>().add(
@@ -124,20 +132,43 @@ class _LoginViewState extends State<LoginView> {
                                 password: password,
                               ),
                             );
+                        Timer(
+                          const Duration(seconds: 3),
+                          () {
+                            finish();
+                          },
+                        );
                       },
-                      child: const Text('Login'),
+                      child: const Text(
+                        'Login',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                     const SizedBox(
                       width: 5,
                       height: 15,
                     ),
-                    ElevatedButton(
-                      onPressed: () {
+                    NiceButtons(
+                      stretch: false,
+                      progress: true,
+                      startColor: Colors.purple,
+                      endColor: Colors.purple.shade800,
+                      borderColor: Colors.purple.shade900,
+                      onTap: (finish) {
                         context.read<AuthBloc>().add(
                               const AuthEventShouldRegister(),
                             );
+                        Timer(
+                          const Duration(seconds: 5),
+                          () {
+                            finish();
+                          },
+                        );
                       },
-                      child: const Text('No account? Register here.'),
+                      child: const Text(
+                        'No account? Register here.',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ],
                 ),

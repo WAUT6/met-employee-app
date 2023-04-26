@@ -248,6 +248,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  nice_buttons:
+    dependency: "direct main"
+    description:
+      name: nice_buttons
+      sha256: "910280003fdf365a0dc531d83a291f3902ab323c95aed038c826aa3a92cda044"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   path:
     dependency: transitive
     description:

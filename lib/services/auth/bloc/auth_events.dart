@@ -9,6 +9,18 @@ class AuthEventInitialize extends AuthEvent {
   const AuthEventInitialize();
 }
 
+class AuthEventGoToItems extends AuthEvent {
+  const AuthEventGoToItems();
+}
+
+class AuthEventGoToOrders extends AuthEvent {
+  const AuthEventGoToOrders();
+}
+
+class AuthEventGoToHomePage extends AuthEvent {
+  const AuthEventGoToHomePage();
+}
+
 class AuthEventLogIn extends AuthEvent {
   final String email;
   final String password;

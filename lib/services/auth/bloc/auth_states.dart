@@ -47,3 +47,18 @@ class AuthStateRegistering extends AuthState {
     required bool isLoading,
   }) : super(isLoading: isLoading);
 }
+
+class AuthStateViewingItems extends AuthState {
+  const AuthStateViewingItems({required bool isLoading})
+      : super(isLoading: isLoading);
+}
+
+class AuthStateViewingOrders extends AuthState {
+  const AuthStateViewingOrders({required bool isLoading})
+      : super(isLoading: isLoading);
+}
+
+class AuthStateViewingHomePage extends AuthState {
+  const AuthStateViewingHomePage({required bool isLoading})
+      : super(isLoading: isLoading);
+}

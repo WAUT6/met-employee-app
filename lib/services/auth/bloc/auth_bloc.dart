@@ -34,6 +34,30 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
     );
 
+    on<AuthEventGoToHomePage>(
+      (event, emit) {
+        emit(
+          const AuthStateViewingHomePage(isLoading: false),
+        );
+      },
+    );
+
+    on<AuthEventGoToItems>(
+      (event, emit) {
+        emit(
+          const AuthStateViewingItems(isLoading: false),
+        );
+      },
+    );
+
+    on<AuthEventGoToOrders>(
+      (event, emit) {
+        emit(
+          const AuthStateViewingOrders(isLoading: false),
+        );
+      },
+    );
+
     on<AuthEventInitialize>(
       (event, emit) async {
         await service.initialize();
