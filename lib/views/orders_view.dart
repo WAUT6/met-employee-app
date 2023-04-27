@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:metapp/constants/themes.dart';
 import 'package:metapp/enums/menu_action.dart';
 import 'package:metapp/services/auth/bloc/auth_bloc.dart';
 import 'package:metapp/services/auth/bloc/auth_events.dart';
@@ -62,6 +63,9 @@ class _OrdersViewState extends State<OrdersView> {
             },
           ),
         ],
+      ),
+      body: Container(
+        decoration: backgroundDecoration,
       ),
     );
   }

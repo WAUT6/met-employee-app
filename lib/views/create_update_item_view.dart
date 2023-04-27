@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:metapp/constants/paths.dart';
+import 'package:metapp/constants/themes.dart';
 import 'package:metapp/services/cloud/cloud_item.dart';
 import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'package:metapp/utilities/generics/get_arguments.dart';
@@ -114,16 +114,11 @@ class _CreateOrUpdateItemViewState extends State<CreateOrUpdateItemView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Note'),
+        title: const Text('Item'),
         centerTitle: true,
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(backgroundImagePath),
-            fit: BoxFit.cover,
-          ),
-        ),
+        decoration: backgroundDecoration,
         child: Center(
           child: FutureBuilder(
             future: createOrGetExisitingItem(context),

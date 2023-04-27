@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:metapp/constants/paths.dart';
+import 'package:metapp/constants/themes.dart';
 import 'package:metapp/enums/menu_action.dart';
 import 'package:metapp/services/auth/bloc/auth_bloc.dart';
 import 'package:metapp/services/auth/bloc/auth_events.dart';
@@ -58,33 +58,15 @@ class _HomeMenuViewState extends State<HomeMenuView> {
               ],
             ),
             body: Container(
-              decoration: const BoxDecoration(
-                // gradient: LinearGradient(
-                //   colors: [
-                //     Colors.purple,
-                //   ],
-                // ),
-                image: DecorationImage(
-                  image: AssetImage(
-                    backgroundImagePath,
-                  ),
-                  fit: BoxFit.cover,
-                ),
-              ),
+              decoration: backgroundDecoration,
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    NiceButtons(
-                      startColor: Colors.purple,
-                      endColor: Colors.purple.shade800,
-                      borderColor: Colors.purple.shade900,
-                      stretch: false,
-                      child: const Text(
-                        'Items',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onTap: (finish) {
+                    genericNiceButton(
+                      context: context,
+                      text: 'Items',
+                      funtion: (finish) {
                         context.read<ViewBloc>().add(
                               const ViewEventGoToItems(),
                             );
@@ -94,24 +76,10 @@ class _HomeMenuViewState extends State<HomeMenuView> {
                       width: 50,
                       height: 50,
                     ),
-                    NiceButtons(
-                      startColor: Colors.purple,
-                      endColor: Colors.purple.shade800,
-                      borderColor: Colors.purple.shade900,
-                      stretch: false,
-                      // style: const ButtonStyle(
-                      //   minimumSize: MaterialStatePropertyAll(
-                      //     Size(
-                      //       200,
-                      //       50,
-                      //     ),
-                      //   ),
-                      // ),
-                      child: const Text(
-                        'Orders',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onTap: (finish) {
+                    genericNiceButton(
+                      context: context,
+                      text: 'Orders',
+                      funtion: (finish) {
                         context.read<ViewBloc>().add(
                               const ViewEventGoToOrders(),
                             );

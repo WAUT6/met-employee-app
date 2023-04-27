@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:metapp/constants/paths.dart';
+import 'package:metapp/constants/themes.dart';
 import 'package:metapp/services/auth/auth_exceptions.dart';
 import 'package:metapp/services/auth/bloc/auth_bloc.dart';
 import 'package:metapp/services/auth/bloc/auth_events.dart';
@@ -57,127 +57,100 @@ class _RegisterViewState extends State<RegisterView> {
           title: const Text('Register'),
         ),
         body: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage(backgroundImagePath), fit: BoxFit.cover),
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      TextField(
-                        style: const TextStyle(
-                          color: Colors.white,
-                        ),
-                        controller: _email,
-                        enableSuggestions: false,
-                        autocorrect: false,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter your email',
-                          hintStyle: TextStyle(color: Colors.white),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
+          decoration: backgroundDecoration,
+          child: ListView(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        TextField(
+                          style: const TextStyle(
+                            color: Colors.white,
                           ),
-                          filled: true,
-                          fillColor: Colors.blueGrey,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 5,
-                        height: 35,
-                      ),
-                      TextField(
-                        style: const TextStyle(
-                          color: Colors.white,
-                        ),
-                        controller: _password,
-                        enableSuggestions: false,
-                        obscureText: true,
-                        autocorrect: false,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter your password',
-                          hintStyle: TextStyle(color: Colors.white),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
+                          controller: _email,
+                          enableSuggestions: false,
+                          autocorrect: false,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: const InputDecoration(
+                            hintText: 'Enter your email',
+                            hintStyle: TextStyle(color: Colors.white),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(20),
+                              ),
                             ),
+                            filled: true,
+                            fillColor: Colors.blueGrey,
                           ),
-                          filled: true,
-                          fillColor: Colors.blueGrey,
                         ),
-                      ),
-                    ],
+                        const SizedBox(
+                          width: 5,
+                          height: 35,
+                        ),
+                        TextField(
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                          controller: _password,
+                          enableSuggestions: false,
+                          obscureText: true,
+                          autocorrect: false,
+                          decoration: const InputDecoration(
+                            hintText: 'Enter your password',
+                            hintStyle: TextStyle(color: Colors.white),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(20),
+                              ),
+                            ),
+                            filled: true,
+                            fillColor: Colors.blueGrey,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(15),
-                  child: Column(
-                    children: [
-                      NiceButtons(
-                        stretch: false,
-                        progress: true,
-                        startColor: Colors.purple,
-                        endColor: Colors.purple.shade800,
-                        borderColor: Colors.purple.shade900,
-                        onTap: (finish) {
-                          final String email = _email.text;
-                          final String password = _password.text;
-                          context.read<AuthBloc>().add(
-                                AuthEventRegister(
-                                  email: email,
-                                  password: password,
-                                ),
-                              );
-                          Timer(
-                            const Duration(seconds: 5),
-                            () {
-                              finish();
-                            },
-                          );
-                        },
-                        child: const Text(
-                          'Register',
-                          style: TextStyle(color: Colors.white),
+                  Container(
+                    padding: const EdgeInsets.all(15),
+                    child: Column(
+                      children: [
+                        genericNiceButton(
+                          context: context,
+                          text: 'Register',
+                          funtion: (finish) {
+                            final String email = _email.text;
+                            final String password = _password.text;
+                            context.read<AuthBloc>().add(
+                                  AuthEventRegister(
+                                    email: email,
+                                    password: password,
+                                  ),
+                                );
+                          },
                         ),
-                      ),
-                      const SizedBox(
-                        width: 5,
-                        height: 15,
-                      ),
-                      NiceButtons(
-                        stretch: false,
-                        progress: true,
-                        startColor: Colors.purple,
-                        endColor: Colors.purple.shade800,
-                        borderColor: Colors.purple.shade900,
-                        onTap: (finish) {
-                          context.read<AuthBloc>().add(
-                                const AuthEventLogOut(),
-                              );
-                          Timer(
-                            const Duration(seconds: 5),
-                            () {
-                              finish();
-                            },
-                          );
-                        },
-                        child: const Text(
-                          'Login here',
-                          style: TextStyle(color: Colors.white),
+                        const SizedBox(
+                          width: 5,
+                          height: 15,
                         ),
-                      ),
-                    ],
+                        genericNiceButton(
+                          context: context,
+                          text: 'Login here',
+                          funtion: (finish) {
+                            context.read<AuthBloc>().add(
+                                  const AuthEventLogOut(),
+                                );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              )
+            ],
           ),
         ),
       ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:metapp/constants/paths.dart';
+import 'package:metapp/constants/themes.dart';
 import 'package:metapp/constants/routes.dart';
 import 'package:metapp/enums/menu_action.dart';
 import 'package:metapp/services/auth/bloc/auth_bloc.dart';
@@ -84,14 +84,7 @@ class _ItemsViewState extends State<ItemsView> {
               ],
             ),
             body: Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(
-                    backgroundImagePath,
-                  ),
-                  fit: BoxFit.cover,
-                ),
-              ),
+              decoration: backgroundDecoration,
               child: StreamBuilder(
                 stream: _cloudStorage.allItems(),
                 builder: (context, snapshot) {

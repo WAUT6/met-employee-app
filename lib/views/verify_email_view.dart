@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:metapp/constants/themes.dart';
 import 'package:metapp/services/auth/bloc/auth_bloc.dart';
 import 'package:metapp/services/auth/bloc/auth_events.dart';
 
@@ -14,29 +15,67 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Verify email')),
-      body: Column(
-        children: [
-          const Text('An email verification has been sent to your email.'),
-          const Text(
-              "If you haven't received an email please press the button below."),
-          TextButton(
-            onPressed: () {
-              context.read<AuthBloc>().add(
-                    const AuthEventSendEmailVerification(),
-                  );
-            },
-            child: const Text('Send email verification'),
-          ),
-          TextButton(
-            onPressed: () {
-              context.read<AuthBloc>().add(
-                    const AuthEventLogOut(),
-                  );
-            },
-            child: const Text('Restart'),
-          )
-        ],
+      appBar: AppBar(
+        title: const Text('Verify email'),
+        centerTitle: true,
+      ),
+      body: Container(
+        alignment: Alignment.center,
+        decoration: backgroundDecoration,
+        child: Column(
+          children: [
+            Column(
+              children: const [
+                Text(
+                  'An email verification has been sent to your email.',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  "If you haven't received an email please press the button below.",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 15,
+              width: 15,
+            ),
+            Column(
+              children: [
+                genericNiceButton(
+                  context: context,
+                  text: 'Send email verification',
+                  funtion: (finish) {
+                    context.read<AuthBloc>().add(
+                          const AuthEventSendEmailVerification(),
+                        );
+                  },
+                ),
+                const SizedBox(
+                  height: 15,
+                  width: 15,
+                ),
+                genericNiceButton(
+                  context: context,
+                  text: 'Restart',
+                  funtion: (finish) {
+                    context.read<AuthBloc>().add(
+                          const AuthEventLogOut(),
+                        );
+                  },
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
