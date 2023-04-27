@@ -1,10 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'package:metapp/views/bloc/view_events.dart';
 import 'package:metapp/views/bloc/view_states.dart';
 
 class ViewBloc extends Bloc<ViewEvent, ViewState> {
-  ViewBloc(FirebaseCloudStorage cloudStorage)
+  ViewBloc()
       : super(
           const ViewStateViewingHomePage(),
         ) {

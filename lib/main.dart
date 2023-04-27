@@ -6,34 +6,51 @@ import 'package:metapp/services/auth/auth_service.dart';
 import 'package:metapp/services/auth/bloc/auth_bloc.dart';
 import 'package:metapp/services/auth/bloc/auth_events.dart';
 import 'package:metapp/services/auth/bloc/auth_states.dart';
+import 'package:metapp/views/bloc/view_bloc.dart';
 import 'package:metapp/views/create_update_item_view.dart';
 import 'package:metapp/views/home_menu_view.dart';
 import 'package:metapp/views/login_view.dart';
-import 'package:metapp/views/items_view.dart';
 import 'package:metapp/views/register_view.dart';
 import 'package:metapp/views/verify_email_view.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
-    title: 'Flutter Demo',
-    theme: ThemeData(
-      primarySwatch: Colors.purple,
-    ),
-    home: MultiBlocProvider(
+  runApp(
+    MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(
           create: (context) => AuthBloc(
             AuthService.firebase(),
           ),
         ),
+        BlocProvider(
+          create: (context) => ViewBloc(),
+        ),
       ],
-      child: const HomePage(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.purple,
+        ),
+        home: MultiBlocProvider(
+          providers: [
+            BlocProvider<AuthBloc>(
+              create: (context) => AuthBloc(
+                AuthService.firebase(),
+              ),
+            ),
+            BlocProvider<ViewBloc>(
+              create: (context) => ViewBloc(),
+            ),
+          ],
+          child: const HomePage(),
+        ),
+        routes: {
+          createOrUpdateItemRoute: (context) => const CreateOrUpdateItemView(),
+        },
+      ),
     ),
-    routes: {
-      createOrUpdateItemRoute: (context) => const CreateOrUpdateItemView(),
-    },
-  ));
+  );
 }
 
 class HomePage extends StatelessWidget {
@@ -50,10 +67,6 @@ class HomePage extends StatelessWidget {
           return const VerifyEmailView();
         } else if (state is AuthStateViewingHomePage) {
           return const HomeMenuView();
-        } else if (state is AuthStateViewingItems) {
-          return const ItemsView();
-        } else if (state is AuthStateViewingOrders) {
-          return const ItemsView();
         } else if (state is AuthStateLoggedOut) {
           return const LoginView();
         } else if (state is AuthStateRegistering) {
