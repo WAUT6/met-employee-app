@@ -3,16 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:metapp/constants/themes.dart';
 import 'package:metapp/constants/routes.dart';
 import 'package:metapp/enums/menu_action.dart';
-import 'package:metapp/services/auth/bloc/auth_bloc.dart';
-import 'package:metapp/services/auth/bloc/auth_events.dart';
+import 'package:metapp/bloc/auth_bloc/auth_bloc.dart';
+import 'package:metapp/bloc/auth_bloc/auth_events.dart';
 import 'package:metapp/services/cloud/cloud_item.dart';
 import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'package:metapp/utilities/dialogs/logout_dialog.dart';
-import 'package:metapp/views/bloc/view_bloc.dart';
-import 'package:metapp/views/bloc/view_events.dart';
-import 'package:metapp/views/bloc/view_states.dart';
+import 'package:metapp/bloc/view_bloc/view_bloc.dart';
+import 'package:metapp/bloc/view_bloc/view_events.dart';
+import 'package:metapp/bloc/view_bloc/view_states.dart';
 import 'package:metapp/views/home_menu_view.dart';
-import 'package:metapp/views/items_grid_view.dart';
+import 'package:metapp/views/item_views/items_grid_view.dart';
 
 class ItemsView extends StatefulWidget {
   const ItemsView({super.key});

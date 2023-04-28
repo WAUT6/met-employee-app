@@ -13,3 +13,7 @@ class ViewStateViewingOrders extends ViewState {
 class ViewStateViewingHomePage extends ViewState {
   const ViewStateViewingHomePage();
 }
+
+class ViewStateViewingChats extends ViewState {
+  const ViewStateViewingChats();
+}

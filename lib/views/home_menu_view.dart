@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:metapp/bloc/chat_bloc/chat_bloc.dart';
+import 'package:metapp/bloc/chat_bloc/chat_events.dart';
 import 'package:metapp/constants/themes.dart';
 import 'package:metapp/enums/menu_action.dart';
-import 'package:metapp/services/auth/bloc/auth_bloc.dart';
-import 'package:metapp/services/auth/bloc/auth_events.dart';
+import 'package:metapp/bloc/auth_bloc/auth_bloc.dart';
+import 'package:metapp/bloc/auth_bloc/auth_events.dart';
 import 'package:metapp/utilities/dialogs/logout_dialog.dart';
-import 'package:metapp/views/bloc/view_bloc.dart';
-import 'package:metapp/views/bloc/view_events.dart';
-import 'package:metapp/views/bloc/view_states.dart';
-import 'package:metapp/views/items_view.dart';
-import 'package:metapp/views/orders_view.dart';
-import 'package:nice_buttons/nice_buttons.dart';
+import 'package:metapp/bloc/view_bloc/view_bloc.dart';
+import 'package:metapp/bloc/view_bloc/view_events.dart';
+import 'package:metapp/bloc/view_bloc/view_states.dart';
+import 'package:metapp/views/chat_views/users_view.dart';
+import 'package:metapp/views/item_views/items_view.dart';
+import 'package:metapp/views/order_views/orders_view.dart';
 
 class HomeMenuView extends StatefulWidget {
   const HomeMenuView({super.key});
@@ -85,6 +87,22 @@ class _HomeMenuViewState extends State<HomeMenuView> {
                             );
                       },
                     ),
+                    const SizedBox(
+                      width: 50,
+                      height: 50,
+                    ),
+                    genericNiceButton(
+                      context: context,
+                      text: 'Chat',
+                      funtion: (finish) {
+                        context
+                            .read<ViewBloc>()
+                            .add(const ViewEventGoToChats());
+                        context
+                            .read<ChatBloc>()
+                            .add(const ChatEventWantToViewUsersPage());
+                      },
+                    )
                   ],
                 ),
               ),
@@ -94,6 +112,8 @@ class _HomeMenuViewState extends State<HomeMenuView> {
           return const ItemsView();
         } else if (state is ViewStateViewingOrders) {
           return const OrdersView();
+        } else if (state is ViewStateViewingChats) {
+          return const UsersView();
         } else {
           return Scaffold(
             body: Text(state.toString()),

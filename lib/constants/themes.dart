@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:nice_buttons/nice_buttons.dart';
 
 const String backgroundImagePath = 'assets/images/black_background.jpeg';

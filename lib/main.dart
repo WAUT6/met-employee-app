@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:metapp/bloc/chat_bloc/chat_bloc.dart';
 import 'package:metapp/constants/routes.dart';
 import 'package:metapp/helpers/loading/loading_screen.dart';
 import 'package:metapp/services/auth/auth_service.dart';
-import 'package:metapp/services/auth/bloc/auth_bloc.dart';
-import 'package:metapp/services/auth/bloc/auth_events.dart';
-import 'package:metapp/services/auth/bloc/auth_states.dart';
-import 'package:metapp/views/bloc/view_bloc.dart';
-import 'package:metapp/views/create_update_item_view.dart';
+import 'package:metapp/bloc/auth_bloc/auth_bloc.dart';
+import 'package:metapp/bloc/auth_bloc/auth_events.dart';
+import 'package:metapp/bloc/auth_bloc/auth_states.dart';
+import 'package:metapp/bloc/view_bloc/view_bloc.dart';
+import 'package:metapp/views/item_views/create_update_item_view.dart';
 import 'package:metapp/views/home_menu_view.dart';
-import 'package:metapp/views/login_view.dart';
-import 'package:metapp/views/register_view.dart';
-import 'package:metapp/views/verify_email_view.dart';
+import 'package:metapp/views/auth_views/login_view.dart';
+import 'package:metapp/views/auth_views/register_view.dart';
+import 'package:metapp/views/auth_views/verify_email_view.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,6 +42,9 @@ void main() {
             ),
             BlocProvider<ViewBloc>(
               create: (context) => ViewBloc(),
+            ),
+            BlocProvider<ChatBloc>(
+              create: (context) => ChatBloc(),
             ),
           ],
           child: const HomePage(),

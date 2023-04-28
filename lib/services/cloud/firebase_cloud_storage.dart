@@ -5,8 +5,10 @@ import 'package:metapp/services/cloud/cloud_storage_constants.dart';
 import 'package:metapp/services/cloud/cloud_storage_exceptions.dart';
 
 class FirebaseCloudStorage {
-  final items = FirebaseFirestore.instance.collection('items');
-  final orders = FirebaseFirestore.instance.collection('orders');
+  final items = FirebaseFirestore.instance.collection(FirestoreConstants.itemsCollectionPathName);
+  final orders = FirebaseFirestore.instance.collection(FirestoreConstants.ordersCollectionPathName);
+  final users = FirebaseFirestore.instance.collection(FirestoreConstants.usersCollectionPathName);
+  final messages = FirebaseFirestore.instance.collection(FirestoreConstants.messagesCollectionPathName);
 
   static final FirebaseCloudStorage _shared =
       FirebaseCloudStorage._sharedInstance();
@@ -16,8 +18,8 @@ class FirebaseCloudStorage {
   Future<CloudOrder> createNewOrder() async {
     final document = await orders.add(
       {
-        orderNumberFieldName: '',
-        orderCustomerNumberFieldName: '',
+        FirestoreConstants.orderNumberFieldName: '',
+        FirestoreConstants.orderCustomerNumberFieldName: '',
         'order_items': {},
       },
     );
@@ -43,8 +45,8 @@ class FirebaseCloudStorage {
   Future<CloudItem> createNewItem() async {
     final document = await items.add(
       {
-        itemNameFieldName: '',
-        itemPriceFieldName: '',
+        FirestoreConstants.itemNameFieldName: '',
+        FirestoreConstants.itemPriceFieldName: '',
       },
     );
 
@@ -71,7 +73,7 @@ class FirebaseCloudStorage {
     try {
       await items.doc(documentId).update(
         {
-          itemNameFieldName: itemName,
+          FirestoreConstants.itemNameFieldName: itemName,
         },
       );
     } catch (e) {
@@ -86,7 +88,7 @@ class FirebaseCloudStorage {
     try {
       await items.doc(documentId).update(
         {
-          itemPriceFieldName: itemPrice,
+          FirestoreConstants.itemPriceFieldName: itemPrice,
         },
       );
     } catch (e) {
@@ -102,8 +104,8 @@ class FirebaseCloudStorage {
     try {
       await items.doc(documentId).update(
         {
-          itemNameFieldName: itemName,
-          itemPriceFieldName: itemPrice,
+          FirestoreConstants.itemNameFieldName: itemName,
+          FirestoreConstants.itemPriceFieldName: itemPrice,
         },
       );
     } catch (e) {

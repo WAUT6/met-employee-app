@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:metapp/services/auth/auth_service.dart';
-import 'package:metapp/services/auth/bloc/auth_events.dart';
-import 'package:metapp/services/auth/bloc/auth_states.dart';
+import 'package:metapp/bloc/auth_bloc/auth_events.dart';
+import 'package:metapp/bloc/auth_bloc/auth_states.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(AuthService service)

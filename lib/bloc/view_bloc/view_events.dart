@@ -13,3 +13,7 @@ class ViewEventGoToOrders extends ViewEvent {
 class ViewEventGoToHomePage extends ViewEvent {
   const ViewEventGoToHomePage();
 }
+
+class ViewEventGoToChats extends ViewEvent {
+  const ViewEventGoToChats();
+}

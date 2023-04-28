@@ -1,23 +1,20 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:metapp/constants/themes.dart';
 import 'package:metapp/services/auth/auth_exceptions.dart';
-import 'package:metapp/services/auth/bloc/auth_bloc.dart';
-import 'package:metapp/services/auth/bloc/auth_events.dart';
-import 'package:metapp/services/auth/bloc/auth_states.dart';
+import 'package:metapp/bloc/auth_bloc/auth_bloc.dart';
+import 'package:metapp/bloc/auth_bloc/auth_events.dart';
+import 'package:metapp/bloc/auth_bloc/auth_states.dart';
 import 'package:metapp/utilities/dialogs/error_dialog.dart';
-import 'package:nice_buttons/nice_buttons.dart';
 
-class RegisterView extends StatefulWidget {
-  const RegisterView({super.key});
+class LoginView extends StatefulWidget {
+  const LoginView({super.key});
 
   @override
-  State<RegisterView> createState() => _RegisterViewState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
-class _RegisterViewState extends State<RegisterView> {
+class _LoginViewState extends State<LoginView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
 
@@ -39,22 +36,20 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
-        if (state is AuthStateRegistering) {
-          if (state.exception is InvalidEmailAuthException) {
-            await showErrorDialog(context, 'Invalid email');
-          } else if (state.exception is EmailAlreadyInUseAuthException) {
-            await showErrorDialog(context, 'Email already in use');
-          } else if (state.exception is WeakPasswordAuthException) {
-            await showErrorDialog(context, 'Weak passowrd');
+        if (state is AuthStateLoggedOut) {
+          if (state.exception is UserNotFoundAuthException) {
+            await showErrorDialog(context, 'User not found');
+          } else if (state.exception is WrongPasswordAuthException) {
+            await showErrorDialog(context, 'Wrong credentials');
           } else if (state.exception is GenericAuthException) {
-            await showErrorDialog(context, 'Could not register');
+            await showErrorDialog(context, 'Authentication error');
           }
         }
       },
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text('Register'),
+          title: const Text('Login'),
         ),
         body: Container(
           decoration: backgroundDecoration,
@@ -114,38 +109,40 @@ class _RegisterViewState extends State<RegisterView> {
                       ],
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(15),
-                    child: Column(
-                      children: [
-                        genericNiceButton(
-                          context: context,
-                          text: 'Register',
-                          funtion: (finish) {
-                            final String email = _email.text;
-                            final String password = _password.text;
-                            context.read<AuthBloc>().add(
-                                  AuthEventRegister(
-                                    email: email,
-                                    password: password,
-                                  ),
-                                );
-                          },
-                        ),
-                        const SizedBox(
-                          width: 5,
-                          height: 15,
-                        ),
-                        genericNiceButton(
-                          context: context,
-                          text: 'Login here',
-                          funtion: (finish) {
-                            context.read<AuthBloc>().add(
-                                  const AuthEventLogOut(),
-                                );
-                          },
-                        ),
-                      ],
+                  SingleChildScrollView(
+                    child: Container(
+                      padding: const EdgeInsets.all(15),
+                      child: Column(
+                        children: [
+                          genericNiceButton(
+                            context: context,
+                            text: 'Login',
+                            funtion: (finish) {
+                              final String email = _email.text;
+                              final String password = _password.text;
+                              context.read<AuthBloc>().add(
+                                    AuthEventLogIn(
+                                      email: email,
+                                      password: password,
+                                    ),
+                                  );
+                            },
+                          ),
+                          const SizedBox(
+                            width: 5,
+                            height: 15,
+                          ),
+                          genericNiceButton(
+                            context: context,
+                            text: 'No account? Register here',
+                            funtion: (finish) {
+                              context.read<AuthBloc>().add(
+                                    const AuthEventShouldRegister(),
+                                  );
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

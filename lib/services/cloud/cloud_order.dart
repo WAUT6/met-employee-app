@@ -16,7 +16,9 @@ class CloudOrder {
 
   CloudOrder.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
       : documentId = snapshot.id,
-        orderId = snapshot.data()[orderNumberFieldName] as String,
-        customerId = snapshot.data()[orderCustomerNumberFieldName] as String,
+        orderId =
+            snapshot.data()[FirestoreConstants.orderNumberFieldName] as String,
+        customerId = snapshot
+            .data()[FirestoreConstants.orderCustomerNumberFieldName] as String,
         items = (snapshot.data()['order_items'] as List<Map<String, String>>);
 }
