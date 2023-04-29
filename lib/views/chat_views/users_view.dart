@@ -9,7 +9,11 @@ import 'package:metapp/bloc/view_bloc/view_bloc.dart';
 import 'package:metapp/bloc/view_bloc/view_events.dart';
 import 'package:metapp/constants/themes.dart';
 import 'package:metapp/enums/menu_action.dart';
+import 'package:metapp/services/auth/auth_service.dart';
+import 'package:metapp/services/chat/chat_user.dart';
+import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'package:metapp/utilities/dialogs/logout_dialog.dart';
+import 'package:metapp/views/chat_views/users_list_view.dart';
 
 class UsersView extends StatefulWidget {
   const UsersView({super.key});
@@ -19,6 +23,18 @@ class UsersView extends StatefulWidget {
 }
 
 class _UsersViewState extends State<UsersView> {
+  late final FirebaseCloudStorage cloudStorage;
+  late final AuthService authService;
+  late final String currentUserId;
+
+  @override
+  void initState() {
+    cloudStorage = FirebaseCloudStorage();
+    authService = AuthService.firebase();
+    currentUserId = authService.currentUser!.id;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ChatBloc, ChatState>(
@@ -71,7 +87,50 @@ class _UsersViewState extends State<UsersView> {
             ),
             body: Container(
               decoration: backgroundDecoration,
-              child: ListView(),
+              child: StreamBuilder<Iterable<ChatUser>>(
+                stream: cloudStorage.allUsers(),
+                builder: (context, snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                    case ConnectionState.active:
+                      if (!snapshot.hasData) {
+                        return Scaffold(
+                          body: Container(
+                            decoration: backgroundDecoration,
+                            child: const Text(
+                              'No users yet',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        );
+                      } else {
+                        final Iterable<ChatUser> allUsers =
+                            snapshot.data as Iterable<ChatUser>;
+                        // print(currentUserId);
+                        return UsersListView(
+                          currentUserId: currentUserId,
+                          users: allUsers,
+                          onTap: (user) {
+                            context.read<ChatBloc>().add(
+                                  ChatEventWantToMessageUser(
+                                    receivingUser: user,
+                                  ),
+                                );
+                          },
+                        );
+                      }
+                    default:
+                      return Scaffold(
+                        body: Container(
+                          decoration: backgroundDecoration,
+                          child: const CircularProgressIndicator(),
+                        ),
+                      );
+                  }
+                },
+              ),
             ),
           );
         } else {

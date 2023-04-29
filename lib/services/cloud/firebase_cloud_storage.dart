@@ -1,14 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:metapp/services/chat/chat_message.dart';
+import 'package:metapp/services/chat/chat_user.dart';
 import 'package:metapp/services/cloud/cloud_item.dart';
 import 'package:metapp/services/cloud/cloud_order.dart';
 import 'package:metapp/services/cloud/cloud_storage_constants.dart';
 import 'package:metapp/services/cloud/cloud_storage_exceptions.dart';
 
 class FirebaseCloudStorage {
-  final items = FirebaseFirestore.instance.collection(FirestoreConstants.itemsCollectionPathName);
-  final orders = FirebaseFirestore.instance.collection(FirestoreConstants.ordersCollectionPathName);
-  final users = FirebaseFirestore.instance.collection(FirestoreConstants.usersCollectionPathName);
-  final messages = FirebaseFirestore.instance.collection(FirestoreConstants.messagesCollectionPathName);
+  final items = FirebaseFirestore.instance
+      .collection(FirestoreConstants.itemsCollectionPathName);
+  final orders = FirebaseFirestore.instance
+      .collection(FirestoreConstants.ordersCollectionPathName);
+  final users = FirebaseFirestore.instance
+      .collection(FirestoreConstants.usersCollectionPathName);
+  final messages = FirebaseFirestore.instance
+      .collection(FirestoreConstants.messagesCollectionPathName);
 
   static final FirebaseCloudStorage _shared =
       FirebaseCloudStorage._sharedInstance();
@@ -113,9 +119,33 @@ class FirebaseCloudStorage {
     }
   }
 
+  Stream<Iterable<ChatMessage>> allMessages(
+    int limit,
+    String groupChatId,
+  ) =>
+      messages
+          .doc(groupChatId)
+          .collection(groupChatId)
+          .orderBy(
+            FirestoreConstants.time,
+            descending: true,
+          )
+          .snapshots()
+          .map(
+            (event) => event.docs.map(
+              (doc) => ChatMessage.fromDocument(doc),
+            ),
+          );
+
   Stream<Iterable<CloudItem>> allItems() => items.snapshots().map(
         (event) => event.docs.map(
           (doc) => CloudItem.fromSnapshot(doc),
+        ),
+      );
+
+  Stream<Iterable<ChatUser>> allUsers() => users.snapshots().map(
+        (event) => event.docs.map(
+          (doc) => ChatUser.fromSnapshot(doc),
         ),
       );
 }

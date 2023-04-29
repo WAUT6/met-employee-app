@@ -14,7 +14,7 @@ class FirestoreConstants {
   static const aboutMe = 'about_me';
   static const nickname = 'nickname';
   static const userId = 'user_id';
-  static const profileUrl = 'photo_url';
+  static const profileUrl = 'profile_url';
 
   static const chatContent = 'content';
   static const idFrom = 'id_from';

@@ -9,11 +9,9 @@ class ChatEventWantToViewUsersPage extends ChatEvent {
 }
 
 class ChatEventWantToMessageUser extends ChatEvent {
-  final ChatUser sendingUser;
   final ChatUser receivingUser;
 
   const ChatEventWantToMessageUser({
-    required this.sendingUser,
     required this.receivingUser,
   });
 }

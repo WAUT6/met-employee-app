@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:metapp/services/chat/chat_exceptions.dart';
 import 'package:metapp/services/cloud/cloud_storage_constants.dart';
 
 class ChatUser {
@@ -15,23 +14,10 @@ class ChatUser {
     required this.nickname,
   });
 
-  factory ChatUser.fromSnapshot(DocumentSnapshot doc) {
-    String aboutMe = '';
-    String profileImageUrl = '';
-    String nickName = '';
-
-    try {
-      aboutMe = doc.get(FirestoreConstants.aboutMe);
-      profileImageUrl = doc.get(FirestoreConstants.profileUrl);
-      nickName = doc.get(FirestoreConstants.nickname);
-    } on StateError catch (_) {
-      throw NoUserFoundChatException();
-    }
-    return ChatUser(
-      id: doc.id,
-      aboutMe: aboutMe,
-      profileImageUrl: profileImageUrl,
-      nickname: nickName,
-    );
-  }
+  ChatUser.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
+      : aboutMe = snapshot.data()[FirestoreConstants.aboutMe] as String,
+        profileImageUrl =
+            snapshot.data()[FirestoreConstants.profileUrl] as String,
+        nickname = snapshot.data()[FirestoreConstants.nickname] as String,
+        id = snapshot.id;
 }

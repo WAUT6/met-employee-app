@@ -105,12 +105,7 @@ class _ItemsViewState extends State<ItemsView> {
                       } else {
                         return Scaffold(
                           body: Container(
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage(
-                                      'assets/images/black_background.jpeg'),
-                                  fit: BoxFit.cover),
-                            ),
+                            decoration: backgroundDecoration,
                             child: const Center(
                               child: CircularProgressIndicator(),
                             ),
@@ -120,12 +115,7 @@ class _ItemsViewState extends State<ItemsView> {
                     default:
                       return Scaffold(
                         body: Container(
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage(
-                                    'assets/images/black_background.jpeg'),
-                                fit: BoxFit.cover),
-                          ),
+                          decoration: backgroundDecoration,
                           child: const Center(
                             child: CircularProgressIndicator(),
                           ),

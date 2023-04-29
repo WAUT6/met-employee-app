@@ -8,7 +8,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       (event, emit) {
         ChatStateMessagingUser(
           receivingUser: event.receivingUser,
-          sendingUser: event.sendingUser,
         );
       },
     );

@@ -26,24 +26,6 @@ class ChatProvider {
         .update(dataToUpdate);
   }
 
-  Stream<Iterable<ChatMessage>> getChatStream(
-    String groupChatId,
-    int limit,
-  ) {
-    return cloudStorage
-        .collection(FirestoreConstants.messagesCollectionPathName)
-        .doc(groupChatId)
-        .collection(groupChatId)
-        .orderBy(FirestoreConstants.time, descending: true)
-        .limit(limit)
-        .snapshots()
-        .map(
-          (event) => event.docs.map(
-            (doc) => ChatMessage.fromDocument(doc),
-          ),
-        );
-  }
-
   void sendMessage(
     String content,
     String idFrom,
