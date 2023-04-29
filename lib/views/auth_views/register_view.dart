@@ -34,6 +34,7 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   Widget build(BuildContext context) {
+    double h = MediaQuery.of(context).size.height;
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
         if (state is AuthStateRegistering) {
@@ -57,6 +58,9 @@ class _RegisterViewState extends State<RegisterView> {
           decoration: backgroundDecoration,
           child: ListView(
             children: [
+              SizedBox(
+                height: h * 0.3,
+              ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -64,48 +68,80 @@ class _RegisterViewState extends State<RegisterView> {
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       children: [
-                        TextField(
-                          style: const TextStyle(
-                            color: Colors.white,
-                          ),
-                          controller: _email,
-                          enableSuggestions: false,
-                          autocorrect: false,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: const InputDecoration(
-                            hintText: 'Enter your email',
-                            hintStyle: TextStyle(color: Colors.white),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(20),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            boxShadow: const [
+                              BoxShadow(
+                                blurRadius: 1.5,
+                                color: Colors.white,
+                                spreadRadius: 1.5,
                               ),
+                            ],
+                          ),
+                          child: TextField(
+                            style: const TextStyle(
+                              color: Colors.white,
                             ),
-                            filled: true,
-                            fillColor: Colors.blueGrey,
+                            controller: _email,
+                            enableSuggestions: false,
+                            autocorrect: false,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: const InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.email,
+                                color: Colors.purple,
+                              ),
+                              hintText: 'Enter your email',
+                              hintStyle: TextStyle(color: Colors.white),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(30),
+                                ),
+                              ),
+                              filled: true,
+                              fillColor: Colors.blueGrey,
+                            ),
                           ),
                         ),
                         const SizedBox(
                           width: 5,
                           height: 35,
                         ),
-                        TextField(
-                          style: const TextStyle(
-                            color: Colors.white,
-                          ),
-                          controller: _password,
-                          enableSuggestions: false,
-                          obscureText: true,
-                          autocorrect: false,
-                          decoration: const InputDecoration(
-                            hintText: 'Enter your password',
-                            hintStyle: TextStyle(color: Colors.white),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(20),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            boxShadow: const [
+                              BoxShadow(
+                                blurRadius: 1.5,
+                                color: Colors.white,
+                                spreadRadius: 1.5,
                               ),
+                            ],
+                          ),
+                          child: TextField(
+                            style: const TextStyle(
+                              color: Colors.white,
                             ),
-                            filled: true,
-                            fillColor: Colors.blueGrey,
+                            controller: _password,
+                            enableSuggestions: false,
+                            obscureText: true,
+                            autocorrect: false,
+                            decoration: const InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.password,
+                                color: Colors.purple,
+                              ),
+                              hintText: 'Enter your password',
+                              hintStyle: TextStyle(color: Colors.white),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(30),
+                                ),
+                              ),
+                              filled: true,
+                              fillColor: Colors.blueGrey,
+                            ),
                           ),
                         ),
                       ],

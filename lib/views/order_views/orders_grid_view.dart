@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:metapp/services/cloud/cloud_item.dart';
+import 'package:metapp/services/cloud/cloud_order.dart';
 
-typedef ItemCallBack = void Function(CloudItem item);
+typedef OnTapCallBack = void Function(CloudOrder);
 
-class ItemsGridView extends StatelessWidget {
-  final Iterable<CloudItem> items;
-  final ItemCallBack onTap;
-
-  const ItemsGridView({
+class OrdersGridView extends StatelessWidget {
+  final Iterable<CloudOrder> orders;
+  final OnTapCallBack onTap;
+  const OrdersGridView({
     super.key,
-    required this.items,
+    required this.orders,
     required this.onTap,
   });
 
@@ -22,16 +21,14 @@ class ItemsGridView extends StatelessWidget {
         crossAxisSpacing: 5,
         mainAxisSpacing: 5,
       ),
-      itemCount: items.length,
+      itemCount: orders.length,
       itemBuilder: (context, index) {
-        final item = items.elementAt(index);
+        final order = orders.elementAt(index);
         return InkWell(
-          onTap: () {
-            onTap(item);
-          },
+          onTap: () => onTap(order),
           child: GridTile(
             footer: Text(
-              'Price: ${item.price}',
+              order.orderId,
               textAlign: TextAlign.center,
             ),
             child: Container(
@@ -42,7 +39,7 @@ class ItemsGridView extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Center(
                 child: Text(
-                  item.name,
+                  order.customerId,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,

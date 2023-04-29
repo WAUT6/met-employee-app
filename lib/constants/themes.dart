@@ -7,12 +7,16 @@ const backgroundDecoration = BoxDecoration(
       image: AssetImage(backgroundImagePath), fit: BoxFit.cover),
 );
 
+const fallBackImage =
+    'https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500';
+
 NiceButtons genericNiceButton({
   required BuildContext context,
   required String text,
   required Function funtion,
 }) {
   return NiceButtons(
+    borderRadius: 30,
     stretch: false,
     startColor: Colors.purple,
     endColor: Colors.purple.shade800,

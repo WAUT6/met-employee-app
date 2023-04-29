@@ -3,6 +3,7 @@ import 'package:metapp/services/chat/chat_message.dart';
 import 'package:metapp/services/chat/chat_user.dart';
 import 'package:metapp/services/cloud/cloud_item.dart';
 import 'package:metapp/services/cloud/cloud_order.dart';
+import 'package:metapp/services/cloud/cloud_order_item.dart';
 import 'package:metapp/services/cloud/cloud_storage_constants.dart';
 import 'package:metapp/services/cloud/cloud_storage_exceptions.dart';
 
@@ -34,7 +35,7 @@ class FirebaseCloudStorage {
       documentId: fetchedOrder.id,
       orderId: '',
       customerId: '',
-      items: [],
+      items: const Stream.empty(),
     );
   }
 
@@ -148,4 +149,28 @@ class FirebaseCloudStorage {
           (doc) => ChatUser.fromSnapshot(doc),
         ),
       );
+
+  Stream<Iterable<CloudOrder>> allOrders(
+    int limit,
+  ) {
+    final orderItems = orders
+        .doc()
+        .collection(FirestoreConstants.orderItemsCollectionFieldName)
+        .snapshots()
+        .map(
+          (event) => event.docs.map(
+            (doc) => CloudOrderItem.fromSnapshot(doc),
+          ),
+        );
+    return orders.snapshots().map(
+          (event) => event.docs.map(
+            (doc) => CloudOrder.fromSnapshot(
+              doc,
+              orderItems,
+            ),
+          ),
+        );
+  }
+
+//   Stream<Iterable<CloudOrderItem>> allOrderItems({required String orderId,})
 }

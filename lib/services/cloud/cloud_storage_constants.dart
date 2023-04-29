@@ -6,10 +6,13 @@ class FirestoreConstants {
 
   static const itemNameFieldName = 'item_name';
   static const itemPriceFieldName = 'item_price';
-  static const orderNumberFieldName = 'order_id';
-  static const orderCustomerNumberFieldName = 'customer_id';
+
+  static const orderNumberFieldName = 'order_number';
+  static const orderCustomerNumberFieldName = 'customer_name';
   static const orderItemsItemNameFieldName = 'item_name';
   static const orderItemsItemQuantityFieldName = 'item_quantity';
+  static const orderItemsPackagingFieldName = 'packaging';
+  static const orderItemsCollectionFieldName = 'order_items';
 
   static const aboutMe = 'about_me';
   static const nickname = 'nickname';

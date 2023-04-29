@@ -97,10 +97,12 @@ class _UsersViewState extends State<UsersView> {
                         return Scaffold(
                           body: Container(
                             decoration: backgroundDecoration,
-                            child: const Text(
-                              'No users yet',
-                              style: TextStyle(
-                                color: Colors.white,
+                            child: const Center(
+                              child: Text(
+                                'No users yet',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
@@ -125,7 +127,9 @@ class _UsersViewState extends State<UsersView> {
                       return Scaffold(
                         body: Container(
                           decoration: backgroundDecoration,
-                          child: const CircularProgressIndicator(),
+                          child: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
                         ),
                       );
                   }

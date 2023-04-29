@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:metapp/constants/themes.dart';
 import 'package:metapp/services/chat/chat_user.dart';
 
 typedef UserTapCallBack = void Function(ChatUser user);
@@ -27,11 +28,12 @@ class UsersListView extends StatelessWidget {
         } else {
           return ListTile(
             onTap: () => onTap(user),
-            leading: user.profileImageUrl.isNotEmpty
-                ? Image.network(user.profileImageUrl)
-                : const Icon(
-                    Icons.account_circle,
-                  ),
+            leading: CircleAvatar(
+              radius: 25,
+              foregroundImage: user.profileImageUrl.isNotEmpty
+                  ? NetworkImage(user.profileImageUrl)
+                  : const NetworkImage(fallBackImage),
+            ),
             title: Text(
               user.nickname,
               style: const TextStyle(color: Colors.white),

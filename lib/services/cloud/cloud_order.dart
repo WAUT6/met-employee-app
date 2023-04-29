@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:metapp/services/cloud/cloud_order_item.dart';
 import 'package:metapp/services/cloud/cloud_storage_constants.dart';
 
 class CloudOrder {
   final String documentId;
   final String orderId;
   final String customerId;
-  final List<Map<String, String>> items;
+  final Stream<Iterable<CloudOrderItem>> items;
 
   CloudOrder({
     required this.documentId,
@@ -14,11 +15,12 @@ class CloudOrder {
     required this.items,
   });
 
-  CloudOrder.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
-      : documentId = snapshot.id,
+  CloudOrder.fromSnapshot(
+    QueryDocumentSnapshot<Map<String, dynamic>> snapshot,
+    this.items,
+  )   : documentId = snapshot.id,
         orderId =
             snapshot.data()[FirestoreConstants.orderNumberFieldName] as String,
         customerId = snapshot
-            .data()[FirestoreConstants.orderCustomerNumberFieldName] as String,
-        items = (snapshot.data()['order_items'] as List<Map<String, String>>);
+            .data()[FirestoreConstants.orderCustomerNumberFieldName] as String;
 }
