@@ -49,6 +49,29 @@ class FirebaseCloudStorage {
 
   // Future<void> updateOrder()
 
+  Future<CloudOrderItem> createNewOrderItem({
+    required String orderId,
+  }) async {
+    final document = await orders
+        .doc(orderId)
+        .collection(FirestoreConstants.orderItemsCollectionFieldName)
+        .add(
+      {
+        FirestoreConstants.orderItemsItemNameFieldName: '',
+        FirestoreConstants.orderItemsItemQuantityFieldName: '',
+        FirestoreConstants.orderItemsPackagingFieldName: '',
+      },
+    );
+
+    final fetchedItem = await document.get();
+    return CloudOrderItem(
+      id: fetchedItem.id,
+      itemName: '',
+      packaging: '',
+      quantity: '',
+    );
+  }
+
   Future<CloudItem> createNewItem() async {
     final document = await items.add(
       {
@@ -70,6 +93,105 @@ class FirebaseCloudStorage {
       await items.doc(documentId).delete();
     } catch (e) {
       throw CouldNotDeleteItemException();
+    }
+  }
+
+  Future<void> deleteOrderItem({
+    required String orderId,
+    required String documentId,
+  }) async {
+    try {
+      await orders
+          .doc(orderId)
+          .collection(FirestoreConstants.orderItemsCollectionFieldName)
+          .doc(documentId)
+          .delete();
+    } catch (e) {
+      throw CouldNotDeleteOrderItemException();
+    }
+  }
+
+  Future<void> updateOrderItemName({
+    required String orderId,
+    required String documentId,
+    required String orderItemName,
+  }) async {
+    try {
+      await orders
+          .doc(orderId)
+          .collection(FirestoreConstants.orderItemsCollectionFieldName)
+          .doc(documentId)
+          .update(
+        {
+          FirestoreConstants.orderItemsItemNameFieldName: orderItemName,
+        },
+      );
+    } catch (e) {
+      throw CouldNotUpdateOrderItemNameException();
+    }
+  }
+
+  Future<void> updateOrderItemQuantity({
+    required String orderId,
+    required String documentId,
+    required String orderItemQuantity,
+  }) async {
+    try {
+      await orders
+          .doc(orderId)
+          .collection(FirestoreConstants.orderItemsCollectionFieldName)
+          .doc(documentId)
+          .update(
+        {
+          FirestoreConstants.orderItemsItemQuantityFieldName: orderItemQuantity,
+        },
+      );
+    } catch (e) {
+      throw CouldNotUpdateOrderItemQuantityException();
+    }
+  }
+
+  Future<void> updateOrderItemPackaging({
+    required String orderId,
+    required String documentId,
+    required String orderItemPackaging,
+  }) async {
+    try {
+      await orders
+          .doc(orderId)
+          .collection(FirestoreConstants.orderItemsCollectionFieldName)
+          .doc(documentId)
+          .update(
+        {
+          FirestoreConstants.orderItemsPackagingFieldName: orderItemPackaging,
+        },
+      );
+    } catch (e) {
+      throw CouldNotUpdateOrderItemPackagingException();
+    }
+  }
+
+  Future<void> updateOrderItem({
+    required String orderId,
+    required String documentId,
+    required String orderItemName,
+    required String orderItemQuantity,
+    required String orderItemPackaging,
+  }) async {
+    try {
+      await orders
+          .doc(orderId)
+          .collection(FirestoreConstants.orderItemsCollectionFieldName)
+          .doc(documentId)
+          .update(
+        {
+          FirestoreConstants.orderItemsItemNameFieldName: orderItemName,
+          FirestoreConstants.orderItemsItemQuantityFieldName: orderItemQuantity,
+          FirestoreConstants.orderItemsPackagingFieldName: orderItemPackaging,
+        },
+      );
+    } catch (e) {
+      throw CouldNotUpdateOrderItemException();
     }
   }
 
@@ -172,5 +294,17 @@ class FirebaseCloudStorage {
         );
   }
 
-//   Stream<Iterable<CloudOrderItem>> allOrderItems({required String orderId,})
+  Stream<Iterable<CloudOrderItem>> allOrderItems({
+    required String orderId,
+  }) {
+    return orders
+        .doc(orderId)
+        .collection(FirestoreConstants.orderItemsCollectionFieldName)
+        .snapshots()
+        .map(
+          (event) => event.docs.map(
+            (doc) => CloudOrderItem.fromSnapshot(doc),
+          ),
+        );
+  }
 }

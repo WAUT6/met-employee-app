@@ -15,12 +15,13 @@ class CloudOrderItem {
   });
 
   CloudOrderItem.fromSnapshot(
-      QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
-      : id = snapshot.id,
-        itemName =
-            snapshot.data()[FirestoreConstants.orderItemsItemNameFieldName] as String,
-        packaging =
-            snapshot.data()[FirestoreConstants.orderItemsPackagingFieldName] as String,
+    QueryDocumentSnapshot<Map<String, dynamic>> snapshot,
+  )   : id = snapshot.id,
+        itemName = snapshot
+            .data()[FirestoreConstants.orderItemsItemNameFieldName] as String,
+        packaging = snapshot
+            .data()[FirestoreConstants.orderItemsPackagingFieldName] as String,
         quantity =
-            snapshot.data()[FirestoreConstants.orderItemsItemQuantityFieldName] as String;
+            snapshot.data()[FirestoreConstants.orderItemsItemQuantityFieldName]
+                as String;
 }

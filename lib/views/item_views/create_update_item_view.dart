@@ -78,11 +78,11 @@ class _CreateOrUpdateItemViewState extends State<CreateOrUpdateItemView> {
     _priceController.addListener(_priceControllerListener);
   }
 
-  void _deleteItemIfBackButtonPressed() {
+  void _deleteItemIfBackButtonPressed() async {
     final item = _item;
     if (item != null && _priceController.text.isEmpty ||
         _nameController.text.isEmpty) {
-      _cloudStorage.deleteItem(documentId: item!.documentId);
+      await _cloudStorage.deleteItem(documentId: item!.documentId);
     }
   }
 
