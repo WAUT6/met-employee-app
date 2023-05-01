@@ -24,6 +24,9 @@ class HomeMenuView extends StatefulWidget {
 class _HomeMenuViewState extends State<HomeMenuView> {
   @override
   Widget build(BuildContext context) {
+    final authBloc = context.read<AuthBloc>();
+    final viewBloc = context.read<ViewBloc>();
+    final chatBloc = context.read<ChatBloc>();
     return BlocBuilder<ViewBloc, ViewState>(
       builder: (context, state) {
         if (state is ViewStateViewingHomePage) {
@@ -47,9 +50,9 @@ class _HomeMenuViewState extends State<HomeMenuView> {
                       case MenuAction.logout:
                         final shouldLogout = await showLogOutDialog(context);
                         if (shouldLogout) {
-                          context.read<AuthBloc>().add(
-                                const AuthEventLogOut(),
-                              );
+                          authBloc.add(
+                            const AuthEventLogOut(),
+                          );
                         }
                         break;
                       default:
@@ -69,9 +72,9 @@ class _HomeMenuViewState extends State<HomeMenuView> {
                       context: context,
                       text: 'Items',
                       funtion: (finish) {
-                        context.read<ViewBloc>().add(
-                              const ViewEventGoToItems(),
-                            );
+                        viewBloc.add(
+                          const ViewEventGoToItems(),
+                        );
                       },
                     ),
                     const SizedBox(
@@ -82,9 +85,9 @@ class _HomeMenuViewState extends State<HomeMenuView> {
                       context: context,
                       text: 'Orders',
                       funtion: (finish) {
-                        context.read<ViewBloc>().add(
-                              const ViewEventGoToOrders(),
-                            );
+                        viewBloc.add(
+                          const ViewEventGoToOrders(),
+                        );
                       },
                     ),
                     const SizedBox(
@@ -95,12 +98,8 @@ class _HomeMenuViewState extends State<HomeMenuView> {
                       context: context,
                       text: 'Chat',
                       funtion: (finish) {
-                        context
-                            .read<ViewBloc>()
-                            .add(const ViewEventGoToChats());
-                        context
-                            .read<ChatBloc>()
-                            .add(const ChatEventWantToViewUsersPage());
+                        viewBloc.add(const ViewEventGoToChats());
+                        chatBloc.add(const ChatEventWantToViewUsersPage());
                       },
                     )
                   ],

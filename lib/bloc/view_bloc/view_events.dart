@@ -17,3 +17,7 @@ class ViewEventGoToHomePage extends ViewEvent {
 class ViewEventGoToChats extends ViewEvent {
   const ViewEventGoToChats();
 }
+
+class ViewEventCreateNewOrder extends ViewEvent {
+  const ViewEventCreateNewOrder();
+}

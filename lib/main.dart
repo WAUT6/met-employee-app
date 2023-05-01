@@ -69,7 +69,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<AuthBloc>().add(const AuthEventInitialize());
+    final authBloc = context.read<AuthBloc>();
+    authBloc.add(const AuthEventInitialize());
     return BlocConsumer<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state is AuthStateLoggedIn) {
@@ -100,7 +101,7 @@ class HomePage extends StatelessWidget {
       listener: (context, state) {
         if (state.isLoading) {
           LoadingScreen()
-              .show(context: context, text: 'Please wait a moment...');
+              .show(context: context, textToShow: 'Please wait a moment...');
         } else {
           LoadingScreen().hide();
         }

@@ -14,6 +14,7 @@ class VerifyEmailView extends StatefulWidget {
 class _VerifyEmailViewState extends State<VerifyEmailView> {
   @override
   Widget build(BuildContext context) {
+    final authBloc = context.read<AuthBloc>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Verify email'),
@@ -54,9 +55,9 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                   context: context,
                   text: 'Send email verification',
                   funtion: (finish) {
-                    context.read<AuthBloc>().add(
-                          const AuthEventSendEmailVerification(),
-                        );
+                    authBloc.add(
+                      const AuthEventSendEmailVerification(),
+                    );
                   },
                 ),
                 const SizedBox(
@@ -67,9 +68,9 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                   context: context,
                   text: 'Restart',
                   funtion: (finish) {
-                    context.read<AuthBloc>().add(
-                          const AuthEventLogOut(),
-                        );
+                    authBloc.add(
+                      const AuthEventLogOut(),
+                    );
                   },
                 ),
               ],

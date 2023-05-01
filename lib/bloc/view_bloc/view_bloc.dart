@@ -36,5 +36,13 @@ class ViewBloc extends Bloc<ViewEvent, ViewState> {
         );
       },
     );
+
+    on<ViewEventCreateNewOrder>(
+      (event, emit) {
+        emit(
+          const ViewStateCreatingNewOrder(),
+        );
+      },
+    );
   }
 }

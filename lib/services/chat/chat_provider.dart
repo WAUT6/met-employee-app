@@ -20,7 +20,7 @@ class ChatProvider {
     String documentPath,
     Map<String, dynamic> dataToUpdate,
   ) async {
-    return cloudStorage
+    await cloudStorage
         .collection(collectionPath)
         .doc(documentPath)
         .update(dataToUpdate);

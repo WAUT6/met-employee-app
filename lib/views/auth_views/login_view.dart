@@ -35,7 +35,7 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
-
+    final authBloc = context.read<AuthBloc>();
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
         if (state is AuthStateLoggedOut) {
@@ -157,12 +157,12 @@ class _LoginViewState extends State<LoginView> {
                             funtion: (finish) {
                               final String email = _email.text;
                               final String password = _password.text;
-                              context.read<AuthBloc>().add(
-                                    AuthEventLogIn(
-                                      email: email,
-                                      password: password,
-                                    ),
-                                  );
+                              authBloc.add(
+                                AuthEventLogIn(
+                                  email: email,
+                                  password: password,
+                                ),
+                              );
                             },
                           ),
                           const SizedBox(
@@ -173,9 +173,9 @@ class _LoginViewState extends State<LoginView> {
                             context: context,
                             text: 'No account? Register here',
                             funtion: (finish) {
-                              context.read<AuthBloc>().add(
-                                    const AuthEventShouldRegister(),
-                                  );
+                              authBloc.add(
+                                const AuthEventShouldRegister(),
+                              );
                             },
                           ),
                         ],
@@ -183,7 +183,7 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),

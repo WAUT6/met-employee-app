@@ -35,6 +35,7 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
+    final authBloc = context.read<AuthBloc>();
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
         if (state is AuthStateRegistering) {
@@ -157,12 +158,12 @@ class _RegisterViewState extends State<RegisterView> {
                           funtion: (finish) {
                             final String email = _email.text;
                             final String password = _password.text;
-                            context.read<AuthBloc>().add(
-                                  AuthEventRegister(
-                                    email: email,
-                                    password: password,
-                                  ),
-                                );
+                            authBloc.add(
+                              AuthEventRegister(
+                                email: email,
+                                password: password,
+                              ),
+                            );
                           },
                         ),
                         const SizedBox(
@@ -173,16 +174,16 @@ class _RegisterViewState extends State<RegisterView> {
                           context: context,
                           text: 'Login here',
                           funtion: (finish) {
-                            context.read<AuthBloc>().add(
-                                  const AuthEventLogOut(),
-                                );
+                            authBloc.add(
+                              const AuthEventLogOut(),
+                            );
                           },
                         ),
                       ],
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),

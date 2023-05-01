@@ -37,6 +37,9 @@ class _UsersViewState extends State<UsersView> {
 
   @override
   Widget build(BuildContext context) {
+    final chatBloc = context.read<ChatBloc>();
+    final authBloc = context.read<AuthBloc>();
+    final viewBloc = context.read<ViewBloc>();
     return BlocBuilder<ChatBloc, ChatState>(
       builder: (context, state) {
         if (state is ChatStateViewingUsersPage) {
@@ -46,7 +49,7 @@ class _UsersViewState extends State<UsersView> {
               centerTitle: true,
               leading: IconButton(
                 onPressed: () {
-                  context.read<ViewBloc>().add(const ViewEventGoToHomePage());
+                  viewBloc.add(const ViewEventGoToHomePage());
                 },
                 icon: const Icon(
                   Icons.home,
@@ -67,13 +70,13 @@ class _UsersViewState extends State<UsersView> {
                       case MenuAction.logout:
                         final shouldLogOut = await showLogOutDialog(context);
                         if (shouldLogOut) {
-                          context.read<ChatBloc>().add(
+                          chatBloc.add(
                                 const ChatEventWantToViewUsersPage(),
                               );
-                          context.read<ViewBloc>().add(
+                          viewBloc.add(
                                 const ViewEventGoToHomePage(),
                               );
-                          context.read<AuthBloc>().add(
+                          authBloc.add(
                                 const AuthEventLogOut(),
                               );
                         }
@@ -115,7 +118,7 @@ class _UsersViewState extends State<UsersView> {
                           currentUserId: currentUserId,
                           users: allUsers,
                           onTap: (user) {
-                            context.read<ChatBloc>().add(
+                            chatBloc.add(
                                   ChatEventWantToMessageUser(
                                     receivingUser: user,
                                   ),

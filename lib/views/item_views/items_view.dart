@@ -32,6 +32,8 @@ class _ItemsViewState extends State<ItemsView> {
 
   @override
   Widget build(BuildContext context) {
+    final authBloc = context.read<AuthBloc>();
+    final viewBloc = context.read<ViewBloc>();
     return BlocBuilder<ViewBloc, ViewState>(
       builder: (context, state) {
         if (state is ViewStateViewingItems) {
@@ -68,10 +70,10 @@ class _ItemsViewState extends State<ItemsView> {
                       case MenuAction.logout:
                         final shouldLogout = await showLogOutDialog(context);
                         if (shouldLogout) {
-                          context.read<ViewBloc>().add(
+                          viewBloc.add(
                                 const ViewEventGoToHomePage(),
                               );
-                          context.read<AuthBloc>().add(
+                          authBloc.add(
                                 const AuthEventLogOut(),
                               );
                         }

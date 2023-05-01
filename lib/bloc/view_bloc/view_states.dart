@@ -17,3 +17,7 @@ class ViewStateViewingHomePage extends ViewState {
 class ViewStateViewingChats extends ViewState {
   const ViewStateViewingChats();
 }
+
+class ViewStateCreatingNewOrder extends ViewState {
+  const ViewStateCreatingNewOrder();
+}

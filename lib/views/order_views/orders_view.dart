@@ -32,6 +32,8 @@ class _OrdersViewState extends State<OrdersView> {
 
   @override
   Widget build(BuildContext context) {
+    final viewBloc = context.read<ViewBloc>();
+    final authBloc = context.read<AuthBloc>();
     return BlocBuilder<ViewBloc, ViewState>(
       builder: (context, state) {
         if (state is ViewStateViewingOrders) {
@@ -39,7 +41,7 @@ class _OrdersViewState extends State<OrdersView> {
             appBar: AppBar(
               leading: IconButton(
                 onPressed: () {
-                  context.read<ViewBloc>().add(const ViewEventGoToHomePage());
+                  viewBloc.add(const ViewEventGoToHomePage());
                 },
                 icon: const Icon(Icons.home),
               ),
@@ -71,12 +73,12 @@ class _OrdersViewState extends State<OrdersView> {
                       case MenuAction.logout:
                         final shouldLogout = await showLogOutDialog(context);
                         if (shouldLogout) {
-                          context.read<ViewBloc>().add(
-                                const ViewEventGoToHomePage(),
-                              );
-                          context.read<AuthBloc>().add(
-                                const AuthEventLogOut(),
-                              );
+                          viewBloc.add(
+                            const ViewEventGoToHomePage(),
+                          );
+                          authBloc.add(
+                            const AuthEventLogOut(),
+                          );
                         }
                         break;
                       default:
