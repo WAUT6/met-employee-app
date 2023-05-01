@@ -3,12 +3,14 @@ import 'package:metapp/services/cloud/cloud_order_item.dart';
 import 'package:metapp/services/cloud/cloud_storage_constants.dart';
 
 class CloudOrder {
+  final String date;
   final String documentId;
   final String orderId;
   final String customerId;
   final Stream<Iterable<CloudOrderItem>> items;
 
   CloudOrder({
+    required this.date,
     required this.documentId,
     required this.orderId,
     required this.customerId,
@@ -19,6 +21,11 @@ class CloudOrder {
     QueryDocumentSnapshot<Map<String, dynamic>> snapshot,
     this.items,
   )   : documentId = snapshot.id,
+        date = DateTime(
+          DateTime.now().year,
+          DateTime.now().month,
+          DateTime.now().day,
+        ).toString(),
         orderId =
             snapshot.data()[FirestoreConstants.orderNumberFieldName] as String,
         customerId = snapshot

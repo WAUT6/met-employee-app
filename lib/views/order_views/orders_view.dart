@@ -47,7 +47,12 @@ class _OrdersViewState extends State<OrdersView> {
               centerTitle: true,
               actions: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      createNewOrderRoute,
+                    );
+                  },
                   icon: const Icon(
                     Icons.add,
                   ),

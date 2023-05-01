@@ -13,6 +13,7 @@ import 'package:metapp/views/home_menu_view.dart';
 import 'package:metapp/views/auth_views/login_view.dart';
 import 'package:metapp/views/auth_views/register_view.dart';
 import 'package:metapp/views/auth_views/verify_email_view.dart';
+import 'package:metapp/views/order_views/create_new_order_view.dart';
 import 'package:metapp/views/order_views/order_items_views/create_update_order_item_view.dart';
 import 'package:metapp/views/order_views/order_items_views/order_items_view.dart';
 
@@ -56,6 +57,7 @@ void main() {
           viewOrderItemsRoute: (context) => const OrderItemsView(),
           createOrUpdateOrderItemRoute: (context) =>
               const CreateUpdateOrderItemView(),
+          createNewOrderRoute: (context) => const CreateNewOrderView(),
         },
       ),
     ),

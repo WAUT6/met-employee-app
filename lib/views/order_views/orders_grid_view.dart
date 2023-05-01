@@ -27,6 +27,10 @@ class OrdersGridView extends StatelessWidget {
         return InkWell(
           onTap: () => onTap(order),
           child: GridTile(
+            header: Text(
+              order.date,
+              textAlign: TextAlign.center,
+            ),
             footer: Text(
               order.orderId,
               textAlign: TextAlign.center,
