@@ -1,13 +1,20 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:metapp/firebase_options.dart';
 import 'package:metapp/services/chat/chat_message.dart';
 import 'package:metapp/services/cloud/cloud_storage_constants.dart';
 
 class ChatProvider {
   final FirebaseStorage storage = FirebaseStorage.instance;
   final FirebaseFirestore cloudStorage = FirebaseFirestore.instance;
+
+  Future<void> initializeChatProvider() async {
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+  }
 
   UploadTask uploadFile(File image, String fileName) {
     Reference reference = storage.ref().child(fileName);

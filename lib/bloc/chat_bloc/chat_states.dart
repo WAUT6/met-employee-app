@@ -14,3 +14,9 @@ class ChatStateMessagingUser extends ChatState {
     required this.receivingUser,
   });
 }
+
+class ChatStateCheckingUser extends ChatState {
+  const ChatStateCheckingUser();
+}
+
+class ChatStateUnitialized extends ChatState {}

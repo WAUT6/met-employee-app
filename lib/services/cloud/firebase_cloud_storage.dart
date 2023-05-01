@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:metapp/services/chat/chat_exceptions.dart';
 import 'package:metapp/services/chat/chat_message.dart';
 import 'package:metapp/services/chat/chat_user.dart';
 import 'package:metapp/services/cloud/cloud_item.dart';
@@ -101,6 +102,25 @@ class FirebaseCloudStorage {
     } catch (e) {
       throw CouldNotUpdateOrderException();
     }
+  }
+
+  Future<ChatUser> createNewUser({
+    required String userId,
+  }) async {
+    await users.doc(userId).set(
+      {
+        FirestoreConstants.aboutMe: '',
+        FirestoreConstants.nickname: '',
+        FirestoreConstants.profileUrl: '',
+        FirestoreConstants.userId: userId,
+      },
+    );
+    return ChatUser(
+      id: userId,
+      aboutMe: '',
+      profileImageUrl: '',
+      nickname: '',
+    );
   }
 
   Future<CloudOrderItem> createNewOrderItem({
@@ -360,5 +380,32 @@ class FirebaseCloudStorage {
             (doc) => CloudOrderItem.fromSnapshot(doc),
           ),
         );
+  }
+
+  Future<void> addCurrentAuthUserToChatUsers({
+    required String userId,
+  }) async {
+    final users = allUsers();
+    int userIdInUsers = 0;
+    try {
+      await users.forEach(
+        (element) {
+          element.toList().forEach(
+            (element) {
+              if (element.id == userId) {
+                userIdInUsers++;
+              }
+            },
+          );
+          if (userIdInUsers == 0) {
+            createNewUser(
+              userId: userId,
+            );
+          }
+        },
+      );
+    } catch (e) {
+      throw CouldNotCompleteUserCheckChatException();
+    }
   }
 }

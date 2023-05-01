@@ -6,6 +6,8 @@ import 'package:metapp/constants/themes.dart';
 import 'package:metapp/enums/menu_action.dart';
 import 'package:metapp/bloc/auth_bloc/auth_bloc.dart';
 import 'package:metapp/bloc/auth_bloc/auth_events.dart';
+import 'package:metapp/services/auth/auth_service.dart';
+import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'package:metapp/utilities/dialogs/logout_dialog.dart';
 import 'package:metapp/bloc/view_bloc/view_bloc.dart';
 import 'package:metapp/bloc/view_bloc/view_events.dart';
@@ -22,6 +24,18 @@ class HomeMenuView extends StatefulWidget {
 }
 
 class _HomeMenuViewState extends State<HomeMenuView> {
+  late final FirebaseCloudStorage _cloudStorage;
+  late final AuthService _authService;
+
+  @override
+  void initState() {
+    _authService = AuthService.firebase();
+    _cloudStorage = FirebaseCloudStorage();
+    _cloudStorage.addCurrentAuthUserToChatUsers(
+        userId: _authService.currentUser!.id);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final authBloc = context.read<AuthBloc>();

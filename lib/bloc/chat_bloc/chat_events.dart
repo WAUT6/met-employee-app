@@ -15,3 +15,14 @@ class ChatEventWantToMessageUser extends ChatEvent {
     required this.receivingUser,
   });
 }
+
+class ChatEventCheckCurrentUserInCollection extends ChatEvent {
+  final String userId;
+  ChatEventCheckCurrentUserInCollection({
+    required this.userId,
+  });
+}
+
+class ChatEventInitialize extends ChatEvent {
+  const ChatEventInitialize();
+}

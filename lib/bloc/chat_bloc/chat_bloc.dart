@@ -17,5 +17,12 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         emit(const ChatStateViewingUsersPage());
       },
     );
+
+    // on<ChatEventInitialize>(
+    //   (event, emit) async {
+    //     await chatProvider.initializeChatProvider();
+    //   },
+    // );
+
   }
 }
