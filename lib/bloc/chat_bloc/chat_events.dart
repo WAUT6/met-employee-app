@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:metapp/services/chat/chat_user.dart';
 
 abstract class ChatEvent {
@@ -10,16 +13,48 @@ class ChatEventWantToViewUsersPage extends ChatEvent {
 
 class ChatEventWantToMessageUser extends ChatEvent {
   final ChatUser receivingUser;
+  final String userId;
 
   const ChatEventWantToMessageUser({
     required this.receivingUser,
+    required this.userId,
+  });
+}
+
+class ChatEventSendTextMessage extends ChatEvent {
+  final TextEditingController controller;
+  final String userId;
+  final String receivingUserId;
+  final String groupId;
+
+  const ChatEventSendTextMessage({
+    required this.controller,
+    required this.userId,
+    required this.receivingUserId,
+    required this.groupId,
+  });
+}
+
+class ChatEventUploadFile extends ChatEvent {
+  final File imageFile;
+  final String fileName;
+  final String userId;
+  final String receivingUserId;
+  final String groupId;
+
+  const ChatEventUploadFile({
+    required this.imageFile,
+    required this.fileName,
+    required this.groupId,
+    required this.userId,
+    required this.receivingUserId,
   });
 }
 
 class ChatEventCheckCurrentUserInCollection extends ChatEvent {
-  final String userId;
+  final String receivingUserId;
   ChatEventCheckCurrentUserInCollection({
-    required this.userId,
+    required this.receivingUserId,
   });
 }
 

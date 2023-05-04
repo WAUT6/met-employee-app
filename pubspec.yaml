@@ -43,6 +43,9 @@ dependencies:
   nice_buttons: ^0.0.2
   firebase_storage: ^11.1.1
   convex_bottom_bar: ^3.2.0
+  intl: ^0.17.0
+  fluttertoast: ^8.2.1
+  image_picker: ^0.8.7+4
 
 dev_dependencies:
   flutter_test:

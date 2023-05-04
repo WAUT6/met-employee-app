@@ -10,8 +10,10 @@ class ChatStateViewingUsersPage extends ChatState {
 
 class ChatStateMessagingUser extends ChatState {
   final ChatUser receivingUser;
+  final String userId;
   const ChatStateMessagingUser({
     required this.receivingUser,
+    required this.userId,
   });
 }
 

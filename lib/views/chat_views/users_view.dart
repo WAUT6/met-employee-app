@@ -13,6 +13,7 @@ import 'package:metapp/services/auth/auth_service.dart';
 import 'package:metapp/services/chat/chat_user.dart';
 import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'package:metapp/utilities/dialogs/logout_dialog.dart';
+import 'package:metapp/views/chat_views/chat_view.dart';
 import 'package:metapp/views/chat_views/users_list_view.dart';
 
 class UsersView extends StatefulWidget {
@@ -37,7 +38,6 @@ class _UsersViewState extends State<UsersView> {
 
   @override
   Widget build(BuildContext context) {
-    final chatBloc = context.read<ChatBloc>();
     final authBloc = context.read<AuthBloc>();
     final viewBloc = context.read<ViewBloc>();
     return BlocBuilder<ChatBloc, ChatState>(
@@ -70,15 +70,15 @@ class _UsersViewState extends State<UsersView> {
                       case MenuAction.logout:
                         final shouldLogOut = await showLogOutDialog(context);
                         if (shouldLogOut) {
-                          chatBloc.add(
+                          context.read<ChatBloc>().add(
                                 const ChatEventWantToViewUsersPage(),
                               );
                           viewBloc.add(
-                                const ViewEventGoToHomePage(),
-                              );
+                            const ViewEventGoToHomePage(),
+                          );
                           authBloc.add(
-                                const AuthEventLogOut(),
-                              );
+                            const AuthEventLogOut(),
+                          );
                         }
                         break;
                       default:
@@ -118,11 +118,21 @@ class _UsersViewState extends State<UsersView> {
                           currentUserId: currentUserId,
                           users: allUsers,
                           onTap: (user) {
-                            chatBloc.add(
+                            context.read<ChatBloc>().add(
                                   ChatEventWantToMessageUser(
                                     receivingUser: user,
+                                    userId: currentUserId,
                                   ),
                                 );
+
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => BlocProvider.value(
+                                  value: context.read<ChatBloc>(),
+                                  child: const ChatView(),
+                                ),
+                              ),
+                            );
                           },
                         );
                       }

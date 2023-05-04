@@ -8,6 +8,7 @@ import 'package:metapp/enums/menu_action.dart';
 import 'package:metapp/bloc/auth_bloc/auth_bloc.dart';
 import 'package:metapp/bloc/auth_bloc/auth_events.dart';
 import 'package:metapp/services/auth/auth_service.dart';
+import 'package:metapp/services/chat/chat_provider.dart';
 import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'package:metapp/utilities/dialogs/logout_dialog.dart';
 import 'package:metapp/bloc/view_bloc/view_bloc.dart';
@@ -39,122 +40,125 @@ class _HomeMenuViewState extends State<HomeMenuView> {
 
   @override
   Widget build(BuildContext context) {
-    final authBloc = context.read<AuthBloc>();
-    final viewBloc = context.read<ViewBloc>();
-    final chatBloc = context.read<ChatBloc>();
-    return BlocBuilder<ViewBloc, ViewState>(
-      builder: (context, state) {
-        if (state is ViewStateViewingHomePage) {
-          return Scaffold(
-            bottomNavigationBar: ConvexAppBar(
-              items: const [
-                TabItem(
-                  icon: Icons.book,
-                  title: 'Items',
-                ),
-                TabItem(
-                  icon: Icons.shopping_cart,
-                  title: 'Orders',
-                ),
-                TabItem(
-                  icon: Icons.message,
-                  title: 'Messages',
-                ),
-                TabItem(
-                  icon: Icons.settings,
-                  title: 'Settings',
-                ),
-              ],
-              onTap: (index) {},
-            ),
-            appBar: AppBar(
-              title: const Text('MET APP'),
-              centerTitle: true,
-              titleSpacing: 0.5,
-              actions: [
-                PopupMenuButton(
-                  itemBuilder: (context) {
-                    return [
-                      const PopupMenuItem(
-                        value: MenuAction.logout,
-                        child: Text('Log out'),
-                      )
-                    ];
-                  },
-                  onSelected: (value) async {
-                    switch (value) {
-                      case MenuAction.logout:
-                        final shouldLogout = await showLogOutDialog(context);
-                        if (shouldLogout) {
-                          authBloc.add(
-                            const AuthEventLogOut(),
+    return BlocProvider(
+      create: (context) => ChatBloc(ChatProvider()),
+      child: BlocBuilder<ViewBloc, ViewState>(
+        builder: (context, state) {
+          if (state is ViewStateViewingHomePage) {
+            final authBloc = context.read<AuthBloc>();
+            final viewBloc = context.read<ViewBloc>();
+            final chatBloc = context.read<ChatBloc>();
+            return Scaffold(
+              bottomNavigationBar: ConvexAppBar(
+                items: const [
+                  TabItem(
+                    icon: Icons.book,
+                    title: 'Items',
+                  ),
+                  TabItem(
+                    icon: Icons.shopping_cart,
+                    title: 'Orders',
+                  ),
+                  TabItem(
+                    icon: Icons.message,
+                    title: 'Messages',
+                  ),
+                  TabItem(
+                    icon: Icons.settings,
+                    title: 'Settings',
+                  ),
+                ],
+                onTap: (index) {},
+              ),
+              appBar: AppBar(
+                title: const Text('MET APP'),
+                centerTitle: true,
+                titleSpacing: 0.5,
+                actions: [
+                  PopupMenuButton(
+                    itemBuilder: (context) {
+                      return [
+                        const PopupMenuItem(
+                          value: MenuAction.logout,
+                          child: Text('Log out'),
+                        )
+                      ];
+                    },
+                    onSelected: (value) async {
+                      switch (value) {
+                        case MenuAction.logout:
+                          final shouldLogout = await showLogOutDialog(context);
+                          if (shouldLogout) {
+                            authBloc.add(
+                              const AuthEventLogOut(),
+                            );
+                          }
+                          break;
+                        default:
+                          break;
+                      }
+                    },
+                  ),
+                ],
+              ),
+              body: Container(
+                decoration: backgroundDecoration,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      genericNiceButton(
+                        context: context,
+                        text: 'Items',
+                        funtion: (finish) {
+                          viewBloc.add(
+                            const ViewEventGoToItems(),
                           );
-                        }
-                        break;
-                      default:
-                        break;
-                    }
-                  },
-                ),
-              ],
-            ),
-            body: Container(
-              decoration: backgroundDecoration,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    genericNiceButton(
-                      context: context,
-                      text: 'Items',
-                      funtion: (finish) {
-                        viewBloc.add(
-                          const ViewEventGoToItems(),
-                        );
-                      },
-                    ),
-                    const SizedBox(
-                      width: 50,
-                      height: 50,
-                    ),
-                    genericNiceButton(
-                      context: context,
-                      text: 'Orders',
-                      funtion: (finish) {
-                        viewBloc.add(
-                          const ViewEventGoToOrders(),
-                        );
-                      },
-                    ),
-                    const SizedBox(
-                      width: 50,
-                      height: 50,
-                    ),
-                    genericNiceButton(
-                      context: context,
-                      text: 'Chat',
-                      funtion: (finish) {
-                        viewBloc.add(const ViewEventGoToChats());
-                        chatBloc.add(const ChatEventWantToViewUsersPage());
-                      },
-                    )
-                  ],
+                        },
+                      ),
+                      const SizedBox(
+                        width: 50,
+                        height: 50,
+                      ),
+                      genericNiceButton(
+                        context: context,
+                        text: 'Orders',
+                        funtion: (finish) {
+                          viewBloc.add(
+                            const ViewEventGoToOrders(),
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        width: 50,
+                        height: 50,
+                      ),
+                      genericNiceButton(
+                        context: context,
+                        text: 'Chat',
+                        funtion: (finish) {
+                          viewBloc.add(const ViewEventGoToChats());
+                          chatBloc.add(const ChatEventWantToViewUsersPage());
+                        },
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
-        } else if (state is ViewStateViewingItems) {
-          return const ItemsView();
-        } else if (state is ViewStateViewingOrders) {
-          return const OrdersView();
-        } else if (state is ViewStateViewingChats) {
-          return const UsersView();
-        } else {
-          return Scaffold(
-            body: Text(state.toString()),
-          );
-        }
-      },
+            );
+          } else if (state is ViewStateViewingItems) {
+            return const ItemsView();
+          } else if (state is ViewStateViewingOrders) {
+            return const OrdersView();
+          } else if (state is ViewStateViewingChats) {
+            return const UsersView();
+          } else {
+            return Scaffold(
+              body: Text(state.toString()),
+            );
+          }
+        },
+      ),
     );
   }
 }
