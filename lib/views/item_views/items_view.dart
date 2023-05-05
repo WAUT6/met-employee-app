@@ -39,7 +39,8 @@ class _ItemsViewState extends State<ItemsView> {
         if (state is ViewStateViewingItems) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Notes'),
+              centerTitle: true,
+              title: const Text('Items'),
               leading: IconButton(
                 onPressed: () {
                   context.read<ViewBloc>().add(const ViewEventGoToHomePage());
@@ -71,11 +72,11 @@ class _ItemsViewState extends State<ItemsView> {
                         final shouldLogout = await showLogOutDialog(context);
                         if (shouldLogout) {
                           viewBloc.add(
-                                const ViewEventGoToHomePage(),
-                              );
+                            const ViewEventGoToHomePage(),
+                          );
                           authBloc.add(
-                                const AuthEventLogOut(),
-                              );
+                            const AuthEventLogOut(),
+                          );
                         }
                         break;
                       default:

@@ -71,6 +71,8 @@ class _HomeMenuViewState extends State<HomeMenuView> {
                 onTap: (index) {},
               ),
               appBar: AppBar(
+                leading: IconButton(
+                    onPressed: () {}, icon: const Icon(Icons.settings)),
                 title: const Text('MET APP'),
                 centerTitle: true,
                 titleSpacing: 0.5,

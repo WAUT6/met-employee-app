@@ -40,6 +40,14 @@ class _ChatViewState extends State<ChatView> {
     super.dispose();
   }
 
+  void readLocalData() {
+    if (userId.compareTo(receivingUserId) > 0) {
+      groupChatId = '$userId-$receivingUserId';
+    } else {
+      groupChatId = '$receivingUserId-$userId';
+    }
+  }
+
   Widget messageInputField(
       {required BuildContext context,
       required TextEditingController controller}) {
@@ -163,7 +171,7 @@ class _ChatViewState extends State<ChatView> {
         if (state is ChatStateMessagingUser) {
           userId = state.userId;
           receivingUserId = state.receivingUser.id;
-          groupChatId = '$userId-$receivingUserId';
+          readLocalData();
           return Scaffold(
             appBar: AppBar(
               title: Text('Messaging ${state.receivingUser.nickname}'),

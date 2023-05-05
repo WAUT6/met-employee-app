@@ -21,11 +21,7 @@ class CloudOrder {
     QueryDocumentSnapshot<Map<String, dynamic>> snapshot,
     this.items,
   )   : documentId = snapshot.id,
-        date = DateTime(
-          DateTime.now().year,
-          DateTime.now().month,
-          DateTime.now().day,
-        ).toString(),
+        date = snapshot.data()[FirestoreConstants.orderDate] as String,
         orderId =
             snapshot.data()[FirestoreConstants.orderNumberFieldName] as String,
         customerId = snapshot

@@ -156,6 +156,8 @@ class ChatListView extends StatelessWidget {
                         ),
                       )
                     : Container(
+                        height: 200,
+                        width: 200,
                         margin: const EdgeInsets.only(
                           left: 10,
                         ),
