@@ -65,6 +65,8 @@ class ChatListView extends StatelessWidget {
                   ),
                 )
               : Container(
+                  width: 200,
+                  height: 200,
                   margin: EdgeInsets.only(
                     bottom: buildChatMessageRight(
                       index: index,
@@ -79,7 +81,9 @@ class ChatListView extends StatelessWidget {
                             const EdgeInsets.all(0))),
                     onPressed: () {},
                     child: Material(
+                      borderRadius: BorderRadius.circular(10),
                       child: Image.network(
+                        fit: BoxFit.cover,
                         message.content,
                         loadingBuilder: ((context, child, loadingProgress) {
                           if (loadingProgress == null) {
@@ -241,16 +245,19 @@ class ChatListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: messageList.length,
-      itemBuilder: (context, index) {
-        final message = messageList.elementAt(index);
-        return buildItem(
-          index: index,
-          message: message,
-        );
-      },
-      reverse: true,
+    return Expanded(
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: messageList.length,
+        itemBuilder: (context, index) {
+          final message = messageList.elementAt(index);
+          return buildItem(
+            index: index,
+            message: message,
+          );
+        },
+        reverse: true,
+      ),
     );
   }
 }

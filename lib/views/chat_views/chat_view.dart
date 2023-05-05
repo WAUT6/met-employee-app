@@ -34,6 +34,12 @@ class _ChatViewState extends State<ChatView> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   Widget messageInputField(
       {required BuildContext context,
       required TextEditingController controller}) {
@@ -51,7 +57,7 @@ class _ChatViewState extends State<ChatView> {
       ),
       child: Row(
         children: [
-          Flexible(
+          Expanded(
             child: TextField(
               onSubmitted: (value) {
                 context.read<ChatBloc>().add(
@@ -64,7 +70,7 @@ class _ChatViewState extends State<ChatView> {
                     );
               },
               style: const TextStyle(
-                color: Colors.white,
+                color: Colors.black,
                 fontSize: 15,
               ),
               controller: controller,
@@ -163,76 +169,75 @@ class _ChatViewState extends State<ChatView> {
               title: Text('Messaging ${state.receivingUser.nickname}'),
               centerTitle: true,
             ),
-            body: Container(
-              decoration: backgroundDecoration,
-              child: Column(
+            body: WillPopScope(
+              onWillPop: () {
+                context
+                    .read<ChatBloc>()
+                    .add(const ChatEventWantToViewUsersPage());
+                return Future.value(true);
+              },
+              child: Flex(
+                direction: Axis.horizontal,
                 children: [
-                  StreamBuilder(
-                    stream: _cloudStorage.allMessages(
-                      _limit,
-                      groupChatId,
-                    ),
-                    builder: (context, snapshot) {
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.waiting:
-                        case ConnectionState.active:
-                          if (!snapshot.hasData) {
-                            return Scaffold(
-                              body: Container(
-                                constraints: const BoxConstraints.expand(
-                                  height: 500,
-                                  width: 500,
+                  Expanded(
+                    child: StreamBuilder(
+                      stream: _cloudStorage.allMessages(
+                        _limit,
+                        groupChatId,
+                      ),
+                      builder: (context, snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.waiting:
+                          case ConnectionState.active:
+                            if (!snapshot.hasData) {
+                              return Scaffold(
+                                body: Container(
+                                  decoration: backgroundDecoration,
+                                  child: Column(
+                                    children: [
+                                      const Center(
+                                        child: Text('No messages yet'),
+                                      ),
+                                      messageInputField(
+                                          context: context,
+                                          controller: controller),
+                                    ],
+                                  ),
                                 ),
+                              );
+                            } else {
+                              final messageList =
+                                  snapshot.data as Iterable<ChatMessage>;
+                              return Container(
                                 decoration: backgroundDecoration,
-                                child: Column(
+                                child: Flex(
+                                  direction: Axis.vertical,
                                   children: [
-                                    const Center(
-                                      child: Text('No messages yet'),
+                                    ChatListView(
+                                      messageList: messageList,
+                                      userId: state.userId,
+                                      peerId: state.receivingUser.id,
                                     ),
                                     messageInputField(
-                                        context: context,
-                                        controller: controller),
-                                  ],
-                                ),
-                              ),
-                            );
-                          } else {
-                            final messageList =
-                                snapshot.data as Iterable<ChatMessage>;
-                            return SafeArea(
-                              child: WillPopScope(
-                                onWillPop: onBackPress,
-                                child: Stack(
-                                  children: [
-                                    Column(
-                                      children: [
-                                        ChatListView(
-                                          messageList: messageList,
-                                          userId: state.userId,
-                                          peerId: state.receivingUser.id,
-                                        ),
-                                        messageInputField(
-                                          context: context,
-                                          controller: controller,
-                                        ),
-                                      ],
+                                      context: context,
+                                      controller: controller,
                                     ),
                                   ],
                                 ),
+                              );
+                            }
+                          default:
+                            return Scaffold(
+                              body: Container(
+                                decoration: backgroundDecoration,
+                                child: const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
                               ),
                             );
-                          }
-                        default:
-                          return Scaffold(
-                            body: Container(
-                              decoration: backgroundDecoration,
-                              child: const Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            ),
-                          );
-                      }
-                    },
+                        }
+                      },
+                    ),
                   ),
                 ],
               ),
