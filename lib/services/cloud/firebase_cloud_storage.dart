@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:metapp/services/chat/chat_exceptions.dart';
 import 'package:metapp/services/chat/chat_message.dart';
 import 'package:metapp/services/chat/chat_user.dart';
@@ -9,6 +12,7 @@ import 'package:metapp/services/cloud/cloud_storage_constants.dart';
 import 'package:metapp/services/cloud/cloud_storage_exceptions.dart';
 
 class FirebaseCloudStorage {
+  final FirebaseStorage storage = FirebaseStorage.instance;
   final items = FirebaseFirestore.instance
       .collection(FirestoreConstants.itemsCollectionPathName);
   final orders = FirebaseFirestore.instance
@@ -22,6 +26,57 @@ class FirebaseCloudStorage {
       FirebaseCloudStorage._sharedInstance();
   FirebaseCloudStorage._sharedInstance();
   factory FirebaseCloudStorage() => _shared;
+
+  UploadTask uploadFile(File image, String fileName) {
+    Reference reference = storage.ref().child(fileName);
+    UploadTask uploadTask = reference.putFile(image);
+    return uploadTask;
+  }
+
+  Future<void> updateChatUserName({
+    required String id,
+    required String nickname,
+  }) async {
+    try {
+      await users.doc(id).update(
+        {
+          FirestoreConstants.nickname: nickname,
+        },
+      );
+    } catch (e) {
+      throw CouldNotUpdateChatUserNickName();
+    }
+  }
+
+  Future<void> updateChatUserAboutMe({
+    required String id,
+    required String aboutMe,
+  }) async {
+    try {
+      await users.doc(id).update(
+        {
+          FirestoreConstants.aboutMe: aboutMe,
+        },
+      );
+    } catch (e) {
+      throw CouldNotUpdateChatUserAboutMe();
+    }
+  }
+
+  Future<void> updateChatUserProfileUrl({
+    required String id,
+    required String profileUrl,
+  }) async {
+    try {
+      await users.doc(id).update(
+        {
+          FirestoreConstants.profileUrl: profileUrl,
+        },
+      );
+    } catch (e) {
+      throw CouldNotUpdateChatUserProfileUrl();
+    }
+  }
 
   Future<CloudOrder> createNewOrder() async {
     final document = await orders.add(
@@ -121,6 +176,14 @@ class FirebaseCloudStorage {
       profileImageUrl: '',
       nickname: '',
     );
+  }
+
+  Stream<ChatUser> getCurrentChatUser({
+    required String id,
+  }) {
+    return users.doc(id).snapshots().map(
+          (document) => ChatUser.fromDocument(document),
+        );
   }
 
   Future<CloudOrderItem> createNewOrderItem({

@@ -21,3 +21,7 @@ class ViewEventGoToChats extends ViewEvent {
 class ViewEventCreateNewOrder extends ViewEvent {
   const ViewEventCreateNewOrder();
 }
+
+class ViewEventGoToSettings extends ViewEvent {
+  const ViewEventGoToSettings();
+}

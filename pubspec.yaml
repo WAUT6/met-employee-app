@@ -46,6 +46,13 @@ dependencies:
   intl: ^0.17.0
   fluttertoast: ^8.2.1
   image_picker: ^0.8.7+4
+  pdf: ^3.10.1
+  google_fonts: ^4.0.4
+  path: ^1.8.2
+  path_provider: ^2.0.14
+  permission_handler: ^10.2.0
+  printing: ^5.10.3
+  document_file_save_plus: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +72,9 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/
+    - assets/fonts/OpenSans-Bold.ttf
+    - assets/fonts/OpenSans-Regular.ttf
+    - assets/fonts/OpenSans-Italic.ttf
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

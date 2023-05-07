@@ -17,6 +17,7 @@ import 'package:metapp/bloc/view_bloc/view_states.dart';
 import 'package:metapp/views/chat_views/users_view.dart';
 import 'package:metapp/views/item_views/items_view.dart';
 import 'package:metapp/views/order_views/orders_view.dart';
+import 'package:metapp/views/settings_views/settings_view.dart';
 
 class HomeMenuView extends StatefulWidget {
   const HomeMenuView({super.key});
@@ -72,7 +73,12 @@ class _HomeMenuViewState extends State<HomeMenuView> {
               ),
               appBar: AppBar(
                 leading: IconButton(
-                    onPressed: () {}, icon: const Icon(Icons.settings)),
+                    onPressed: () {
+                      context.read<ViewBloc>().add(
+                            const ViewEventGoToSettings(),
+                          );
+                    },
+                    icon: const Icon(Icons.settings)),
                 title: const Text('MET APP'),
                 centerTitle: true,
                 titleSpacing: 0.5,
@@ -154,6 +160,8 @@ class _HomeMenuViewState extends State<HomeMenuView> {
             return const OrdersView();
           } else if (state is ViewStateViewingChats) {
             return const UsersView();
+          } else if (state is ViewStateViewingSettings) {
+            return const SettingsView();
           } else {
             return Scaffold(
               body: Text(state.toString()),

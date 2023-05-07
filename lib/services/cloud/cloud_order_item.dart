@@ -24,4 +24,18 @@ class CloudOrderItem {
         quantity =
             snapshot.data()[FirestoreConstants.orderItemsItemQuantityFieldName]
                 as String;
+
+  String getIndex(int index) {
+    switch (index) {
+      case 0:
+        return id;
+      case 1:
+        return itemName;
+      case 2:
+        return packaging;
+      case 3:
+        return quantity;
+    }
+    return '';
+  }
 }

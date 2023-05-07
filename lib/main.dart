@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:metapp/bloc/io_bloc/io_bloc.dart';
 import 'package:metapp/constants/routes.dart';
 import 'package:metapp/helpers/loading/loading_screen.dart';
 import 'package:metapp/services/auth/auth_service.dart';
@@ -29,6 +30,9 @@ void main() {
         ),
         BlocProvider(
           create: (context) => ViewBloc(),
+        ),
+        BlocProvider(
+          create: (context) => IoBloc(),
         ),
       ],
       child: MaterialApp(

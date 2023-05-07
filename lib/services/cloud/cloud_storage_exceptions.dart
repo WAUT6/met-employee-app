@@ -25,3 +25,9 @@ class CouldNotUpdateOrderException implements Exception {}
 class CouldNotUpdateOrderCustomerNameException implements Exception {}
 
 class CouldNotUpdateOrderNameException implements Exception {}
+
+class CouldNotUpdateChatUserNickName implements Exception {}
+
+class CouldNotUpdateChatUserAboutMe implements Exception {}
+
+class CouldNotUpdateChatUserProfileUrl implements Exception {}

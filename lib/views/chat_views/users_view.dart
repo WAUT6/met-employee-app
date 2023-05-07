@@ -40,6 +40,7 @@ class _UsersViewState extends State<UsersView> {
   Widget build(BuildContext context) {
     final authBloc = context.read<AuthBloc>();
     final viewBloc = context.read<ViewBloc>();
+    final chatBloc = context.read<ChatBloc>();
     return BlocBuilder<ChatBloc, ChatState>(
       builder: (context, state) {
         if (state is ChatStateViewingUsersPage) {
@@ -70,9 +71,9 @@ class _UsersViewState extends State<UsersView> {
                       case MenuAction.logout:
                         final shouldLogOut = await showLogOutDialog(context);
                         if (shouldLogOut) {
-                          context.read<ChatBloc>().add(
-                                const ChatEventWantToViewUsersPage(),
-                              );
+                          chatBloc.add(
+                            const ChatEventWantToViewUsersPage(),
+                          );
                           viewBloc.add(
                             const ViewEventGoToHomePage(),
                           );

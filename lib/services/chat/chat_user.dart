@@ -14,6 +14,12 @@ class ChatUser {
     required this.nickname,
   });
 
+  ChatUser.fromDocument(DocumentSnapshot<Map<String, dynamic>> document)
+      : aboutMe = document.get(FirestoreConstants.aboutMe) as String,
+        id = document.id,
+        profileImageUrl = document.get(FirestoreConstants.profileUrl) as String,
+        nickname = document.get(FirestoreConstants.nickname);
+
   ChatUser.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
       : aboutMe = snapshot.data()[FirestoreConstants.aboutMe] as String,
         profileImageUrl =

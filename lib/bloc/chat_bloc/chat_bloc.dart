@@ -44,8 +44,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<ChatEventUploadFile>(
       (event, emit) async {
         UploadTask uploadTask = provider.uploadFile(
-          event.imageFile,
-          event.fileName,
+          image: event.imageFile,
+          fileName: event.fileName,
         );
         try {
           TaskSnapshot snapshot = await uploadTask;

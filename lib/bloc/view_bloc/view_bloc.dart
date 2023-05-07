@@ -7,9 +7,19 @@ class ViewBloc extends Bloc<ViewEvent, ViewState> {
       : super(
           const ViewStateViewingHomePage(),
         ) {
+    on<ViewEventGoToSettings>(
+      (event, emit) {
+        emit(
+          const ViewStateViewingSettings(),
+        );
+      },
+    );
+
     on<ViewEventGoToChats>(
       (event, emit) {
-        emit(const ViewStateViewingChats());
+        emit(
+          const ViewStateViewingChats(),
+        );
       },
     );
 
