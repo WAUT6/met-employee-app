@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:metapp/constants/themes.dart';
 import 'package:metapp/services/cloud/cloud_order.dart';
 import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 
@@ -95,77 +94,71 @@ class _CreateNewOrderViewState extends State<CreateNewOrderView> {
         title: const Text('New Order'),
         centerTitle: true,
       ),
-      body: Container(
-        decoration: backgroundDecoration,
-        child: Center(
-          child: FutureBuilder(
-            future: createOrder(),
-            builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.done:
-                  setUpControllerListeners();
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          style: const TextStyle(
-                            color: Colors.white,
-                          ),
-                          controller: _customerNameController,
-                          decoration: const InputDecoration(
-                            hintText: 'Enter customer name',
-                            hintStyle: TextStyle(color: Colors.white),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(20),
-                              ),
-                            ),
-                            filled: true,
-                            fillColor: Colors.blueGrey,
-                          ),
-                          enableInteractiveSelection: false,
-                          autocorrect: false,
-                          enableSuggestions: false,
+      body: Center(
+        child: FutureBuilder(
+          future: createOrder(),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.done:
+                setUpControllerListeners();
+                return Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        style: const TextStyle(
+                          color: Colors.white,
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          style: const TextStyle(
-                            color: Colors.white,
-                          ),
-                          controller: _orderIdController,
-                          decoration: const InputDecoration(
-                            hintText: 'Enter order number',
-                            hintStyle: TextStyle(color: Colors.white),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(20),
-                              ),
+                        controller: _customerNameController,
+                        decoration: const InputDecoration(
+                          hintText: 'Enter customer name',
+                          hintStyle: TextStyle(color: Colors.white),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20),
                             ),
-                            filled: true,
-                            fillColor: Colors.blueGrey,
                           ),
-                          enableInteractiveSelection: false,
-                          autocorrect: false,
-                          enableSuggestions: false,
+                          filled: true,
+                          fillColor: Colors.blueGrey,
                         ),
-                      ),
-                    ],
-                  );
-                default:
-                  return Scaffold(
-                    body: Container(
-                      decoration: backgroundDecoration,
-                      child: const Center(
-                        child: CircularProgressIndicator(),
+                        enableInteractiveSelection: false,
+                        autocorrect: false,
+                        enableSuggestions: false,
                       ),
                     ),
-                  );
-              }
-            },
-          ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                        controller: _orderIdController,
+                        decoration: const InputDecoration(
+                          hintText: 'Enter order number',
+                          hintStyle: TextStyle(color: Colors.white),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20),
+                            ),
+                          ),
+                          filled: true,
+                          fillColor: Colors.blueGrey,
+                        ),
+                        enableInteractiveSelection: false,
+                        autocorrect: false,
+                        enableSuggestions: false,
+                      ),
+                    ),
+                  ],
+                );
+              default:
+                return const Scaffold(
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+            }
+          },
         ),
       ),
     );

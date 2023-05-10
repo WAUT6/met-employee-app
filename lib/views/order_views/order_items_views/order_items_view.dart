@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:metapp/bloc/io_bloc/io_bloc.dart';
 import 'package:metapp/bloc/io_bloc/io_events.dart';
 import 'package:metapp/constants/routes.dart';
-import 'package:metapp/constants/themes.dart';
 import 'package:metapp/services/cloud/cloud_order.dart';
 import 'package:metapp/services/cloud/cloud_order_item.dart';
 import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
@@ -82,56 +81,47 @@ class _OrderItemsViewState extends State<OrderItemsView> {
             ),
           ],
         ),
-        body: Container(
-          decoration: backgroundDecoration,
-          child: StreamBuilder(
-            stream: _cloudStorage.allOrderItems(orderId: _orderId),
-            builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.waiting:
-                case ConnectionState.active:
-                  if (!snapshot.hasData) {
-                    return Scaffold(
-                      body: Container(
-                        decoration: backgroundDecoration,
-                        child: const Center(
-                          child: Text(
-                            'No Items Yet',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
+        body: StreamBuilder(
+          stream: _cloudStorage.allOrderItems(orderId: _orderId),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+              case ConnectionState.active:
+                if (!snapshot.hasData) {
+                  return const Scaffold(
+                    body: Center(
+                      child: Text(
+                        'No Items Yet',
+                        style: TextStyle(
+                          color: Colors.white,
                         ),
-                      ),
-                    );
-                  } else {
-                    allOrderItems = snapshot.data as Iterable<CloudOrderItem>;
-                    return OrderItemsGridView(
-                      orderItems: allOrderItems,
-                      onTap: (item) {
-                        Navigator.pushNamed(
-                          context,
-                          createOrUpdateOrderItemRoute,
-                          arguments: {
-                            'cloudOrderItem': item,
-                            'orderId': _orderId,
-                          },
-                        );
-                      },
-                    );
-                  }
-                default:
-                  return Scaffold(
-                    body: Container(
-                      decoration: backgroundDecoration,
-                      child: const Center(
-                        child: CircularProgressIndicator(),
                       ),
                     ),
                   );
-              }
-            },
-          ),
+                } else {
+                  allOrderItems = snapshot.data as Iterable<CloudOrderItem>;
+                  return OrderItemsGridView(
+                    orderItems: allOrderItems,
+                    onTap: (item) {
+                      Navigator.pushNamed(
+                        context,
+                        createOrUpdateOrderItemRoute,
+                        arguments: {
+                          'cloudOrderItem': item,
+                          'orderId': _orderId,
+                        },
+                      );
+                    },
+                  );
+                }
+              default:
+                return const Scaffold(
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+            }
+          },
         ),
       ),
     );

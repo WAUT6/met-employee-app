@@ -7,7 +7,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:metapp/bloc/chat_bloc/chat_bloc.dart';
 import 'package:metapp/bloc/chat_bloc/chat_events.dart';
 import 'package:metapp/bloc/chat_bloc/chat_states.dart';
-import 'package:metapp/constants/themes.dart';
 import 'package:metapp/services/chat/chat_message.dart';
 import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'package:metapp/views/chat_views/chat_list_view.dart';
@@ -199,48 +198,39 @@ class _ChatViewState extends State<ChatView> {
                           case ConnectionState.active:
                             if (!snapshot.hasData) {
                               return Scaffold(
-                                body: Container(
-                                  decoration: backgroundDecoration,
-                                  child: Column(
-                                    children: [
-                                      const Center(
-                                        child: Text('No messages yet'),
-                                      ),
-                                      messageInputField(
-                                          context: context,
-                                          controller: controller),
-                                    ],
-                                  ),
+                                body: Column(
+                                  children: [
+                                    const Center(
+                                      child: Text('No messages yet'),
+                                    ),
+                                    messageInputField(
+                                        context: context,
+                                        controller: controller),
+                                  ],
                                 ),
                               );
                             } else {
                               final messageList =
                                   snapshot.data as Iterable<ChatMessage>;
-                              return Container(
-                                decoration: backgroundDecoration,
-                                child: Flex(
-                                  direction: Axis.vertical,
-                                  children: [
-                                    ChatListView(
-                                      messageList: messageList,
-                                      userId: state.userId,
-                                      peerId: state.receivingUser.id,
-                                    ),
-                                    messageInputField(
-                                      context: context,
-                                      controller: controller,
-                                    ),
-                                  ],
-                                ),
+                              return Flex(
+                                direction: Axis.vertical,
+                                children: [
+                                  ChatListView(
+                                    messageList: messageList,
+                                    userId: state.userId,
+                                    peerId: state.receivingUser.id,
+                                  ),
+                                  messageInputField(
+                                    context: context,
+                                    controller: controller,
+                                  ),
+                                ],
                               );
                             }
                           default:
-                            return Scaffold(
-                              body: Container(
-                                decoration: backgroundDecoration,
-                                child: const Center(
-                                  child: CircularProgressIndicator(),
-                                ),
+                            return const Scaffold(
+                              body: Center(
+                                child: CircularProgressIndicator(),
                               ),
                             );
                         }
@@ -252,12 +242,9 @@ class _ChatViewState extends State<ChatView> {
             ),
           );
         } else {
-          return Scaffold(
-            body: Container(
-              decoration: backgroundDecoration,
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ),
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
             ),
           );
         }

@@ -22,7 +22,6 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
       ),
       body: Container(
         alignment: Alignment.center,
-        decoration: backgroundDecoration,
         child: Column(
           children: [
             Column(

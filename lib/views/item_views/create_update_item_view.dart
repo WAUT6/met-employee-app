@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:metapp/constants/themes.dart';
 import 'package:metapp/services/cloud/cloud_item.dart';
 import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'package:metapp/utilities/generics/get_arguments.dart';
@@ -117,72 +116,69 @@ class _CreateOrUpdateItemViewState extends State<CreateOrUpdateItemView> {
         title: const Text('Item'),
         centerTitle: true,
       ),
-      body: Container(
-        decoration: backgroundDecoration,
-        child: Center(
-          child: FutureBuilder(
-            future: createOrGetExisitingItem(context),
-            builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.done:
-                  _setUpControllerListeners();
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          style: const TextStyle(
-                            color: Colors.white,
-                          ),
-                          controller: _nameController,
-                          decoration: const InputDecoration(
-                            hintText: 'Enter item name',
-                            hintStyle: TextStyle(color: Colors.white),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(20),
-                              ),
-                            ),
-                            filled: true,
-                            fillColor: Colors.blueGrey,
-                          ),
-                          enableInteractiveSelection: false,
-                          autocorrect: false,
-                          enableSuggestions: false,
+      body: Center(
+        child: FutureBuilder(
+          future: createOrGetExisitingItem(context),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.done:
+                _setUpControllerListeners();
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        style: const TextStyle(
+                          color: Colors.white,
                         ),
+                        controller: _nameController,
+                        decoration: const InputDecoration(
+                          hintText: 'Enter item name',
+                          hintStyle: TextStyle(color: Colors.white),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20),
+                            ),
+                          ),
+                          filled: true,
+                          fillColor: Colors.blueGrey,
+                        ),
+                        enableInteractiveSelection: false,
+                        autocorrect: false,
+                        enableSuggestions: false,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          style: const TextStyle(
-                            color: Colors.white,
-                          ),
-                          controller: _priceController,
-                          decoration: const InputDecoration(
-                            hintText: 'Enter item price',
-                            hintStyle: TextStyle(color: Colors.white),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(20),
-                              ),
-                            ),
-                            filled: true,
-                            fillColor: Colors.blueGrey,
-                          ),
-                          keyboardType: TextInputType.number,
-                          enableInteractiveSelection: false,
-                          autocorrect: false,
-                          enableSuggestions: false,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        style: const TextStyle(
+                          color: Colors.white,
                         ),
-                      )
-                    ],
-                  );
-                default:
-                  return const CircularProgressIndicator();
-              }
-            },
-          ),
+                        controller: _priceController,
+                        decoration: const InputDecoration(
+                          hintText: 'Enter item price',
+                          hintStyle: TextStyle(color: Colors.white),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20),
+                            ),
+                          ),
+                          filled: true,
+                          fillColor: Colors.blueGrey,
+                        ),
+                        keyboardType: TextInputType.number,
+                        enableInteractiveSelection: false,
+                        autocorrect: false,
+                        enableSuggestions: false,
+                      ),
+                    )
+                  ],
+                );
+              default:
+                return const CircularProgressIndicator();
+            }
+          },
         ),
       ),
     );

@@ -89,8 +89,6 @@ class HomePage extends StatelessWidget {
           return const HomeMenuView();
         } else if (state is AuthStateNeedsVerification) {
           return const VerifyEmailView();
-        } else if (state is AuthStateViewingHomePage) {
-          return const HomeMenuView();
         } else if (state is AuthStateLoggedOut) {
           return const LoginView();
         } else if (state is AuthStateRegistering) {

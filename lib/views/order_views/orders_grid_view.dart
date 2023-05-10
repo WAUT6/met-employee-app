@@ -17,9 +17,9 @@ class OrdersGridView extends StatelessWidget {
     return GridView.builder(
       padding: const EdgeInsets.all(10),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        crossAxisSpacing: 5,
-        mainAxisSpacing: 5,
+        crossAxisCount: 2,
+        crossAxisSpacing: 20,
+        mainAxisSpacing: 30,
       ),
       itemCount: orders.length,
       itemBuilder: (context, index) {
@@ -30,14 +30,19 @@ class OrdersGridView extends StatelessWidget {
             header: Text(
               order.date,
               textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.white, fontSize: 20),
             ),
             footer: Text(
               order.orderId,
               textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+              ),
             ),
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.blueGrey,
+                color: Colors.black,
                 borderRadius: BorderRadius.circular(30),
               ),
               padding: const EdgeInsets.all(16),
@@ -46,7 +51,8 @@ class OrdersGridView extends StatelessWidget {
                   order.customerId,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 15,
+                    fontSize: 24,
+                    color: Colors.white,
                   ),
                   textAlign: TextAlign.center,
                 ),
