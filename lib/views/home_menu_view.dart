@@ -50,27 +50,27 @@ class _HomeMenuViewState extends State<HomeMenuView> {
             final viewBloc = context.read<ViewBloc>();
             final chatBloc = context.read<ChatBloc>();
             return Scaffold(
-              bottomNavigationBar: ConvexAppBar(
-                items: const [
-                  TabItem(
-                    icon: Icons.book,
-                    title: 'Items',
-                  ),
-                  TabItem(
-                    icon: Icons.shopping_cart,
-                    title: 'Orders',
-                  ),
-                  TabItem(
-                    icon: Icons.message,
-                    title: 'Messages',
-                  ),
-                  TabItem(
-                    icon: Icons.settings,
-                    title: 'Settings',
-                  ),
-                ],
-                onTap: (index) {},
-              ),
+              // bottomNavigationBar: ConvexAppBar(
+              //   items: const [
+              //     TabItem(
+              //       icon: Icons.book,
+              //       title: 'Items',
+              //     ),
+              //     TabItem(
+              //       icon: Icons.shopping_cart,
+              //       title: 'Orders',
+              //     ),
+              //     TabItem(
+              //       icon: Icons.message,
+              //       title: 'Messages',
+              //     ),
+              //     TabItem(
+              //       icon: Icons.settings,
+              //       title: 'Settings',
+              //     ),
+              //   ],
+              //   onTap: (index) {},
+              // ),
               appBar: AppBar(
                 leading: IconButton(
                     onPressed: () {

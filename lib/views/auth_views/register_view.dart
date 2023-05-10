@@ -34,7 +34,7 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
+    final Size size = MediaQuery.of(context).size;
     final authBloc = context.read<AuthBloc>();
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
@@ -52,139 +52,162 @@ class _RegisterViewState extends State<RegisterView> {
       },
       child: Scaffold(
         appBar: AppBar(
-          centerTitle: true,
-          title: const Text('Register'),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
         ),
-        body: Container(
-          decoration: backgroundDecoration,
-          child: ListView(
-            children: [
-              SizedBox(
-                height: h * 0.3,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            boxShadow: const [
-                              BoxShadow(
-                                blurRadius: 1.5,
-                                color: Colors.white,
-                                spreadRadius: 1.5,
-                              ),
-                            ],
-                          ),
-                          child: TextField(
-                            style: const TextStyle(
-                              color: Colors.white,
-                            ),
-                            controller: _email,
-                            enableSuggestions: false,
-                            autocorrect: false,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: const InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.email,
-                                color: Colors.purple,
-                              ),
-                              hintText: 'Enter your email',
-                              hintStyle: TextStyle(color: Colors.white),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(30),
-                                ),
-                              ),
-                              filled: true,
-                              fillColor: Colors.blueGrey,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                          height: 35,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            boxShadow: const [
-                              BoxShadow(
-                                blurRadius: 1.5,
-                                color: Colors.white,
-                                spreadRadius: 1.5,
-                              ),
-                            ],
-                          ),
-                          child: TextField(
-                            style: const TextStyle(
-                              color: Colors.white,
-                            ),
-                            controller: _password,
-                            enableSuggestions: false,
-                            obscureText: true,
-                            autocorrect: false,
-                            decoration: const InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.password,
-                                color: Colors.purple,
-                              ),
-                              hintText: 'Enter your password',
-                              hintStyle: TextStyle(color: Colors.white),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(30),
-                                ),
-                              ),
-                              filled: true,
-                              fillColor: Colors.blueGrey,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+        body: SingleChildScrollView(
+          child: Container(
+            width: size.width,
+            height: size.height,
+            padding: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              bottom: size.height * 0.2,
+              top: size.height * 0.05,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Welcome, \nRegister Here',
+                  style: TextStyle(
+                    fontSize: 38,
+                    fontWeight: FontWeight.bold,
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(15),
-                    child: Column(
-                      children: [
-                        genericNiceButton(
-                          context: context,
-                          text: 'Register',
-                          funtion: (finish) {
-                            final String email = _email.text;
-                            final String password = _password.text;
-                            authBloc.add(
-                              AuthEventRegister(
-                                email: email,
-                                password: password,
-                              ),
-                            );
-                          },
+                ),
+                Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 5,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: const Color(0xffF7F7F7),
+                        boxShadow: const [
+                          BoxShadow(
+                            blurRadius: 1.5,
+                            color: Colors.white,
+                            spreadRadius: 1.5,
+                          ),
+                        ],
+                      ),
+                      child: TextField(
+                        cursorColor: Colors.black,
+                        style: const TextStyle(
+                          color: Colors.grey,
                         ),
-                        const SizedBox(
-                          width: 5,
-                          height: 15,
+                        controller: _email,
+                        enableSuggestions: false,
+                        autocorrect: false,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.email,
+                            color: Colors.black,
+                          ),
+                          hintText: 'Enter your email',
+                          hintStyle: TextStyle(color: Colors.grey),
+                          border: InputBorder.none,
                         ),
-                        genericNiceButton(
-                          context: context,
-                          text: 'Login here',
-                          funtion: (finish) {
-                            authBloc.add(
-                              const AuthEventLogOut(),
-                            );
-                          },
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      decoration: BoxDecoration(
+                        color: const Color(0xffF7F7F7),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: const [
+                          BoxShadow(
+                            blurRadius: 1.5,
+                            color: Colors.white,
+                            spreadRadius: 1.5,
+                          ),
+                        ],
+                      ),
+                      child: TextField(
+                        cursorColor: Colors.black,
+                        style: const TextStyle(
+                          color: Colors.grey,
+                        ),
+                        controller: _password,
+                        enableSuggestions: false,
+                        obscureText: true,
+                        autocorrect: false,
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.password,
+                            color: Colors.black,
+                          ),
+                          hintText: 'Enter your password',
+                          hintStyle: TextStyle(color: Colors.grey),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        padding: const EdgeInsets.all(18.0),
+                      ),
+                      onPressed: () {
+                        final String email = _email.text;
+                        final String password = _password.text;
+                        authBloc.add(
+                          AuthEventRegister(
+                            email: email,
+                            password: password,
+                          ),
+                        );
+                      },
+                      child: const Center(
+                        child: Text(
+                          'Register',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                      height: 15,
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        padding: const EdgeInsets.all(18.0),
+                      ),
+                      onPressed: () {
+                        authBloc.add(
+                          const AuthEventLogOut(),
+                        );
+                      },
+                      child: const Center(
+                        child: Text(
+                          'Login',
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

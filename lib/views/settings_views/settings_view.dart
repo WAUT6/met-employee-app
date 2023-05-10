@@ -82,19 +82,58 @@ class _SettingsViewState extends State<SettingsView> {
         ),
         body: Container(
           decoration: backgroundDecoration,
-          child: ListView(children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: ListTile(
-                title: const Text(
-                  'Edit User Nickname',
-                  textAlign: TextAlign.left,
+          child: ListView(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                child: ListTile(
+                  tileColor: Colors.blueGrey,
+                  title: const Text(
+                    'Edit User Nickname',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: Colors.white,
+                  ),
+                  onTap: () {},
                 ),
-                trailing: const Icon(Icons.arrow_forward_ios_rounded),
-                onTap: () {},
               ),
-            ),
-          ]),
+              Container(
+                padding: const EdgeInsets.all(10),
+                child: ListTile(
+                  style: ListTileStyle.list,
+                  title: const Text(
+                    'Edit User Profile Picture',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: Colors.white,
+                  ),
+                  onTap: () {},
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(10),
+                child: ListTile(
+                  style: ListTileStyle.list,
+                  title: const Text(
+                    'Edit User About Me',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: Colors.white,
+                  ),
+                  onTap: () {},
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

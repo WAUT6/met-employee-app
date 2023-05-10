@@ -36,9 +36,15 @@ void main() {
         ),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.purple,
+          primaryColor: const Color.fromRGBO(
+            243,
+            243,
+            243,
+            1,
+          ),
         ),
         home: MultiBlocProvider(
           providers: [
