@@ -11,8 +11,9 @@ import 'package:metapp/bloc/view_bloc/view_bloc.dart';
 import 'package:metapp/views/order_views/orders_grid_view.dart';
 
 class OrdersView extends StatefulWidget {
-  const OrdersView({super.key});
-
+  static const OrdersView _shared = OrdersView._sharedInstance();
+  const OrdersView._sharedInstance();
+  factory OrdersView() => _shared;
   @override
   State<OrdersView> createState() => _OrdersViewState();
 }
@@ -31,56 +32,23 @@ class _OrdersViewState extends State<OrdersView> {
     return BlocProvider<ViewBloc>(
       create: (context) => context.read<ViewBloc>(),
       child: Scaffold(
-        // appBar: AppBar(
-        //   leading: IconButton(
-        //     onPressed: () {
-        //       viewBloc.add(const ViewEventGoToHomePage());
-        //     },
-        //     icon: const Icon(Icons.home),
-        //   ),
-        //   title: const Text('Orders'),
-        //   centerTitle: true,
-        //   actions: [
-        //     IconButton(
-        //       onPressed: () {
-        //         Navigator.pushNamed(
-        //           context,
-        //           createNewOrderRoute,
-        //         );
-        //       },
-        //       icon: const Icon(
-        //         Icons.add,
-        //       ),
-        //     ),
-        //     PopupMenuButton(
-        //       itemBuilder: (context) {
-        //         return [
-        //           const PopupMenuItem(
-        //             value: MenuAction.logout,
-        //             child: Text('Log out'),
-        //           )
-        //         ];
-        //       },
-        //       onSelected: (value) async {
-        //         switch (value) {
-        //           case MenuAction.logout:
-        //             final shouldLogout = await showLogOutDialog(context);
-        //             if (shouldLogout) {
-        //               viewBloc.add(
-        //                 const ViewEventGoToHomePage(),
-        //               );
-        //               authBloc.add(
-        //                 const AuthEventLogOut(),
-        //               );
-        //             }
-        //             break;
-        //           default:
-        //             break;
-        //         }
-        //       },
-        //     ),
-        //   ],
-        // ),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  createNewOrderRoute,
+                );
+              },
+              icon: const Icon(
+                Icons.add,
+                color: Colors.black,
+              ),
+            ),
+          ],
+        ),
         body: StreamBuilder(
           stream: _cloudStorage.allOrders(50),
           builder: (context, snapshot) {

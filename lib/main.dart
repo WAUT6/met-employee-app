@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:metapp/bloc/io_bloc/io_bloc.dart';
+import 'package:metapp/bloc/settings_bloc/bloc/bloc/bloc/settings_bloc.dart';
 import 'package:metapp/constants/routes.dart';
 import 'package:metapp/helpers/loading/loading_screen.dart';
 import 'package:metapp/services/auth/auth_service.dart';
@@ -8,6 +9,7 @@ import 'package:metapp/bloc/auth_bloc/auth_bloc.dart';
 import 'package:metapp/bloc/auth_bloc/auth_events.dart';
 import 'package:metapp/bloc/auth_bloc/auth_states.dart';
 import 'package:metapp/bloc/view_bloc/view_bloc.dart';
+import 'package:metapp/services/settings/settings_provider.dart';
 import 'package:metapp/views/chat_views/chat_view.dart';
 import 'package:metapp/views/item_views/create_update_item_view.dart';
 import 'package:metapp/views/home_menu_view.dart';
@@ -17,6 +19,7 @@ import 'package:metapp/views/auth_views/verify_email_view.dart';
 import 'package:metapp/views/order_views/create_new_order_view.dart';
 import 'package:metapp/views/order_views/order_items_views/create_update_order_item_view.dart';
 import 'package:metapp/views/order_views/order_items_views/order_items_view.dart';
+import 'package:path/path.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +37,11 @@ void main() {
         BlocProvider(
           create: (context) => IoBloc(),
         ),
+        BlocProvider(
+          create: (context) => SettingsBloc(
+            SettingsProvider(),
+          ),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

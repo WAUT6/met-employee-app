@@ -1,8 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:metapp/bloc/auth_bloc/auth_bloc.dart';
 import 'package:metapp/bloc/auth_bloc/auth_events.dart';
-import 'package:metapp/bloc/view_bloc/view_bloc.dart';
+import 'package:metapp/bloc/settings_bloc/bloc/bloc/bloc/settings_bloc.dart';
+import 'package:metapp/constants/themes.dart';
+import 'package:metapp/services/auth/auth_service.dart';
+import 'package:metapp/services/chat/chat_user.dart';
 import 'package:metapp/utilities/dialogs/logout_dialog.dart';
 import 'package:metapp/services/settings/settings_provider.dart';
 
@@ -13,65 +20,89 @@ class SettingsView extends StatefulWidget {
   State<SettingsView> createState() => _SettingsViewState();
 }
 
-//TODO continue implementing settings page
 class _SettingsViewState extends State<SettingsView> {
   late final SettingsProvider _settingsProvider;
-
+  late final AuthService _authService;
+  File? imageFile;
   @override
   void initState() {
+    _authService = AuthService.firebase();
     _settingsProvider = SettingsProvider();
     super.initState();
+  }
+
+  Future<void> getImage() async {
+    ImagePicker imagePicker = ImagePicker();
+    XFile? pickedFile =
+        await imagePicker.pickImage(source: ImageSource.gallery).catchError(
+      (e) {
+        Fluttertoast.showToast(msg: 'Invalid image');
+        return null;
+      },
+    );
+    if (pickedFile != null) {
+      imageFile = File(pickedFile.path);
+      if (imageFile != null) {
+        uploadFile();
+      }
+    }
+  }
+
+  Future<void> uploadFile() async {
+    String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+    BlocProvider.of<SettingsBloc>(context).add(
+        SettingsEventUpdateUserProfilePicture(
+            imageFile: imageFile!,
+            fileName: fileName,
+            userId: _authService.currentUser!.id));
+  }
+
+  Future<ChatUser> getCurrentChatUser({
+    required String id,
+  }) async {
+    return await _settingsProvider.currentChatUser(id: id);
   }
 
   @override
   Widget build(BuildContext context) {
     final authBloc = context.read<AuthBloc>();
-    return BlocProvider<ViewBloc>(
-      create: (context) => ViewBloc(),
+    final userId = _authService.currentUser!.id;
+    return BlocProvider<SettingsBloc>(
+      create: (context) => context.read<SettingsBloc>(),
       child: Scaffold(
-        // appBar: AppBar(
-        //   leading: IconButton(
-        //     onPressed: () {
-        //       context.read<ViewBloc>().add(
-        //             const ViewEventGoToHomePage(),
-        //           );
-        //     },
-        //     icon: const Icon(Icons.home),
-        //   ),
-        //   title: const Text('Settings'),
-        //   centerTitle: true,
-        //   actions: [
-        //     PopupMenuButton(
-        //       itemBuilder: (context) {
-        //         return const [
-        //           PopupMenuItem(
-        //             value: MenuAction.logout,
-        //             child: Text('Log out'),
-        //           )
-        //         ];
-        //       },
-        //       onSelected: (value) async {
-        //         switch (value) {
-        //           case MenuAction.logout:
-        //             final shouldLogOut = await showLogOutDialog(context);
-        //             if (shouldLogOut) {
-        //               viewBloc.add(
-        //                 const ViewEventGoToHomePage(),
-        //               );
-        //               authBloc.add(
-        //                 const AuthEventLogOut(),
-        //               );
-        //             }
-        //             break;
-        //           default:
-        //             break;
-        //         }
-        //       },
-        //     ),
-        //   ],
-        // ),
         body: ListView(
           children: [
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 40,
+                  ),
+                  child: FutureBuilder(
+                      future: getCurrentChatUser(id: userId),
+                      builder: (context, snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.done:
+                            return CircleAvatar(
+                              radius: 80,
+                              backgroundImage: NetworkImage(
+                                  snapshot.data?.profileImageUrl == ''
+                                      ? fallBackImage
+                                      : snapshot.data!.profileImageUrl),
+                            );
+                          default:
+                            return const CircleAvatar(
+                              radius: 80,
+                              backgroundImage: NetworkImage(fallBackImage),
+                            );
+                        }
+                      }),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
             Container(
               padding: const EdgeInsets.all(10),
               child: ListTile(
@@ -112,7 +143,9 @@ class _SettingsViewState extends State<SettingsView> {
                   Icons.arrow_forward_ios_rounded,
                   color: Colors.white,
                 ),
-                onTap: () {},
+                onTap: () async {
+                  await getImage();
+                },
               ),
             ),
             Container(

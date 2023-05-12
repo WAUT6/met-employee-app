@@ -18,31 +18,32 @@ class HomeMenuView extends StatefulWidget {
 class _HomeMenuViewState extends State<HomeMenuView> {
   late final FirebaseCloudStorage _cloudStorage;
   late final AuthService _authService;
+  final List<StatefulWidget> _views = <StatefulWidget>[];
 
   @override
   void initState() {
+    const itemsView = ItemsView();
+    final ordersView = OrdersView();
+    const usersView = UsersView();
+    const settingsView = SettingsView();
     _authService = AuthService.firebase();
     _cloudStorage = FirebaseCloudStorage();
     _cloudStorage.addCurrentAuthUserToChatUsers(
         userId: _authService.currentUser!.id);
+    _views.addAll([
+      itemsView,
+      ordersView,
+      usersView,
+      settingsView,
+    ]);
     super.initState();
   }
 
   int _index = 2;
-  final _views = const [
-    ItemsView(),
-    OrdersView(),
-    UsersView(),
-    SettingsView(),
-  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
       bottomNavigationBar: ConvexAppBar(
         initialActiveIndex: _index,
         onTap: (index) {

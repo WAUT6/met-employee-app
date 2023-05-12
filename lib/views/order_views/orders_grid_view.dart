@@ -14,53 +14,59 @@ class OrdersGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      padding: const EdgeInsets.all(10),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 20,
-        mainAxisSpacing: 30,
-      ),
-      itemCount: orders.length,
-      itemBuilder: (context, index) {
-        final order = orders.elementAt(index);
-        return InkWell(
-          onTap: () => onTap(order),
-          child: GridTile(
-            header: Text(
-              order.date,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.white, fontSize: 20),
-            ),
-            footer: Text(
-              order.orderId,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
+    final Size size = MediaQuery.of(context).size;
+    return SizedBox(
+      width: double.infinity,
+      height: size.height * 0.3,
+      child: GridView.builder(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.all(10),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 1,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 30,
+        ),
+        itemCount: orders.length,
+        itemBuilder: (context, index) {
+          final order = orders.elementAt(index);
+          return InkWell(
+            onTap: () => onTap(order),
+            child: GridTile(
+              header: Text(
+                order.date,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.white, fontSize: 20),
               ),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(30),
+              footer: Text(
+                order.orderId,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
               ),
-              padding: const EdgeInsets.all(16),
-              child: Center(
-                child: Text(
-                  order.customerId,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                    color: Colors.white,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                padding: const EdgeInsets.all(16),
+                child: Center(
+                  child: Text(
+                    order.customerId,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24,
+                      color: Colors.white,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
                 ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
