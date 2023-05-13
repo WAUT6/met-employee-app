@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:metapp/constants/themes.dart';
-import 'package:metapp/bloc/auth_bloc/auth_bloc.dart';
-import 'package:metapp/bloc/auth_bloc/auth_events.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:metapp/constants/themes.dart';
+// import 'package:metapp/bloc/auth_bloc/auth_bloc.dart';
+// import 'package:metapp/bloc/auth_bloc/auth_events.dart';
 
 class VerifyEmailView extends StatefulWidget {
   const VerifyEmailView({super.key});
@@ -14,7 +14,7 @@ class VerifyEmailView extends StatefulWidget {
 class _VerifyEmailViewState extends State<VerifyEmailView> {
   @override
   Widget build(BuildContext context) {
-    final authBloc = context.read<AuthBloc>();
+    // final authBloc = context.read<AuthBloc>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Verify email'),
@@ -22,10 +22,10 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
       ),
       body: Container(
         alignment: Alignment.center,
-        child: Column(
+        child: const Column(
           children: [
             Column(
-              children: const [
+              children: [
                 Text(
                   'An email verification has been sent to your email.',
                   style: TextStyle(
@@ -44,35 +44,12 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                 ),
               ],
             ),
-            const SizedBox(
+            SizedBox(
               height: 15,
               width: 15,
             ),
             Column(
-              children: [
-                genericNiceButton(
-                  context: context,
-                  text: 'Send email verification',
-                  funtion: (finish) {
-                    authBloc.add(
-                      const AuthEventSendEmailVerification(),
-                    );
-                  },
-                ),
-                const SizedBox(
-                  height: 15,
-                  width: 15,
-                ),
-                genericNiceButton(
-                  context: context,
-                  text: 'Restart',
-                  funtion: (finish) {
-                    authBloc.add(
-                      const AuthEventLogOut(),
-                    );
-                  },
-                ),
-              ],
+              children: [],
             )
           ],
         ),

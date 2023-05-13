@@ -7,9 +7,9 @@ import 'package:metapp/services/cloud/cloud_order.dart';
 import 'package:metapp/services/cloud/cloud_order_item.dart';
 import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'package:metapp/utilities/generics/get_arguments.dart';
-import 'package:metapp/utilities/pdf_converter/invoice_pdf.dart';
+// import 'package:metapp/utilities/pdf_converter/invoice_pdf.dart';
 import 'package:metapp/views/order_views/order_items_views/order_items_grid_view.dart';
-import 'package:pdf/pdf.dart';
+// import 'package:pdf/pdf.dart';
 
 class OrderItemsView extends StatefulWidget {
   const OrderItemsView({super.key});
@@ -68,14 +68,14 @@ class _OrderItemsViewState extends State<OrderItemsView> {
             ),
             IconButton(
               onPressed: () async {
-                final orderCustomerName =
-                    context.getArgument<CloudOrder>()!.customerId;
-                final InvoicePDF invoiceInstance = InvoicePDF(
-                  items: allOrderItems,
-                  customerName: orderCustomerName,
-                );
-                final pdfFile =
-                    await invoiceInstance.generateInvoice(PdfPageFormat.a4);
+                // final orderCustomerName =
+                //     context.getArgument<CloudOrder>()!.customerId;
+                // final InvoicePDF invoiceInstance = InvoicePDF(
+                //   items: allOrderItems,
+                //   customerName: orderCustomerName,
+                // );
+                // final pdfFile =
+                //     await invoiceInstance.generateInvoice(PdfPageFormat.a4);
               },
               icon: const Icon(Icons.share),
             ),

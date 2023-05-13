@@ -15,7 +15,6 @@ class FavoriteUsersListView extends StatelessWidget {
   });
 
 //TODO add feature add to favourites
-//TODO add on tap functionality in favorites list view
   @override
   Widget build(BuildContext context) {
     return ListView.builder(

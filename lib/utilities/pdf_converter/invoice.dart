@@ -61,8 +61,7 @@ class Invoice {
       'Packaging',
       'Quantity',
     ];
-
-    return pw.Table.fromTextArray(
+    return pw.TableHelper.fromTextArray(
       border: null,
       cellAlignment: pw.Alignment.centerLeft,
       headerDecoration: pw.BoxDecoration(

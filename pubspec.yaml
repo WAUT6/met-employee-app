@@ -40,10 +40,9 @@ dependencies:
   bloc: ^8.1.1
   flutter_bloc: ^8.1.2
   cloud_firestore: ^4.5.2
-  nice_buttons: ^0.0.2
   firebase_storage: ^11.1.1
   convex_bottom_bar: ^3.2.0
-  intl: ^0.17.0
+  intl: ^0.18.1
   fluttertoast: ^8.2.1
   image_picker: ^0.8.7+4
   pdf: ^3.10.1

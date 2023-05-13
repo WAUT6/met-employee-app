@@ -38,79 +38,37 @@ class _UsersViewState extends State<UsersView> {
         create: (context) => ChatBloc(ChatProvider()),
         child: Scaffold(
           backgroundColor: Colors.black,
-          // appBar: AppBar(
-          //   title: const Text('Chat'),
-          //   centerTitle: true,
-          //   leading: IconButton(
-          //     onPressed: () {
-          //       viewBloc.add(const ViewEventGoToHomePage());
-          //     },
-          //     icon: const Icon(
-          //       Icons.home,
-          //     ),
-          //   ),
-          //   actions: [
-          //     PopupMenuButton(
-          //       itemBuilder: (context) {
-          //         return const [
-          //           PopupMenuItem(
-          //             value: MenuAction.logout,
-          //             child: Text('Log out'),
-          //           )
-          //         ];
-          //       },
-          //       onSelected: (value) async {
-          //         switch (value) {
-          //           case MenuAction.logout:
-          //             final shouldLogOut = await showLogOutDialog(context);
-          //             if (shouldLogOut) {
-          //               chatBloc.add(
-          //                 const ChatEventWantToViewUsersPage(),
-          //               );
-          //               viewBloc.add(
-          //                 const ViewEventGoToHomePage(),
-          //               );
-          //               authBloc.add(
-          //                 const AuthEventLogOut(),
-          //               );
-          //             }
-          //             break;
-          //           default:
-          //             break;
-          //         }
-          //       },
-          //     ),
-          //   ],
-          // ),
           body: Column(
             children: [
               Container(
                 width: double.infinity,
                 height: 220,
-                color: Colors.black,
+                color: Colors.white,
                 child: Column(
                   children: [
                     const SizedBox(
                       height: 20,
                     ),
-                    const Center(
-                      child: Padding(
+                    Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      width: double.infinity,
+                      child: const Padding(
                         padding: EdgeInsets.only(
                           top: 20,
                           bottom: 10,
                         ),
                         child: Text(
+                          textAlign: TextAlign.center,
                           'Favorite Users',
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 5,
                     ),
                     StreamBuilder<Iterable<ChatUser>>(
                       stream: cloudStorage.allFavoriteUsers(
@@ -135,10 +93,38 @@ class _UsersViewState extends State<UsersView> {
                               final Iterable<ChatUser> allFavoriteUsers =
                                   snapshot.data as Iterable<ChatUser>;
                               return Expanded(
-                                child: FavoriteUsersListView(
-                                  onTap: (user) {},
-                                  currentUserId: currentUserId,
-                                  users: allFavoriteUsers,
+                                child: Container(
+                                  padding: const EdgeInsets.only(
+                                    top: 15,
+                                  ),
+                                  decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20),
+                                    ),
+                                    color: Colors.black,
+                                  ),
+                                  child: FavoriteUsersListView(
+                                    onTap: (user) {
+                                      context.read<ChatBloc>().add(
+                                            ChatEventWantToMessageUser(
+                                              receivingUser: user,
+                                              userId: currentUserId,
+                                            ),
+                                          );
+
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (_) => BlocProvider.value(
+                                            value: context.read<ChatBloc>(),
+                                            child: const ChatView(),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    currentUserId: currentUserId,
+                                    users: allFavoriteUsers,
+                                  ),
                                 ),
                               );
                             }
@@ -190,7 +176,8 @@ class _UsersViewState extends State<UsersView> {
                             return UsersListView(
                               currentUserId: currentUserId,
                               users: allUsers,
-                              onTap: (user) {
+                              onTapHeart: (user) {},
+                              onTapTile: (user) {
                                 context.read<ChatBloc>().add(
                                       ChatEventWantToMessageUser(
                                         receivingUser: user,
