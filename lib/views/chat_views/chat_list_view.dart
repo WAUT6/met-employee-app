@@ -48,7 +48,7 @@ class ChatListView extends StatelessWidget {
                   ),
                   width: 200,
                   decoration: BoxDecoration(
-                    color: Colors.purple,
+                    color: Colors.black,
                     borderRadius: BorderRadius.circular(15),
                   ),
                   margin: EdgeInsets.only(
@@ -98,7 +98,7 @@ class ChatListView extends StatelessWidget {
                             height: 200,
                             child: Center(
                               child: CircularProgressIndicator(
-                                color: Colors.purple,
+                                color: Colors.black,
                                 value: loadingProgress.expectedTotalBytes !=
                                         null
                                     ? loadingProgress.cumulativeBytesLoaded /
@@ -144,7 +144,7 @@ class ChatListView extends StatelessWidget {
                         ),
                         width: 200,
                         decoration: BoxDecoration(
-                          color: Colors.purple,
+                          color: Colors.black,
                           borderRadius: BorderRadius.circular(15),
                         ),
                         margin: const EdgeInsets.only(
@@ -185,7 +185,7 @@ class ChatListView extends StatelessWidget {
                                   height: 200,
                                   child: Center(
                                     child: CircularProgressIndicator(
-                                      color: Colors.purple,
+                                      color: Colors.black,
                                       value:
                                           loadingProgress.expectedTotalBytes !=
                                                   null

@@ -31,3 +31,7 @@ class CouldNotUpdateChatUserNickName implements Exception {}
 class CouldNotUpdateChatUserAboutMe implements Exception {}
 
 class CouldNotUpdateChatUserProfileUrl implements Exception {}
+
+class CouldNotAddUserToFavoritesCollection implements Exception {}
+
+class CouldNotDeleteUserFromFavoritesCollection implements Exception {}

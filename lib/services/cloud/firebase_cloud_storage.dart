@@ -431,6 +431,20 @@ class FirebaseCloudStorage {
         );
   }
 
+  Stream<Iterable<ChatUser>> allFavoriteUsers({
+    required String userId,
+  }) {
+    return users
+        .doc(userId)
+        .collection(FirestoreConstants.favoriteUsersCollectionPath)
+        .snapshots()
+        .map(
+          (event) => event.docs.map(
+            (snapshot) => ChatUser.fromSnapshot(snapshot),
+          ),
+        );
+  }
+
   Stream<Iterable<CloudOrderItem>> allOrderItems({
     required String orderId,
   }) {
@@ -443,6 +457,41 @@ class FirebaseCloudStorage {
             (doc) => CloudOrderItem.fromSnapshot(doc),
           ),
         );
+  }
+
+  Future<void> removeUserFromFavoriteUsers({
+    required String currentUserId,
+    required ChatUser user,
+  }) async {
+    try {
+      await users
+          .doc(currentUserId)
+          .collection(FirestoreConstants.favoriteUsersCollectionPath)
+          .doc(user.id)
+          .delete();
+    } catch (e) {
+      throw CouldNotDeleteUserFromFavoritesCollection();
+    }
+  }
+
+  Future<void> addUserToFavoriteUsers({
+    required String currentUserId,
+    required ChatUser user,
+  }) async {
+    try {
+      await users
+          .doc(currentUserId)
+          .collection(FirestoreConstants.favoriteUsersCollectionPath)
+          .doc(user.id)
+          .set({
+        FirestoreConstants.favoriteUserId: user.id,
+        FirestoreConstants.favoriteUserNickName: user.nickname,
+        FirestoreConstants.favoriteUserProfileUrl: user.profileImageUrl,
+        FirestoreConstants.favoriteUserAboutMe: user.aboutMe,
+      });
+    } catch (e) {
+      throw CouldNotAddUserToFavoritesCollection();
+    }
   }
 
   Future<void> addCurrentAuthUserToChatUsers({

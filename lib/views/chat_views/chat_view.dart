@@ -99,7 +99,7 @@ class _ChatViewState extends State<ChatView> {
               child: IconButton(
                 onPressed: getImage,
                 icon: const Icon(Icons.image),
-                color: Colors.purple,
+                color: Colors.black,
               ),
             ),
           ),
@@ -117,7 +117,7 @@ class _ChatViewState extends State<ChatView> {
                       ),
                     ),
                 icon: const Icon(Icons.send),
-                color: Colors.purple,
+                color: Colors.black,
               ),
             ),
           ),
@@ -173,8 +173,15 @@ class _ChatViewState extends State<ChatView> {
           readLocalData();
           return Scaffold(
             appBar: AppBar(
-              title: Text('Messaging ${state.receivingUser.nickname}'),
+              elevation: 0,
+              title: Text(
+                'Messaging ${state.receivingUser.nickname}',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               centerTitle: true,
+              backgroundColor: Colors.black,
             ),
             body: WillPopScope(
               onWillPop: () {

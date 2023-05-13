@@ -19,9 +19,9 @@ import 'package:metapp/views/auth_views/verify_email_view.dart';
 import 'package:metapp/views/order_views/create_new_order_view.dart';
 import 'package:metapp/views/order_views/order_items_views/create_update_order_item_view.dart';
 import 'package:metapp/views/order_views/order_items_views/order_items_view.dart';
-import 'package:path/path.dart';
 
 void main() {
+  final ThemeData theme = ThemeData();
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MultiBlocProvider(
@@ -46,27 +46,18 @@ void main() {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
-        theme: ThemeData(
+        theme: theme.copyWith(
           primaryColor: const Color.fromRGBO(
             243,
             243,
             243,
             1,
           ),
+          colorScheme: theme.colorScheme.copyWith(
+            secondary: Colors.black,
+          ),
         ),
-        home: MultiBlocProvider(
-          providers: [
-            BlocProvider<AuthBloc>(
-              create: (context) => AuthBloc(
-                AuthService.firebase(),
-              ),
-            ),
-            BlocProvider<ViewBloc>(
-              create: (context) => ViewBloc(),
-            ),
-          ],
-          child: const HomePage(),
-        ),
+        home: const HomePage(),
         routes: {
           createOrUpdateItemRoute: (context) => const CreateOrUpdateItemView(),
           viewOrderItemsRoute: (context) => const OrderItemsView(),

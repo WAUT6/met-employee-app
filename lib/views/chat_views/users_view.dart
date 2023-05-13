@@ -9,6 +9,7 @@ import 'package:metapp/services/chat/chat_provider.dart';
 import 'package:metapp/services/chat/chat_user.dart';
 import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'package:metapp/views/chat_views/chat_view.dart';
+import 'package:metapp/views/chat_views/favorite_users_list_view.dart';
 import 'package:metapp/views/chat_views/users_list_view.dart';
 
 class UsersView extends StatefulWidget {
@@ -36,6 +37,7 @@ class _UsersViewState extends State<UsersView> {
     return BlocProvider<ChatBloc>(
         create: (context) => ChatBloc(ChatProvider()),
         child: Scaffold(
+          backgroundColor: Colors.black,
           // appBar: AppBar(
           //   title: const Text('Chat'),
           //   centerTitle: true,
@@ -80,57 +82,145 @@ class _UsersViewState extends State<UsersView> {
           //     ),
           //   ],
           // ),
-          body: StreamBuilder<Iterable<ChatUser>>(
-            stream: cloudStorage.allUsers(),
-            builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.waiting:
-                case ConnectionState.active:
-                  if (!snapshot.hasData) {
-                    return const Scaffold(
-                      body: Center(
+          body: Column(
+            children: [
+              Container(
+                width: double.infinity,
+                height: 220,
+                color: Colors.black,
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          top: 20,
+                          bottom: 10,
+                        ),
                         child: Text(
-                          'No users yet',
+                          'Favorite Users',
                           style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
                         ),
                       ),
-                    );
-                  } else {
-                    final Iterable<ChatUser> allUsers =
-                        snapshot.data as Iterable<ChatUser>;
-                    // print(currentUserId);
-                    return UsersListView(
-                      currentUserId: currentUserId,
-                      users: allUsers,
-                      onTap: (user) {
-                        context.read<ChatBloc>().add(
-                              ChatEventWantToMessageUser(
-                                receivingUser: user,
-                                userId: currentUserId,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    StreamBuilder<Iterable<ChatUser>>(
+                      stream: cloudStorage.allFavoriteUsers(
+                        userId: currentUserId,
+                      ),
+                      builder: (context, snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.waiting:
+                          case ConnectionState.active:
+                            if (!snapshot.hasData) {
+                              return const Center(
+                                child: Text(
+                                  'No favorite users yet',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 34,
+                                  ),
+                                ),
+                              );
+                            } else {
+                              final Iterable<ChatUser> allFavoriteUsers =
+                                  snapshot.data as Iterable<ChatUser>;
+                              return Expanded(
+                                child: FavoriteUsersListView(
+                                  onTap: (user) {},
+                                  currentUserId: currentUserId,
+                                  users: allFavoriteUsers,
+                                ),
+                              );
+                            }
+                          default:
+                            return const Center(
+                              child: Text(
+                                'No favorite users yet',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 34,
+                                ),
                               ),
                             );
-
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => BlocProvider.value(
-                              value: context.read<ChatBloc>(),
-                              child: const ChatView(),
-                            ),
-                          ),
-                        );
+                        }
                       },
-                    );
-                  }
-                default:
-                  return const Scaffold(
-                    body: Center(
-                      child: CircularProgressIndicator(),
                     ),
-                  );
-              }
-            },
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: StreamBuilder<Iterable<ChatUser>>(
+                    stream: cloudStorage.allUsers(),
+                    builder: (context, snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.waiting:
+                        case ConnectionState.active:
+                          if (!snapshot.hasData) {
+                            return const Center(
+                              child: Text(
+                                'No users yet',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            );
+                          } else {
+                            final Iterable<ChatUser> allUsers =
+                                snapshot.data as Iterable<ChatUser>;
+                            // print(currentUserId);
+                            return UsersListView(
+                              currentUserId: currentUserId,
+                              users: allUsers,
+                              onTap: (user) {
+                                context.read<ChatBloc>().add(
+                                      ChatEventWantToMessageUser(
+                                        receivingUser: user,
+                                        userId: currentUserId,
+                                      ),
+                                    );
+
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => BlocProvider.value(
+                                      value: context.read<ChatBloc>(),
+                                      child: const ChatView(),
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                        default:
+                          return const Scaffold(
+                            body: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
         ));
   }

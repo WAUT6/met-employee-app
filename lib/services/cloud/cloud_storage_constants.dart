@@ -3,6 +3,7 @@ class FirestoreConstants {
   static const ordersCollectionPathName = 'orders';
   static const usersCollectionPathName = 'users';
   static const messagesCollectionPathName = 'messages';
+  static const favoriteUsersCollectionPath = 'favorite_users';
 
   static const itemNameFieldName = 'item_name';
   static const itemPriceFieldName = 'item_price';
@@ -25,4 +26,9 @@ class FirestoreConstants {
   static const idTo = 'id_to';
   static const time = 'time';
   static const chatType = 'content_type';
+
+  static const favoriteUserId = 'user_id';
+  static const favoriteUserNickName = 'nickname';
+  static const favoriteUserProfileUrl = 'profile_url';
+  static const favoriteUserAboutMe = 'about_me';
 }

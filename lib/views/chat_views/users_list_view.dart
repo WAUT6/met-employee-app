@@ -26,17 +26,42 @@ class UsersListView extends StatelessWidget {
         if (currentUserId == user.id) {
           return const SizedBox.shrink();
         } else {
-          return ListTile(
-            onTap: () => onTap(user),
-            leading: CircleAvatar(
-              radius: 25,
-              foregroundImage: user.profileImageUrl.isNotEmpty
-                  ? NetworkImage(user.profileImageUrl)
-                  : const NetworkImage(fallBackImage),
-            ),
-            title: Text(
-              user.nickname,
-              style: const TextStyle(color: Colors.white),
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(40),
+              ),
+              height: 100,
+              child: Center(
+                child: ListTile(
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                  ),
+                  onTap: () => onTap(user),
+                  leading: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    child: CircleAvatar(
+                      radius: 25,
+                      foregroundImage: user.profileImageUrl.isNotEmpty
+                          ? NetworkImage(user.profileImageUrl)
+                          : const NetworkImage(fallBackImage),
+                    ),
+                  ),
+                  title: Text(
+                    user.nickname,
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
             ),
           );
         }
