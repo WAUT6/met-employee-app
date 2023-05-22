@@ -21,4 +21,14 @@ class ChatStateCheckingUser extends ChatState {
   const ChatStateCheckingUser();
 }
 
-class ChatStateUnitialized extends ChatState {}
+class ChatStateUnitialized extends ChatState {
+  const ChatStateUnitialized();
+}
+
+class ChatStateAddingUserToFavorites extends ChatState {
+  const ChatStateAddingUserToFavorites();
+}
+
+class ChatStateRemovingUserFromFavorites extends ChatState {
+  const ChatStateRemovingUserFromFavorites();
+}

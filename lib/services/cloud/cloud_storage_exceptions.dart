@@ -35,3 +35,5 @@ class CouldNotUpdateChatUserProfileUrl implements Exception {}
 class CouldNotAddUserToFavoritesCollection implements Exception {}
 
 class CouldNotDeleteUserFromFavoritesCollection implements Exception {}
+
+class CouldNotCompleteFavoriteUserCheckChatException implements Exception {}

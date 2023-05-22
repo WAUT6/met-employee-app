@@ -12,6 +12,7 @@ import 'package:metapp/services/auth/auth_service.dart';
 import 'package:metapp/services/chat/chat_user.dart';
 import 'package:metapp/utilities/dialogs/logout_dialog.dart';
 import 'package:metapp/services/settings/settings_provider.dart';
+import 'package:metapp/utilities/dialogs/text_field_dialog.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -23,11 +24,15 @@ class SettingsView extends StatefulWidget {
 class _SettingsViewState extends State<SettingsView> {
   late final SettingsProvider _settingsProvider;
   late final AuthService _authService;
+  late final TextEditingController _nickNameController;
+  late final TextEditingController _aboutMeController;
   File? imageFile;
   @override
   void initState() {
     _authService = AuthService.firebase();
     _settingsProvider = SettingsProvider();
+    _nickNameController = TextEditingController();
+    _aboutMeController = TextEditingController();
     super.initState();
   }
 
@@ -68,7 +73,9 @@ class _SettingsViewState extends State<SettingsView> {
     final authBloc = context.read<AuthBloc>();
     final userId = _authService.currentUser!.id;
     return BlocProvider<SettingsBloc>(
-      create: (context) => context.read<SettingsBloc>(),
+      create: (context) {
+        return context.read<SettingsBloc>();
+      },
       child: Scaffold(
         body: ListView(
           children: [
@@ -98,104 +105,168 @@ class _SettingsViewState extends State<SettingsView> {
                         }
                       }),
                 ),
+                FutureBuilder(
+                  future: getCurrentChatUser(id: userId),
+                  builder: ((context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.done:
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                            top: 5,
+                            bottom: 40,
+                          ),
+                          child: Center(
+                            child: Text(
+                              (snapshot.data as ChatUser).nickname,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 30,
+                              ),
+                            ),
+                          ),
+                        );
+                      default:
+                        return const SizedBox(
+                          height: 86,
+                        );
+                    }
+                  }),
+                ),
               ],
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                    20,
+            Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  child: ListTile(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        20,
+                      ),
+                    ),
+                    tileColor: Colors.black,
+                    title: const Text(
+                      'Edit User Nickname',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: Colors.white,
+                    ),
+                    onTap: () async {
+                      final editNickname = await showTextFieldDialog(
+                        title: 'Edit Nickname',
+                        context: context,
+                        optionsBuilder: () => {
+                          'Done': true,
+                          'Cancel': false,
+                        },
+                        controller: _nickNameController,
+                      ).then((value) => value ?? false);
+                      if (editNickname && context.mounted) {
+                        BlocProvider.of<SettingsBloc>(context).add(
+                          SettingsEventUpdateUserNickName(
+                              nickName: _nickNameController.text,
+                              userId: userId),
+                        );
+                      }
+                    },
                   ),
                 ),
-                tileColor: Colors.black,
-                title: const Text(
-                  'Edit User Nickname',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(color: Colors.white),
-                ),
-                trailing: const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: Colors.white,
-                ),
-                onTap: () {},
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                    20,
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  child: ListTile(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        20,
+                      ),
+                    ),
+                    tileColor: Colors.black,
+                    style: ListTileStyle.list,
+                    title: const Text(
+                      'Edit User Profile Picture',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: Colors.white,
+                    ),
+                    onTap: () async {
+                      await getImage();
+                    },
                   ),
                 ),
-                tileColor: Colors.black,
-                style: ListTileStyle.list,
-                title: const Text(
-                  'Edit User Profile Picture',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(color: Colors.white),
-                ),
-                trailing: const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: Colors.white,
-                ),
-                onTap: () async {
-                  await getImage();
-                },
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                    20,
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  child: ListTile(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        20,
+                      ),
+                    ),
+                    tileColor: Colors.black,
+                    style: ListTileStyle.list,
+                    title: const Text(
+                      'Edit User About Me',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: Colors.white,
+                    ),
+                    onTap: () async {
+                      final editAboutMe = await showTextFieldDialog<bool>(
+                        context: context,
+                        title: 'Edit About Me',
+                        optionsBuilder: () => {
+                          'Done': true,
+                          'Cancel': false,
+                        },
+                        controller: _aboutMeController,
+                      ).then((value) => value ?? false);
+                      if (editAboutMe && context.mounted) {
+                        BlocProvider.of<SettingsBloc>(context).add(
+                          SettingsEventUpdateUserAboutMe(
+                            aboutMe: _aboutMeController.text,
+                            userId: userId,
+                          ),
+                        );
+                      }
+                    },
                   ),
                 ),
-                tileColor: Colors.black,
-                style: ListTileStyle.list,
-                title: const Text(
-                  'Edit User About Me',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(color: Colors.white),
-                ),
-                trailing: const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: Colors.white,
-                ),
-                onTap: () {},
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                    20,
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  child: ListTile(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        20,
+                      ),
+                    ),
+                    tileColor: Colors.black,
+                    style: ListTileStyle.list,
+                    title: const Text(
+                      'Log Out',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: Colors.white,
+                    ),
+                    onTap: () async {
+                      final logOut = await showLogOutDialog(context);
+                      if (logOut) {
+                        authBloc.add(const AuthEventLogOut());
+                      }
+                    },
                   ),
                 ),
-                tileColor: Colors.black,
-                style: ListTileStyle.list,
-                title: const Text(
-                  'Log Out',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(color: Colors.white),
-                ),
-                trailing: const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: Colors.white,
-                ),
-                onTap: () async {
-                  final logOut = await showLogOutDialog(context);
-                  if (logOut) {
-                    authBloc.add(const AuthEventLogOut());
-                  }
-                },
-              ),
+              ],
             ),
           ],
         ),

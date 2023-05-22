@@ -176,7 +176,6 @@ class _UsersViewState extends State<UsersView> {
                             return UsersListView(
                               currentUserId: currentUserId,
                               users: allUsers,
-                              onTapHeart: (user) {},
                               onTapTile: (user) {
                                 context.read<ChatBloc>().add(
                                       ChatEventWantToMessageUser(

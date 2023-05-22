@@ -61,3 +61,23 @@ class ChatEventCheckCurrentUserInCollection extends ChatEvent {
 class ChatEventInitialize extends ChatEvent {
   const ChatEventInitialize();
 }
+
+class ChatEventAddUserToFavorites extends ChatEvent {
+  final ChatUser user;
+  final String currentUserId;
+
+  const ChatEventAddUserToFavorites({
+    required this.user,
+    required this.currentUserId,
+  });
+}
+
+class ChatEventRemoveUserFromFavorites extends ChatEvent {
+  final ChatUser user;
+  final String currentUserId;
+
+  const ChatEventRemoveUserFromFavorites({
+    required this.user,
+    required this.currentUserId,
+  });
+}

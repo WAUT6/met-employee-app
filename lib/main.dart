@@ -78,13 +78,10 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final authBloc = context.read<AuthBloc>();
     authBloc.add(const AuthEventInitialize());
-    // final chatBloc = context.read<ChatBloc>();
-    // chatBloc.add(const ChatEventInitialize());
+
     return BlocConsumer<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state is AuthStateLoggedIn) {
-          // chatBloc.add(
-          //     ChatEventCheckCurrentUserInCollection(userId: state.user.id));
           return const HomeMenuView();
         } else if (state is AuthStateNeedsVerification) {
           return const VerifyEmailView();
@@ -97,8 +94,9 @@ class HomePage extends StatelessWidget {
             body: Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage('assets/images/black_background.jpeg'),
-                    fit: BoxFit.cover),
+                  image: AssetImage('assets/images/black_background.jpeg'),
+                  fit: BoxFit.cover,
+                ),
               ),
               child: const Center(
                 child: CircularProgressIndicator(),

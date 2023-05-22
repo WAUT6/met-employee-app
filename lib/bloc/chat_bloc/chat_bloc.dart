@@ -63,6 +63,28 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       },
     );
 
+    on<ChatEventRemoveUserFromFavorites>(
+      (event, emit) async {
+        emit(const ChatStateRemovingUserFromFavorites());
+        await provider.removeUserFromFavorites(
+          user: event.user,
+          currentUserId: event.currentUserId,
+        );
+        emit(const ChatStateViewingUsersPage());
+      },
+    );
+
+    on<ChatEventAddUserToFavorites>(
+      (event, emit) async {
+        emit(const ChatStateAddingUserToFavorites());
+        await provider.addUserToFavorites(
+          user: event.user,
+          currentUserId: event.currentUserId,
+        );
+        emit(const ChatStateViewingUsersPage());
+      },
+    );
+
     on<ChatEventWantToViewUsersPage>(
       (event, emit) {
         emit(const ChatStateViewingUsersPage());

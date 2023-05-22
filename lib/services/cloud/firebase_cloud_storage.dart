@@ -494,6 +494,27 @@ class FirebaseCloudStorage {
     }
   }
 
+  Future<bool> checkIfUserInFavorites({
+    required String userId,
+    required String currentUserId,
+  }) async {
+    final allFavorites = allFavoriteUsers(userId: currentUserId);
+    List<ChatUser> list = List.empty();
+    final Iterable<ChatUser> iter;
+    try {
+      iter = await allFavorites.first;
+      list = iter.toList();
+      for (int i = 0; i < list.length; i++) {
+        if (list.elementAt(i).id == userId) {
+          return true;
+        }
+      }
+      return false;
+    } catch (e) {
+      throw CouldNotCompleteFavoriteUserCheckChatException();
+    }
+  }
+
   Future<void> addCurrentAuthUserToChatUsers({
     required String userId,
   }) async {

@@ -14,7 +14,6 @@ class FavoriteUsersListView extends StatelessWidget {
     required this.users,
   });
 
-//TODO add feature add to favourites
   @override
   Widget build(BuildContext context) {
     return ListView.builder(

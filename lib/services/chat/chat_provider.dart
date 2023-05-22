@@ -6,6 +6,8 @@ import 'package:metapp/services/chat/chat_message.dart';
 import 'package:metapp/services/cloud/cloud_storage_constants.dart';
 import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 
+import 'chat_user.dart';
+
 class ChatProvider {
   final FirebaseStorage storage = FirebaseStorage.instance;
   final FirebaseFirestore cloudStorage = FirebaseFirestore.instance;
@@ -52,5 +54,21 @@ class ChatProvider {
         );
       },
     );
+  }
+
+  Future<void> addUserToFavorites({
+    required ChatUser user,
+    required String currentUserId,
+  }) async {
+    await _cloudStorage.addUserToFavoriteUsers(
+        currentUserId: currentUserId, user: user);
+  }
+
+  Future<void> removeUserFromFavorites({
+    required ChatUser user,
+    required String currentUserId,
+  }) async {
+    _cloudStorage.removeUserFromFavoriteUsers(
+        currentUserId: currentUserId, user: user);
   }
 }

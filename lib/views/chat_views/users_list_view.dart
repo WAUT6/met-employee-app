@@ -1,38 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:metapp/constants/themes.dart';
 import 'package:metapp/services/chat/chat_user.dart';
+import 'package:metapp/widgets/heart_widget.dart';
 
 typedef UserTapCallBack = void Function(ChatUser user);
 
-class UsersListView extends StatelessWidget {
+class UsersListView extends StatefulWidget {
   final Iterable<ChatUser> users;
   final UserTapCallBack onTapTile;
-  final UserTapCallBack onTapHeart;
   final String currentUserId;
 
   const UsersListView({
     super.key,
     required this.users,
     required this.onTapTile,
-    required this.onTapHeart,
     required this.currentUserId,
   });
+
+  @override
+  State<UsersListView> createState() => _UsersListViewState();
+}
+
+class _UsersListViewState extends State<UsersListView> {
+  Widget? heart;
+  ChatUser? user;
+
+  void setHeart(
+    Widget snapHeart,
+  ) {
+    setState(() {
+      heart = snapHeart;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       padding: const EdgeInsets.all(10),
-      itemCount: users.length,
+      itemCount: widget.users.length,
       itemBuilder: (context, index) {
-        final user = users.elementAt(index);
-        if (currentUserId == user.id) {
+        user = widget.users.elementAt(index);
+        if (widget.currentUserId == user!.id) {
           return const SizedBox.shrink();
         } else {
           return Padding(
             padding: const EdgeInsets.only(bottom: 12.0),
             child: GestureDetector(
               onTap: () {
-                onTapTile(user);
+                widget.onTapTile(user!);
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -52,15 +72,9 @@ class UsersListView extends StatelessWidget {
                         margin: const EdgeInsets.symmetric(
                           horizontal: 10,
                         ),
-                        child: IconButton(
-                          onPressed: () {
-                            onTapHeart(user);
-                          },
-                          icon: const Image(
-                            color: Colors.white,
-                            image: AssetImage('assets/images/heart.png'),
-                          ),
-                        ),
+                        child: HeartWidget(
+                            currentUserId: widget.currentUserId,
+                            favoriteUser: user!),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -75,8 +89,8 @@ class UsersListView extends StatelessWidget {
                             ),
                             child: CircleAvatar(
                               radius: 25,
-                              foregroundImage: user.profileImageUrl.isNotEmpty
-                                  ? NetworkImage(user.profileImageUrl)
+                              foregroundImage: user!.profileImageUrl.isNotEmpty
+                                  ? NetworkImage(user!.profileImageUrl)
                                   : const NetworkImage(fallBackImage),
                             ),
                           ),
@@ -84,7 +98,7 @@ class UsersListView extends StatelessWidget {
                             width: 10,
                           ),
                           Text(
-                            user.nickname,
+                            user!.nickname,
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16,
