@@ -41,10 +41,32 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       },
     );
 
+    on<ChatEventSendMessages>(
+      (event, emit) async {
+        UploadTask uploadTask = provider.uploadFile(
+          file: event.file,
+          fileName: DateTime.now().millisecondsSinceEpoch.toString(),
+        );
+        try {
+          TaskSnapshot snapshot = await uploadTask;
+          String fileUrl = await snapshot.ref.getDownloadURL();
+          provider.sendPdfAsMessages(
+            fileUrl,
+            event.userId,
+            event.receivingUsers,
+            ChatMessageType.image,
+          );
+          emit(const ChatStateViewingUsersPage());
+        } catch (e) {
+          Fluttertoast.showToast(msg: 'Could not upload file.');
+        }
+      },
+    );
+
     on<ChatEventUploadFile>(
       (event, emit) async {
         UploadTask uploadTask = provider.uploadFile(
-          image: event.imageFile,
+          file: event.imageFile,
           fileName: event.fileName,
         );
         try {
@@ -90,11 +112,5 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         emit(const ChatStateViewingUsersPage());
       },
     );
-
-    // on<ChatEventInitialize>(
-    //   (event, emit) async {
-    //     await chatProvider.initializeChatProvider();
-    //   },
-    // );
   }
 }

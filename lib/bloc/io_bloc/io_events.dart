@@ -12,3 +12,12 @@ class IoEventWantsToDownloadOrderAsPdf extends IoEvent {
     required this.items,
   });
 }
+
+class IoEventWantsToShareOrderAsPdf extends IoEvent {
+  final String customerName;
+  final Iterable<CloudOrderItem> items;
+  const IoEventWantsToShareOrderAsPdf({
+    required this.customerName,
+    required this.items,
+  });
+}

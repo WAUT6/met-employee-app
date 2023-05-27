@@ -9,7 +9,6 @@ import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'chat_user.dart';
 
 class ChatProvider {
-  final FirebaseStorage storage = FirebaseStorage.instance;
   final FirebaseFirestore cloudStorage = FirebaseFirestore.instance;
   final FirebaseCloudStorage _cloudStorage = FirebaseCloudStorage();
 
@@ -17,11 +16,52 @@ class ChatProvider {
   ChatProvider._sharedInstance();
   factory ChatProvider() => _shared;
 
-  UploadTask uploadFile({required File image, required String fileName}) {
+  UploadTask uploadFile({required File file, required String fileName}) {
     return _cloudStorage.uploadFile(
-      image,
+      file,
       fileName,
     );
+  }
+
+  String setGroupId(String idFrom, String idTo) {
+    if (idFrom.compareTo(idTo) > 0) {
+      return '$idFrom-$idTo';
+    } else {
+      return '$idTo-$idFrom';
+    }
+  }
+
+  void sendPdfAsMessages(
+    String content,
+    String idFrom,
+    List<ChatUser> receivingUsers,
+    int contentType,
+  ) {
+    for (var i = 0; i < receivingUsers.length; i++) {
+      final String groupId = setGroupId(idFrom, receivingUsers[i].id);
+      DocumentReference reference = cloudStorage
+          .collection(FirestoreConstants.messagesCollectionPathName)
+          .doc(groupId)
+          .collection(groupId)
+          .doc(DateTime.now().millisecondsSinceEpoch.toString());
+
+      ChatMessage message = ChatMessage(
+        idFrom: idFrom,
+        idTo: receivingUsers[i].id,
+        content: content,
+        contentType: contentType,
+        timeStamp: DateTime.now().millisecondsSinceEpoch.toString(),
+      );
+
+      cloudStorage.runTransaction(
+        (transaction) async {
+          transaction.set(
+            reference,
+            message.messageToJson(),
+          );
+        },
+      );
+    }
   }
 
   void sendMessage(

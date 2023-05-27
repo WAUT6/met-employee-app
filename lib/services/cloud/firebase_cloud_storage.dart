@@ -27,9 +27,9 @@ class FirebaseCloudStorage {
   FirebaseCloudStorage._sharedInstance();
   factory FirebaseCloudStorage() => _shared;
 
-  UploadTask uploadFile(File image, String fileName) {
+  UploadTask uploadFile(File file, String fileName) {
     Reference reference = storage.ref().child(fileName);
-    UploadTask uploadTask = reference.putFile(image);
+    UploadTask uploadTask = reference.putFile(file);
     return uploadTask;
   }
 

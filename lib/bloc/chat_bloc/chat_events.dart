@@ -21,6 +21,18 @@ class ChatEventWantToMessageUser extends ChatEvent {
   });
 }
 
+class ChatEventSendMessages extends ChatEvent {
+  final File file;
+  final String userId;
+  final List<ChatUser> receivingUsers;
+
+  const ChatEventSendMessages({
+    required this.file,
+    required this.userId,
+    required this.receivingUsers,
+  });
+}
+
 class ChatEventSendTextMessage extends ChatEvent {
   final TextEditingController controller;
   final String userId;

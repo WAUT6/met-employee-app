@@ -21,10 +21,6 @@ class IoBloc extends Bloc<IoEvent, IoState> {
           final pdfFile =
               await invoiceInstance.generateInvoice(PdfPageFormat.a4);
 
-          // Printing.sharePdf(
-          //   bytes: pdfFile,
-          //   filename: "${event.customerName}.pdf",
-          // );
           final directory = await getExternalStorageDirectory();
           final file = File("${directory?.path}/${event.customerName}.pdf");
           final fileWritten = await file.writeAsBytes(pdfFile);
@@ -36,16 +32,29 @@ class IoBloc extends Bloc<IoEvent, IoState> {
             'appliation/pdf',
           );
 
-          // final output = (await getApplicationDocumentsDirectory()).path;
-          // print(output);
-          // final file = File("$output/);
-          // await file.writeAsBytes(pdfFile).whenComplete(
-          //       () => emit(
-          //         const IoStateInitialized(),
-          //       ),
-          //     );
           emit(
             const IoStateInitialized(),
+          );
+        } catch (e) {
+          emit(const IoStateInitialized());
+        }
+      },
+    );
+
+    on<IoEventWantsToShareOrderAsPdf>(
+      (event, emit) async {
+        try {
+          final invoice = InvoicePDF(
+            items: event.items,
+            customerName: event.customerName,
+          );
+
+          final pdfFile = await invoice.generateInvoice(PdfPageFormat.a4);
+          final directory = await getExternalStorageDirectory();
+          final file = File("${directory?.path}/${event.customerName}.pdf");
+          final fileWritten = await file.writeAsBytes(pdfFile);
+          emit(
+            IoStateAwaitingUserSelection(pdf: fileWritten),
           );
         } catch (e) {
           emit(const IoStateInitialized());
