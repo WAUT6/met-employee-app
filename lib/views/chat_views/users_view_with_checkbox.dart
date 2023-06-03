@@ -1,17 +1,13 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:metapp/bloc/chat_bloc/chat_bloc.dart';
 import 'package:metapp/bloc/chat_bloc/chat_events.dart';
-import 'package:metapp/bloc/chat_bloc/chat_states.dart';
 import 'package:metapp/bloc/io_bloc/io_bloc.dart';
 import 'package:metapp/bloc/io_bloc/io_states.dart';
 import 'package:metapp/bloc/share_bloc/share_bloc.dart';
 
 import 'package:metapp/services/auth/auth_service.dart';
-import 'package:metapp/services/chat/chat_provider.dart';
 import 'package:metapp/services/chat/chat_user.dart';
 import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'package:metapp/views/chat_views/users_list_view_with_checkbox.dart';
@@ -35,12 +31,6 @@ class _UsersViewWithCheckBoxState extends State<UsersViewWithCheckBox> {
     currentUserId = authService.currentUser!.id;
     super.initState();
   }
-
-  onButtonPressed({
-    required BuildContext context,
-    required List<ChatUser> users,
-    required File file,
-  }) {}
 
   @override
   void dispose() {
@@ -91,13 +81,14 @@ class _UsersViewWithCheckBoxState extends State<UsersViewWithCheckBox> {
                     padding: const EdgeInsets.only(right: 10),
                     child: StreamBuilder(
                       stream: context.read<ShareBloc>().selectedUsersStream,
-                      builder: (_, snapshot) {
+                      builder: (context, snapshot) {
                         switch (snapshot.connectionState) {
+                          case ConnectionState.waiting:
                           case ConnectionState.active:
                             final selectedUsers = snapshot.data ?? [];
 
                             return BlocBuilder<IoBloc, IoState>(
-                              builder: (_, state) {
+                              builder: (context, state) {
                                 if (state is IoStateAwaitingUserSelection) {
                                   return ElevatedButton(
                                     style: ElevatedButton.styleFrom(
@@ -109,7 +100,7 @@ class _UsersViewWithCheckBoxState extends State<UsersViewWithCheckBox> {
                                         backgroundColor: Colors.white),
                                     onPressed: selectedUsers.isEmpty
                                         ? null
-                                        : () =>
+                                        : () {
                                             BlocProvider.of<ChatBloc>(context)
                                                 .add(
                                               ChatEventSendMessages(
@@ -117,7 +108,9 @@ class _UsersViewWithCheckBoxState extends State<UsersViewWithCheckBox> {
                                                 receivingUsers: selectedUsers,
                                                 file: state.pdf,
                                               ),
-                                            ),
+                                            );
+                                            Navigator.pop(context);
+                                          },
                                     child: const Text(
                                       'Done',
                                       style: TextStyle(

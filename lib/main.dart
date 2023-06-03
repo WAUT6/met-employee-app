@@ -23,7 +23,7 @@ import 'package:metapp/views/auth_views/verify_email_view.dart';
 import 'package:metapp/views/order_views/create_new_order_view.dart';
 import 'package:metapp/views/order_views/order_items_views/create_update_order_item_view.dart';
 import 'package:metapp/views/order_views/order_items_views/order_items_view.dart';
-import 'package:path/path.dart';
+import 'package:metapp/widgets/pdf_widget.dart';
 
 void main() {
   final ThemeData theme = ThemeData();
@@ -79,6 +79,7 @@ void main() {
           createNewOrderRoute: (context) => const CreateNewOrderView(),
           messageUserRoute: (context) => const ChatView(),
           selectUsersRoute: (context) => const UsersViewWithCheckBox(),
+          viewPdfRoute: (context) => const PdfWidget(),
         },
       ),
     ),

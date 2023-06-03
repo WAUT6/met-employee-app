@@ -54,7 +54,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
             fileUrl,
             event.userId,
             event.receivingUsers,
-            ChatMessageType.image,
+            ChatMessageType.file,
           );
           emit(const ChatStateViewingUsersPage());
         } catch (e) {

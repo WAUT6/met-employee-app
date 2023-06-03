@@ -19,29 +19,28 @@ class UsersListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ChatUser? user;
     return ListView.builder(
       padding: const EdgeInsets.all(10),
       itemCount: users.length,
       itemBuilder: (context, index) {
-        user = users.elementAt(index);
-        if (currentUserId == user!.id) {
+        final user = users.elementAt(index);
+        if (currentUserId == user.id) {
           return const SizedBox.shrink();
         } else {
-          return Container(
-            margin: const EdgeInsets.only(
-              bottom: 10,
-            ),
-            width: 300,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.circular(40),
-            ),
-            height: 100,
-            child: GestureDetector(
-              onTap: () {
-                onTapTile(user!);
-              },
+          return GestureDetector(
+            onTap: () {
+              return onTapTile(user);
+            },
+            child: Container(
+              margin: const EdgeInsets.only(
+                bottom: 10,
+              ),
+              width: 300,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(40),
+              ),
+              height: 100,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -50,7 +49,7 @@ class UsersListView extends StatelessWidget {
                       horizontal: 10,
                     ),
                     child: HeartWidget(
-                        currentUserId: currentUserId, favoriteUser: user!),
+                        currentUserId: currentUserId, favoriteUser: user),
                   ),
                   Row(
                     children: [
@@ -64,8 +63,8 @@ class UsersListView extends StatelessWidget {
                         ),
                         child: CircleAvatar(
                           radius: 25,
-                          foregroundImage: user!.profileImageUrl.isNotEmpty
-                              ? NetworkImage(user!.profileImageUrl)
+                          foregroundImage: user.profileImageUrl.isNotEmpty
+                              ? NetworkImage(user.profileImageUrl)
                               : const NetworkImage(fallBackImage),
                         ),
                       ),
@@ -73,7 +72,7 @@ class UsersListView extends StatelessWidget {
                         width: 10,
                       ),
                       Text(
-                        user!.nickname,
+                        user.nickname,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
