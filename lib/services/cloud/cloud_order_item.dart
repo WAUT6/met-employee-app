@@ -6,8 +6,10 @@ class CloudOrderItem {
   final String itemName;
   final String packaging;
   final String quantity;
+  final bool isReady;
 
   const CloudOrderItem({
+    required this.isReady,
     required this.id,
     required this.itemName,
     required this.packaging,
@@ -23,7 +25,17 @@ class CloudOrderItem {
             .data()[FirestoreConstants.orderItemsPackagingFieldName] as String,
         quantity =
             snapshot.data()[FirestoreConstants.orderItemsItemQuantityFieldName]
-                as String;
+                as String,
+        isReady = snapshot.data()[FirestoreConstants.orderItemsIsReadyFieldName] as bool;
+
+  Map<String, dynamic> orderItemToJson() {
+    return {
+      FirestoreConstants.orderItemsItemNameFieldName: itemName,
+      FirestoreConstants.orderItemsItemQuantityFieldName: quantity,
+      FirestoreConstants.orderItemsPackagingFieldName: packaging,
+      FirestoreConstants.orderItemsIsReadyFieldName: isReady,
+    };
+  }
 
   String getIndex(int index) {
     switch (index) {

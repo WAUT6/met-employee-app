@@ -12,7 +12,7 @@ class CloudItem {
     required this.price,
   });
 
-  CloudItem.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
+  CloudItem.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot,)
       : documentId = snapshot.id,
         name = snapshot.data()[FirestoreConstants.itemNameFieldName] as String,
         price =

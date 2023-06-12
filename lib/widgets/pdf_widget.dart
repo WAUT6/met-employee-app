@@ -10,7 +10,6 @@ class PdfWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final url = context.getArgument<String>() as String;
-    print(url);
     return Scaffold(
       appBar: AppBar(
         title: const Text('PDF'),

@@ -34,6 +34,8 @@ class _OrderItemsViewState extends State<OrderItemsView> {
       create: (context) => IoBloc(),
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.black,
+          elevation: 0,
           centerTitle: true,
           title: const Text('Order Items'),
           actions: [
@@ -103,6 +105,7 @@ class _OrderItemsViewState extends State<OrderItemsView> {
                 } else {
                   allOrderItems = snapshot.data as Iterable<CloudOrderItem>;
                   return OrderItemsGridView(
+                    orderId: _orderId,
                     orderItems: allOrderItems,
                     onTap: (item) {
                       Navigator.pushNamed(

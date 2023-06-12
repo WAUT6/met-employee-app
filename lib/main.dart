@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:metapp/bloc/chat_bloc/chat_bloc.dart';
 import 'package:metapp/bloc/io_bloc/io_bloc.dart';
+import 'package:metapp/bloc/orders_bloc/orders_bloc.dart';
 import 'package:metapp/bloc/settings_bloc/bloc/bloc/bloc/settings_bloc.dart';
 import 'package:metapp/bloc/share_bloc/share_bloc.dart';
 import 'package:metapp/constants/routes.dart';
@@ -12,6 +13,7 @@ import 'package:metapp/bloc/auth_bloc/auth_events.dart';
 import 'package:metapp/bloc/auth_bloc/auth_states.dart';
 import 'package:metapp/bloc/view_bloc/view_bloc.dart';
 import 'package:metapp/services/chat/chat_provider.dart';
+import 'package:metapp/services/cloud/orders_provider.dart';
 import 'package:metapp/services/settings/settings_provider.dart';
 import 'package:metapp/views/chat_views/chat_view.dart';
 import 'package:metapp/views/chat_views/users_view_with_checkbox.dart';
@@ -55,6 +57,7 @@ void main() {
             ChatProvider(),
           ),
         ),
+        BlocProvider(create: (context) => OrdersBloc(OrdersProvider(),),),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

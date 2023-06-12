@@ -31,57 +31,85 @@ class _OrdersViewState extends State<OrdersView> {
   Widget build(BuildContext context) {
     return BlocProvider<ViewBloc>(
       create: (context) => context.read<ViewBloc>(),
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  createNewOrderRoute,
-                );
-              },
-              icon: const Icon(
-                Icons.add,
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text(
+              'Orders',
+              style: TextStyle(
                 color: Colors.black,
+                fontSize: 22,
               ),
             ),
-          ],
-        ),
-        body: StreamBuilder(
-          stream: _cloudStorage.allOrders(50),
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-              case ConnectionState.active:
-                if (!snapshot.hasData) {
-                  return const Scaffold(
-                    body: Center(
-                      child: Text(
-                        'No orders yet',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
+            centerTitle: true,
+            elevation: 0.3,
+            backgroundColor: Colors.white,
+            actions: [
+              IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    createNewOrderRoute,
                   );
-                } else {
-                  final allOrders = snapshot.data as Iterable<CloudOrder>;
-                  return OrdersGridView(
-                    orders: allOrders,
-                    onTap: (order) {
-                      Navigator.pushNamed(context, viewOrderItemsRoute,
-                          arguments: order);
-                    },
-                  );
-                }
-              default:
-                return const Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-            }
-          },
+                },
+                icon: const Icon(
+                  Icons.add,
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+          body: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 5,),
+            padding: const EdgeInsets.all(5),
+            height: 220,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                  10,
+                ),
+              ),
+              child: StreamBuilder(
+                stream: _cloudStorage.allOrders(50),
+                builder: (context, snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                    case ConnectionState.active:
+                      if (!snapshot.hasData) {
+                        return const Scaffold(
+                          body: Center(
+                            child: Text(
+                              'No orders yet',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        );
+                      } else {
+                        final allOrders = snapshot.data as Iterable<CloudOrder>;
+                        return OrdersGridView(
+                          orders: allOrders,
+                          onTap: (order) {
+                            Navigator.pushNamed(context, viewOrderItemsRoute,
+                                arguments: order);
+                          },
+                        );
+                      }
+                    default:
+                      return const Scaffold(
+                        body: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                  }
+                },
+              ),
+            ),
+          ),
         ),
       ),
     );

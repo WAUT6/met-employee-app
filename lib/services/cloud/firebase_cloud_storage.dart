@@ -5,13 +5,17 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:metapp/services/chat/chat_exceptions.dart';
 import 'package:metapp/services/chat/chat_message.dart';
 import 'package:metapp/services/chat/chat_user.dart';
+import 'package:metapp/services/cloud/cloud_category.dart';
 import 'package:metapp/services/cloud/cloud_item.dart';
 import 'package:metapp/services/cloud/cloud_order.dart';
 import 'package:metapp/services/cloud/cloud_order_item.dart';
 import 'package:metapp/services/cloud/cloud_storage_constants.dart';
 import 'package:metapp/services/cloud/cloud_storage_exceptions.dart';
 
+import 'cloud_category_item.dart';
+
 class FirebaseCloudStorage {
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseStorage storage = FirebaseStorage.instance;
   final items = FirebaseFirestore.instance
       .collection(FirestoreConstants.itemsCollectionPathName);
@@ -21,6 +25,7 @@ class FirebaseCloudStorage {
       .collection(FirestoreConstants.usersCollectionPathName);
   final messages = FirebaseFirestore.instance
       .collection(FirestoreConstants.messagesCollectionPathName);
+  final categories = FirebaseFirestore.instance.collection(FirestoreConstants.categoriesCollectionPathName);
 
   static final FirebaseCloudStorage _shared =
       FirebaseCloudStorage._sharedInstance();
@@ -189,24 +194,26 @@ class FirebaseCloudStorage {
   Future<CloudOrderItem> createNewOrderItem({
     required String orderId,
   }) async {
-    final document = await orders
+    final document = orders
         .doc(orderId)
         .collection(FirestoreConstants.orderItemsCollectionFieldName)
-        .add(
-      {
-        FirestoreConstants.orderItemsItemNameFieldName: '',
-        FirestoreConstants.orderItemsItemQuantityFieldName: '',
-        FirestoreConstants.orderItemsPackagingFieldName: '',
-      },
-    );
+        .doc(DateTime.now().millisecondsSinceEpoch.toString());
 
-    final fetchedItem = await document.get();
-    return CloudOrderItem(
-      id: fetchedItem.id,
+
+    final item = CloudOrderItem(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
       itemName: '',
       packaging: '',
       quantity: '',
+      isReady: false,
     );
+
+    await firestore.runTransaction((transaction) async {
+      transaction.set(document, item.orderItemToJson());
+    });
+
+   return item;
+
   }
 
   Future<CloudItem> createNewItem() async {
@@ -308,6 +315,17 @@ class FirebaseCloudStorage {
     }
   }
 
+  Future<void> updateOrderItemIsReady({required String orderId, required String documentId, required bool isReady,}) async {
+    try {
+      await orders.doc(orderId).collection(FirestoreConstants.orderItemsCollectionFieldName).doc(documentId).update(
+          {
+            FirestoreConstants.orderItemsIsReadyFieldName: isReady,
+          });
+    } catch (e) {
+      throw CouldNotUpdateOrderItemIsReadyException();
+    }
+  }
+
   Future<void> updateOrderItem({
     required String orderId,
     required String documentId,
@@ -396,6 +414,59 @@ class FirebaseCloudStorage {
               (doc) => ChatMessage.fromDocument(doc),
             ),
           );
+
+  Future<void> deleteItemFromCategory({required CloudCategory category, required CloudItem item,}) async {
+    try {
+      await categories.doc(category.categoryName).collection(FirestoreConstants.categoryItemsCollectionPathName).doc(item.documentId).delete();
+    } catch (e) {
+      throw CouldNotDeleteItemFromCategoryException();
+    }
+  }
+
+  Future<void> updateCategoryItemName({required CloudCategory category, required CloudItem item, required String name,}) async {
+    try {
+      await categories.doc(category.categoryName).collection(FirestoreConstants.categoryItemsCollectionPathName).doc(item.documentId).update({
+        FirestoreConstants.itemNameFieldName : name,
+      });
+    } catch (e) {
+      throw CouldNotUpdateCategoryItemNameException();
+    }
+  }
+
+  Future<void> updateCategoryItemPrice({required CloudCategory category, required CloudItem item, required String price,}) async {
+    try {
+      await categories.doc(category.categoryName).collection(FirestoreConstants.categoryItemsCollectionPathName).doc(item.documentId).update({
+        FirestoreConstants.itemPriceFieldName : price,
+      });
+    } catch (e) {
+      throw CouldNotUpdateCategoryItemPriceException();
+    }
+  }
+
+  Future<void> addItemToCategory({required CloudCategory category, required CloudItem item,}) async {
+    try {
+      await categories.doc(category.categoryName).collection(FirestoreConstants.categoryItemsCollectionPathName).doc(item.documentId).set(
+          {
+            FirestoreConstants.itemNameFieldName : item.name,
+            FirestoreConstants.itemPriceFieldName : item.price,
+            FirestoreConstants.categoryItemReferenceFieldName : '${FirestoreConstants.itemsCollectionPathName}/${item.documentId}/',
+          });
+    } catch (e) {
+      throw CouldNotAddItemToCategoryException();
+    }
+  }
+
+  // Stream<Iterable<CloudCategory>> allCategories() {
+  //   final categoriesItems = categories.snapshots().forEach((category) {
+  //     category.docs.map((snapshot) => null)
+  //   });
+  // }
+
+  Stream<CloudCategory> getCategory({required String categoryName}) {
+    return categories.doc(categoryName).snapshots().map((doc) => CloudCategory.fromDocument(doc, const Stream.empty()));
+  }
+
+  Stream<Iterable<CloudCategoryItem>> allCategoryItems({required CloudCategory category}) => categories.doc(category.categoryName).collection(FirestoreConstants.categoryItemsCollectionPathName).snapshots().map((event) => event.docs.map((snapshot) => CloudCategoryItem.fromSnapshot(snapshot, category,)));
 
   Stream<Iterable<CloudItem>> allItems() => items.snapshots().map(
         (event) => event.docs.map(
@@ -500,10 +571,10 @@ class FirebaseCloudStorage {
   }) async {
     final allFavorites = allFavoriteUsers(userId: currentUserId);
     List<ChatUser> list = List.empty();
-    final Iterable<ChatUser> iter;
+    final Iterable<ChatUser> iterable;
     try {
-      iter = await allFavorites.first;
-      list = iter.toList();
+      iterable = await allFavorites.first;
+      list = iterable.toList();
       for (int i = 0; i < list.length; i++) {
         if (list.elementAt(i).id == userId) {
           return true;

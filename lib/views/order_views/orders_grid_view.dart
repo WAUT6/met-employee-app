@@ -35,19 +35,19 @@ class OrdersGridView extends StatelessWidget {
               header: Text(
                 order.date,
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.white, fontSize: 20),
+                style: const TextStyle(color: Colors.black, fontSize: 20),
               ),
               footer: Text(
                 order.orderId,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontSize: 18,
                 ),
               ),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.black,
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(30),
                 ),
                 padding: const EdgeInsets.all(16),
@@ -57,7 +57,7 @@ class OrdersGridView extends StatelessWidget {
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 24,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                     textAlign: TextAlign.center,
                   ),

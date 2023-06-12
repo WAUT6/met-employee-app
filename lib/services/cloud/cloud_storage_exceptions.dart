@@ -37,3 +37,15 @@ class CouldNotAddUserToFavoritesCollection implements Exception {}
 class CouldNotDeleteUserFromFavoritesCollection implements Exception {}
 
 class CouldNotCompleteFavoriteUserCheckChatException implements Exception {}
+
+class CouldNotAddItemToCategoryException implements Exception {}
+
+class CouldNotDeleteItemFromCategoryException implements Exception {}
+
+class CouldNotUpdateCategoryItemPriceException implements Exception {}
+
+class CouldNotUpdateCategoryItemNameException implements Exception {}
+
+class CouldNotUpdateCategoryItemCategoryException implements Exception {}
+
+class CouldNotUpdateOrderItemIsReadyException implements Exception {}

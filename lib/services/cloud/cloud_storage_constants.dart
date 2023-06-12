@@ -4,9 +4,18 @@ class FirestoreConstants {
   static const usersCollectionPathName = 'users';
   static const messagesCollectionPathName = 'messages';
   static const favoriteUsersCollectionPath = 'favorite_users';
+  static const categoriesCollectionPathName = 'categories';
+  static const categoryItemsCollectionPathName = 'category_items';
+
+  static const pulsesCategoryDocumentId = 'pulses';
+  static const nutsCategoryDocumentId = 'nuts';
+  static const otherCategoryDocumentId = 'other';
+  static const spicesCategoryDocumentId = 'spices';
 
   static const itemNameFieldName = 'item_name';
   static const itemPriceFieldName = 'item_price';
+
+  static const categoryItemReferenceFieldName = 'item_reference';
 
   static const orderNumberFieldName = 'order_number';
   static const orderCustomerNumberFieldName = 'customer_name';
@@ -14,6 +23,7 @@ class FirestoreConstants {
   static const orderItemsItemNameFieldName = 'item_name';
   static const orderItemsItemQuantityFieldName = 'item_quantity';
   static const orderItemsPackagingFieldName = 'packaging';
+  static const orderItemsIsReadyFieldName = 'ready';
   static const orderItemsCollectionFieldName = 'order_items';
 
   static const aboutMe = 'about_me';

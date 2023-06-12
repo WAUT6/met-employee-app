@@ -35,7 +35,8 @@ class _UsersViewState extends State<UsersView> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ChatBloc>(
-        create: (context) => ChatBloc(ChatProvider()),
+      create: (context) => ChatBloc(ChatProvider()),
+      child: SafeArea(
         child: Scaffold(
           backgroundColor: Colors.black,
           body: Column(
@@ -63,8 +64,7 @@ class _UsersViewState extends State<UsersView> {
                           textAlign: TextAlign.center,
                           'Favorite Users',
                           style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
                             color: Colors.black,
                           ),
                         ),
@@ -208,6 +208,8 @@ class _UsersViewState extends State<UsersView> {
               ),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
