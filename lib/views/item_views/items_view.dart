@@ -28,87 +28,67 @@ class _ItemsViewState extends State<ItemsView> {
   Widget build(BuildContext context) {
     return BlocProvider<ViewBloc>(
       create: (context) => context.read<ViewBloc>(),
-      child: Scaffold(
-        // appBar: AppBar(
-        //   centerTitle: true,
-        //   title: const Text('Items'),
-        //   leading: IconButton(
-        //     onPressed: () {
-        //       context.read<ViewBloc>().add(const ViewEventGoToHomePage());
-        //     },
-        //     icon: const Icon(Icons.home),
-        //   ),
-        //   actions: [
-        //     IconButton(
-        //       onPressed: () {
-        //         Navigator.pushNamed(
-        //           context,
-        //           createOrUpdateItemRoute,
-        //         );
-        //       },
-        //       icon: const Icon(Icons.add),
-        //     ),
-        //     PopupMenuButton(
-        //       itemBuilder: (context) {
-        //         return [
-        //           const PopupMenuItem(
-        //             value: MenuAction.logout,
-        //             child: Text('Log out'),
-        //           )
-        //         ];
-        //       },
-        //       onSelected: (value) async {
-        //         switch (value) {
-        //           case MenuAction.logout:
-        //             final shouldLogout = await showLogOutDialog(context);
-        //             if (shouldLogout) {
-        //               viewBloc.add(
-        //                 const ViewEventGoToHomePage(),
-        //               );
-        //               authBloc.add(
-        //                 const AuthEventLogOut(),
-        //               );
-        //             }
-        //             break;
-        //           default:
-        //             break;
-        //         }
-        //       },
-        //     ),
-        //   ],
-        // ),
-        body: StreamBuilder(
-          stream: _cloudStorage.allItems(),
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-              case ConnectionState.active:
-                if (snapshot.hasData) {
-                  final allItems = snapshot.data as Iterable<CloudItem>;
-                  return ItemsGridView(
-                    items: allItems,
-                    onTap: (item) {
-                      Navigator.of(context).pushNamed(
-                        createOrUpdateItemRoute,
-                        arguments: item,
-                      );
-                    },
-                  );
-                } else {
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            actions: [
+              IconButton(onPressed: () {}, icon: const Icon(Icons.search_outlined), color: Colors.black,),
+              IconButton(onPressed: () {
+                Navigator.pushNamed(context, createOrUpdateItemRoute);
+              }, icon: const Icon(Icons.add_outlined), color: Colors.black,),
+            ],
+          ),
+          body: StreamBuilder(
+            stream: _cloudStorage.allItems(),
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                case ConnectionState.active:
+                  if (snapshot.hasData) {
+                    final allItems = snapshot.data as Iterable<CloudItem>;
+                    return Container(
+
+                      decoration: const BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20),),
+                      ),
+                      child: ItemsGridView(
+                        items: allItems,
+                        onTap: (item) {
+                          Navigator.of(context).pushNamed(
+                            createOrUpdateItemRoute,
+                            arguments: item,
+                          );
+                        },
+                      ),
+                    );
+                  } else {
+                    return const Scaffold(
+                      backgroundColor: Colors.black,
+                      body: Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+
+                      ),
+                    );
+                  }
+                default:
                   return const Scaffold(
+                    backgroundColor: Colors.black,
                     body: Center(
-                      child: CircularProgressIndicator(),
+
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
                     ),
                   );
-                }
-              default:
-                return const Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-            }
-          },
+              }
+            },
+          ),
         ),
       ),
     );

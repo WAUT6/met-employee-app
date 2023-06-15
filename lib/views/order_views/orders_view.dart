@@ -46,6 +46,13 @@ class _OrdersViewState extends State<OrdersView> {
             backgroundColor: Colors.white,
             actions: [
               IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.search_outlined,
+                  color: Colors.black,
+                ),
+              ),
+              IconButton(
                 onPressed: () {
                   Navigator.pushNamed(
                     context,

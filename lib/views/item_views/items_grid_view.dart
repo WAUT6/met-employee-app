@@ -36,14 +36,16 @@ class ItemsGridView extends StatelessWidget {
             ),
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.blueGrey,
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(30),
               ),
               padding: const EdgeInsets.all(16),
               child: Center(
                 child: Text(
+
                   item.name,
                   style: const TextStyle(
+                    color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
                   ),

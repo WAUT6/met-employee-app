@@ -141,6 +141,8 @@ class _CreateUpdateOrderItemViewState extends State<CreateUpdateOrderItemView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Order Item'),
+        backgroundColor: Colors.black,
+        elevation: 0,
       ),
       body: Center(
         child: FutureBuilder(
@@ -154,73 +156,117 @@ class _CreateUpdateOrderItemViewState extends State<CreateUpdateOrderItemView> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        style: const TextStyle(
-                          color: Colors.white,
+                      child: Container(
+
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 5,
+                          horizontal: 10,
                         ),
-                        controller: _nameController,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter Item Name',
-                          hintStyle: TextStyle(
-                            color: Colors.white,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: const Color(0xffF7F7F7),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.white,
+                              spreadRadius: 1.5,
+                              blurRadius: 1.5,
                             ),
-                          ),
-                          filled: true,
-                          fillColor: Colors.blueGrey,
+                          ],
                         ),
-                        enableInteractiveSelection: false,
-                        autocorrect: false,
-                        enableSuggestions: false,
+                        child: TextField(
+                          cursorColor: Colors.black,
+                          style: const TextStyle(
+                            color: Colors.grey,
+
+                          ),
+
+                          controller: _nameController,
+                          decoration: const InputDecoration(
+
+                            hintText: 'Enter Item Name',
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+
+                            ),
+                            border: InputBorder.none,
+
+                          ),
+                          enableInteractiveSelection: false,
+                          autocorrect: false,
+                          enableSuggestions: false,
+                        ),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        style: const TextStyle(color: Colors.white),
-                        controller: _quantityController,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter Quantity',
-                          hintStyle: TextStyle(
-                            color: Colors.white,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                          ),
-                          filled: true,
-                          fillColor: Colors.blueGrey,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 5,
+                          horizontal: 10,
                         ),
-                        enableInteractiveSelection: false,
-                        autocorrect: false,
-                        enableSuggestions: false,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: const Color(0xffF7F7F7),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.white,
+                              spreadRadius: 1.5,
+                              blurRadius: 1.5,
+                            ),
+                          ],
+                        ),
+                        child: TextField(
+                          style: const TextStyle(color: Colors.grey),
+                          controller: _quantityController,
+                          cursorColor: Colors.black,
+                          decoration: const InputDecoration(
+                            hintText: 'Enter Quantity',
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                            ),
+                            border: InputBorder.none,
+
+                          ),
+                          enableInteractiveSelection: false,
+                          autocorrect: false,
+                          enableSuggestions: false,
+                        ),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        style: const TextStyle(color: Colors.white),
-                        controller: _packagingController,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter Packaging',
-                          hintStyle: TextStyle(
-                            color: Colors.white,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                          ),
-                          filled: true,
-                          fillColor: Colors.blueGrey,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 5,
+                          horizontal: 10,
                         ),
-                        enableInteractiveSelection: false,
-                        autocorrect: false,
-                        enableSuggestions: false,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: const Color(0xffF7F7F7),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.white,
+                              spreadRadius: 1.5,
+                              blurRadius: 1.5,
+                            ),
+                          ],
+                        ),
+                        child: TextField(
+                          style: const TextStyle(color: Colors.grey),
+                          controller: _packagingController,
+                          cursorColor: Colors.black,
+                          decoration: const InputDecoration(
+                            hintText: 'Enter Packaging',
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                            ),
+                            border: InputBorder.none,
+
+                          ),
+                          enableInteractiveSelection: false,
+                          autocorrect: false,
+                          enableSuggestions: false,
+                        ),
                       ),
                     ),
                   ],

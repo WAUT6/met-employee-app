@@ -113,6 +113,7 @@ class _CreateOrUpdateItemViewState extends State<CreateOrUpdateItemView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
         title: const Text('Item'),
         centerTitle: true,
       ),
@@ -128,49 +129,74 @@ class _CreateOrUpdateItemViewState extends State<CreateOrUpdateItemView> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        style: const TextStyle(
-                          color: Colors.white,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 5,
+                          horizontal: 10,
                         ),
-                        controller: _nameController,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter item name',
-                          hintStyle: TextStyle(color: Colors.white),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: const Color(0xffF7F7F7),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.white,
+                              spreadRadius: 1.5,
+                              blurRadius: 1.5,
                             ),
-                          ),
-                          filled: true,
-                          fillColor: Colors.blueGrey,
+                          ],
                         ),
-                        enableInteractiveSelection: false,
-                        autocorrect: false,
-                        enableSuggestions: false,
+                        child: TextField(
+                          cursorColor: Colors.black,
+                          style: const TextStyle(
+                            color: Colors.grey,
+                          ),
+                          controller: _nameController,
+                          decoration: const InputDecoration(
+                            hintText: 'Enter item name',
+                            hintStyle: TextStyle(color: Colors.grey),
+                            border: InputBorder.none
+
+                          ),
+                          enableInteractiveSelection: false,
+                          autocorrect: false,
+                          enableSuggestions: false,
+                        ),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        style: const TextStyle(
-                          color: Colors.white,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 5,
+                          horizontal: 10,
                         ),
-                        controller: _priceController,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter item price',
-                          hintStyle: TextStyle(color: Colors.white),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: const Color(0xffF7F7F7),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.white,
+                              spreadRadius: 1.5,
+                              blurRadius: 1.5,
                             ),
-                          ),
-                          filled: true,
-                          fillColor: Colors.blueGrey,
+                          ],
                         ),
-                        keyboardType: TextInputType.number,
-                        enableInteractiveSelection: false,
-                        autocorrect: false,
-                        enableSuggestions: false,
+                        child: TextField(
+                          cursorColor: Colors.black,
+                          style: const TextStyle(
+                            color: Colors.grey,
+                          ),
+                          controller: _priceController,
+                          decoration: const InputDecoration(
+                            hintText: 'Enter item price',
+                            hintStyle: TextStyle(color: Colors.grey),
+                            border: InputBorder.none,
+                          ),
+                          keyboardType: TextInputType.number,
+                          enableInteractiveSelection: false,
+                          autocorrect: false,
+                          enableSuggestions: false,
+                        ),
                       ),
                     )
                   ],
