@@ -49,3 +49,5 @@ class CouldNotUpdateCategoryItemNameException implements Exception {}
 class CouldNotUpdateCategoryItemCategoryException implements Exception {}
 
 class CouldNotUpdateOrderItemIsReadyException implements Exception {}
+
+class CouldNotDeleteAllOrdersException implements Exception {}

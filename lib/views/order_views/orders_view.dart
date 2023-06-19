@@ -10,6 +10,9 @@ import 'package:metapp/bloc/view_bloc/view_bloc.dart';
 
 import 'package:metapp/views/order_views/orders_grid_view.dart';
 
+import '../../bloc/orders_bloc/orders_bloc.dart';
+import '../../utilities/dialogs/deletion_confirmation_dialog.dart';
+
 class OrdersView extends StatefulWidget {
   static const OrdersView _shared = OrdersView._sharedInstance();
   const OrdersView._sharedInstance();
@@ -29,11 +32,21 @@ class _OrdersViewState extends State<OrdersView> {
 
   @override
   Widget build(BuildContext context) {
+    final ordersBloc = context.read<OrdersBloc>();
     return BlocProvider<ViewBloc>(
       create: (context) => context.read<ViewBloc>(),
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
+            leading: IconButton(
+              onPressed: () async {
+                final response = await showDeletionConfirmationDialog(context);
+                if(response) {
+                  ordersBloc.add(const OrdersEventDeleteOrdersForTheDay());
+                }
+              },
+              icon: const Icon(Icons.pin_end_outlined, color: Colors.black,),
+            ),
             title: const Text(
               'Orders',
               style: TextStyle(
@@ -100,6 +113,9 @@ class _OrdersViewState extends State<OrdersView> {
                         final allOrders = snapshot.data as Iterable<CloudOrder>;
                         return OrdersGridView(
                           orders: allOrders,
+                          onDelete: (order) {
+                            ordersBloc.add(OrdersEventDeleteOrder(order: order));
+                          },
                           onTap: (order) {
                             Navigator.pushNamed(context, viewOrderItemsRoute,
                                 arguments: order);

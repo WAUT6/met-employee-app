@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -92,6 +93,9 @@ class FirebaseCloudStorage {
           DateTime.now().year,
           DateTime.now().month,
           DateTime.now().day,
+          DateTime.now().hour,
+          DateTime.now().minute,
+          DateTime.now().second,
         ).toString(),
       },
     );
@@ -102,6 +106,9 @@ class FirebaseCloudStorage {
         DateTime.now().year,
         DateTime.now().month,
         DateTime.now().day,
+        DateTime.now().hour,
+        DateTime.now().minute,
+        DateTime.now().second,
       ).toString(),
       orderId: '',
       customerId: '',
@@ -114,6 +121,17 @@ class FirebaseCloudStorage {
       await orders.doc(documentId).delete();
     } catch (e) {
       throw CouldNotDeleteOrderException();
+    }
+  }
+
+  Future<void> deleteAllOrders() async {
+    try {
+      final snapshot = await orders.get();
+      for (DocumentSnapshot docSnapshot in snapshot.docs) {
+        await docSnapshot.reference.delete();
+      }
+    } catch (e) {
+      throw CouldNotDeleteAllOrdersException();
     }
   }
 

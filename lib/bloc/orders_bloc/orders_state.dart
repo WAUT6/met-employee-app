@@ -11,3 +11,11 @@ class OrdersInitial extends OrdersState {
 class OrdersStateUpdatingOrderItemIsReady extends OrdersState {
   const OrdersStateUpdatingOrderItemIsReady();
 }
+
+class OrdersStateDeletingOrder extends OrdersState {
+  const OrdersStateDeletingOrder();
+}
+
+class OrdersStateDeletingOrdersForTheDay extends OrdersState {
+  const OrdersStateDeletingOrdersForTheDay();
+}
