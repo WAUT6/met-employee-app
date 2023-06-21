@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:metapp/services/cloud/cloud_order.dart';
 import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
+
+import '../../bloc/notifications_bloc/notifications_bloc.dart';
 
 class CreateNewOrderView extends StatefulWidget {
   const CreateNewOrderView({super.key});
@@ -89,6 +92,7 @@ class _CreateNewOrderViewState extends State<CreateNewOrderView> {
 
   @override
   Widget build(BuildContext context) {
+    context.read<NotificationsBloc>().add(const NotificationsEventSendNotifications());
     return Scaffold(
       appBar: AppBar(
         title: const Text('New Order'),

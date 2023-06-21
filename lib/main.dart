@@ -1,7 +1,9 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:metapp/bloc/chat_bloc/chat_bloc.dart';
 import 'package:metapp/bloc/io_bloc/io_bloc.dart';
+import 'package:metapp/bloc/notifications_bloc/notifications_bloc.dart';
 import 'package:metapp/bloc/orders_bloc/orders_bloc.dart';
 import 'package:metapp/bloc/settings_bloc/bloc/bloc/bloc/settings_bloc.dart';
 import 'package:metapp/bloc/share_bloc/share_bloc.dart';
@@ -13,6 +15,7 @@ import 'package:metapp/bloc/auth_bloc/auth_events.dart';
 import 'package:metapp/bloc/auth_bloc/auth_states.dart';
 import 'package:metapp/bloc/view_bloc/view_bloc.dart';
 import 'package:metapp/services/chat/chat_provider.dart';
+import 'package:metapp/services/cloud/notifications_provider.dart';
 import 'package:metapp/services/cloud/orders_provider.dart';
 import 'package:metapp/services/settings/settings_provider.dart';
 import 'package:metapp/views/chat_views/chat_view.dart';
@@ -26,6 +29,19 @@ import 'package:metapp/views/order_views/create_new_order_view.dart';
 import 'package:metapp/views/order_views/order_items_views/create_update_order_item_view.dart';
 import 'package:metapp/views/order_views/order_items_views/order_items_view.dart';
 import 'package:metapp/widgets/pdf_widget.dart';
+
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print('Handling a background message: ${message.messageId}');
+}
+
+void handleBackgroundMessage() async {
+  Future.delayed(const Duration(seconds: 1), () async {
+    await FirebaseMessaging.instance.getInitialMessage();
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  });
+
+}
+
 
 void main() {
   final ThemeData theme = ThemeData();
@@ -58,6 +74,7 @@ void main() {
           ),
         ),
         BlocProvider(create: (context) => OrdersBloc(OrdersProvider(),),),
+        BlocProvider(create: (context) => NotificationsBloc(NotificationsProvider(),),),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -96,7 +113,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final authBloc = context.read<AuthBloc>();
     authBloc.add(const AuthEventInitialize());
-
+    handleBackgroundMessage();
     return BlocConsumer<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state is AuthStateLoggedIn) {

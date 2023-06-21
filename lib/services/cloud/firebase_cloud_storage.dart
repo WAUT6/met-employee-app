@@ -7,6 +7,7 @@ import 'package:metapp/services/chat/chat_exceptions.dart';
 import 'package:metapp/services/chat/chat_message.dart';
 import 'package:metapp/services/chat/chat_user.dart';
 import 'package:metapp/services/cloud/cloud_category.dart';
+import 'package:metapp/services/cloud/cloud_device_token.dart';
 import 'package:metapp/services/cloud/cloud_item.dart';
 import 'package:metapp/services/cloud/cloud_order.dart';
 import 'package:metapp/services/cloud/cloud_order_item.dart';
@@ -18,6 +19,8 @@ import 'cloud_category_item.dart';
 class FirebaseCloudStorage {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseStorage storage = FirebaseStorage.instance;
+  final userTokens = FirebaseFirestore.instance
+      .collection(FirestoreConstants.userTokensCollectionPathName);
   final items = FirebaseFirestore.instance
       .collection(FirestoreConstants.itemsCollectionPathName);
   final orders = FirebaseFirestore.instance
@@ -37,6 +40,12 @@ class FirebaseCloudStorage {
     Reference reference = storage.ref().child(fileName);
     UploadTask uploadTask = reference.putFile(file);
     return uploadTask;
+  }
+
+  Future<void> saveToken({required String token, required String userId,}) async {
+    await userTokens.doc(userId).set({
+      FirestoreConstants.tokenFieldName : token,
+    });
   }
 
   Future<void> updateChatUserName({
@@ -546,6 +555,9 @@ class FirebaseCloudStorage {
             (doc) => CloudOrderItem.fromSnapshot(doc),
           ),
         );
+  }
+  Stream<Iterable<CloudDeviceToken>> allTokens() {
+    return userTokens.snapshots().map((event) => event.docs.map((snapshot) => CloudDeviceToken.fromSnapshot(snapshot)));
   }
 
   Future<void> removeUserFromFavoriteUsers({

@@ -6,6 +6,9 @@ class FirestoreConstants {
   static const favoriteUsersCollectionPath = 'favorite_users';
   static const categoriesCollectionPathName = 'categories';
   static const categoryItemsCollectionPathName = 'category_items';
+  static const userTokensCollectionPathName = 'user_tokens';
+
+  static const tokenFieldName = 'token';
 
   static const pulsesCategoryDocumentId = 'pulses';
   static const nutsCategoryDocumentId = 'nuts';

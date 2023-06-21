@@ -56,6 +56,9 @@ dependencies:
   flutter_cache_manager: ^3.3.0
   http: ^0.13.6
   flutter_cached_pdfview: ^0.4.1
+  firebase_messaging: ^14.6.3
+  flutter_local_notifications: ^14.1.1
+
 
 dev_dependencies:
   flutter_test:
