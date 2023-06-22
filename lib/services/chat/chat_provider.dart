@@ -9,8 +9,12 @@ import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'chat_user.dart';
 
 class ChatProvider {
-  final FirebaseFirestore cloudStorage = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestoreStorage = FirebaseFirestore.instance;
   final FirebaseCloudStorage _cloudStorage = FirebaseCloudStorage();
+
+  Future<ChatUser> currentChatUser({required String id}) async {
+    return await _cloudStorage.getCurrentChatUser(id: id).first;
+  }
 
   static final ChatProvider _shared = ChatProvider._sharedInstance();
   ChatProvider._sharedInstance();
@@ -39,7 +43,7 @@ class ChatProvider {
   ) {
     for (var i = 0; i < receivingUsers.length; i++) {
       final String groupId = setGroupId(idFrom, receivingUsers[i].id);
-      DocumentReference reference = cloudStorage
+      DocumentReference reference = _firestoreStorage
           .collection(FirestoreConstants.messagesCollectionPathName)
           .doc(groupId)
           .collection(groupId)
@@ -53,7 +57,7 @@ class ChatProvider {
         timeStamp: DateTime.now().millisecondsSinceEpoch.toString(),
       );
 
-      cloudStorage.runTransaction(
+      _firestoreStorage.runTransaction(
         (transaction) async {
           transaction.set(
             reference,
@@ -71,7 +75,7 @@ class ChatProvider {
     String groupChatId,
     int contentType,
   ) {
-    DocumentReference reference = cloudStorage
+    DocumentReference reference = _firestoreStorage
         .collection(FirestoreConstants.messagesCollectionPathName)
         .doc(groupChatId)
         .collection(groupChatId)
@@ -86,7 +90,7 @@ class ChatProvider {
       timeStamp: DateTime.now().millisecondsSinceEpoch.toString(),
     );
 
-    cloudStorage.runTransaction(
+    _firestoreStorage.runTransaction(
       (transaction) async {
         transaction.set(
           reference,

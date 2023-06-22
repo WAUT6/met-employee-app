@@ -22,6 +22,7 @@ class FirestoreConstants {
 
   static const orderNumberFieldName = 'order_number';
   static const orderCustomerNumberFieldName = 'customer_name';
+  static const orderEmployeeNameFieldName = 'employee_name';
   static const orderDate = 'order_date';
   static const orderItemsItemNameFieldName = 'item_name';
   static const orderItemsItemQuantityFieldName = 'item_quantity';

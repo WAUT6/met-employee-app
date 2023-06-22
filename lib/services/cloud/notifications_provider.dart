@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -20,8 +21,6 @@ class NotificationsProvider {
     var initializationSettings = InitializationSettings(iOS: iosInitialize, android: androidInitialize);
     _flutterLocalNotificationsPlugin.initialize(initializationSettings,);
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      print('onMessage: ${message.notification?.title}/${message.notification?.body}');
-
       BigTextStyleInformation bigTextStyleInformation = BigTextStyleInformation(
         message.notification!.body.toString(),
         htmlFormatBigText: true,
@@ -54,7 +53,7 @@ class NotificationsProvider {
 
   void requestPermission() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
-    NotificationSettings notificationSettings = await messaging.requestPermission(
+    await messaging.requestPermission(
       alert: true,
       announcement: false,
       badge: true,
@@ -63,14 +62,6 @@ class NotificationsProvider {
       provisional: false,
       sound: true,
     );
-
-    if(notificationSettings.authorizationStatus == AuthorizationStatus.authorized) {
-      print('User granted permission');
-    } else if(notificationSettings.authorizationStatus == AuthorizationStatus.provisional) {
-      print('User granted provisional permission');
-    } else {
-      print('User did not grant permission');
-    }
   }
 
   void _saveToken({required String token, required String userId,}) async {
@@ -79,13 +70,15 @@ class NotificationsProvider {
 
   void getToken({required String userId,}) async {
     await FirebaseMessaging.instance.getToken().then((token) async {
-      print(token);
       _saveToken(token: token!, userId: userId);
     });
   }
 
   Future<Iterable<CloudDeviceToken>> allTokens() async {
-    return await _cloudStorage.allTokens().first;
+    final tokens = await _cloudStorage.allTokens().timeout(const Duration(seconds: 1), onTimeout: (sink) {
+
+    }).first;
+    return tokens;
   }
 
   Future<void> sendNotifications({required Iterable<CloudDeviceToken> tokens,}) async {
@@ -98,7 +91,7 @@ class NotificationsProvider {
       'body': 'New order has been added',
       'sound': 'default',
     };
-    const String fcmUrl = 'https://fcm.googleapis.com/fcm/send';
+    final fcmUrl = dotenv.get('FCM_API_URL', fallback: "");
     final serverKey = dotenv.get('FCM_SERVER_KEY', fallback: "");
 
     final Map<String, dynamic> data = {

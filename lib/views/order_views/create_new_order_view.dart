@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:metapp/services/auth/auth_service.dart';
+import 'package:metapp/services/chat/chat_provider.dart';
 import 'package:metapp/services/cloud/cloud_order.dart';
 import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 
 import '../../bloc/notifications_bloc/notifications_bloc.dart';
+import '../../services/chat/chat_user.dart';
 
 class CreateNewOrderView extends StatefulWidget {
   const CreateNewOrderView({super.key});
@@ -14,34 +17,23 @@ class CreateNewOrderView extends StatefulWidget {
 
 class _CreateNewOrderViewState extends State<CreateNewOrderView> {
   late final TextEditingController _customerNameController;
-  late final TextEditingController _orderIdController;
   late final FirebaseCloudStorage _cloudStorage;
+  final ChatProvider  _chatProvider = ChatProvider();
+  final AuthService _authService = AuthService.firebase();
   CloudOrder? _order;
 
   @override
   void initState() {
     _customerNameController = TextEditingController();
-    _orderIdController = TextEditingController();
     _cloudStorage = FirebaseCloudStorage();
     super.initState();
   }
 
   Future<CloudOrder> createOrder() async {
-    final order = await _cloudStorage.createNewOrder();
+    final ChatUser user = await _chatProvider.currentChatUser(id: _authService.currentUser!.id);
+    final order = await _cloudStorage.createNewOrder(user: user);
     _order = order;
     return order;
-  }
-
-  void _orderNameControllerListener() async {
-    final order = _order;
-    if (order == null) {
-      return;
-    }
-    final orderName = _orderIdController.text;
-    await _cloudStorage.updateOrderName(
-      documentId: order.documentId,
-      orderName: orderName,
-    );
   }
 
   void _customerNameControllerListener() async {
@@ -50,33 +42,27 @@ class _CreateNewOrderViewState extends State<CreateNewOrderView> {
       return;
     }
     final customerName = _customerNameController.text;
-    await _cloudStorage.updateOrderCustomerName(
+    await _cloudStorage.updateOrder(
         documentId: order.documentId, customerName: customerName);
   }
 
   void setUpControllerListeners() {
     _customerNameController.removeListener(_customerNameControllerListener);
     _customerNameController.addListener(_customerNameControllerListener);
-    _orderIdController.removeListener(_orderNameControllerListener);
-    _orderIdController.addListener(_orderNameControllerListener);
   }
 
   void deleteOrderIfTextEmpty() async {
-    if (_customerNameController.text.isEmpty ||
-        _orderIdController.text.isEmpty) {
+    if (_customerNameController.text.isEmpty) {
       await _cloudStorage.deleteOrder(documentId: _order!.documentId);
     }
   }
 
   void saveOrderIfTextNotEmpty() async {
     final customerName = _customerNameController.text;
-    final orderName = _orderIdController.text;
-    if (_customerNameController.text.isNotEmpty &&
-        _orderIdController.text.isNotEmpty) {
+    if (_customerNameController.text.isNotEmpty) {
       await _cloudStorage.updateOrder(
         documentId: _order!.documentId,
         customerName: customerName,
-        orderId: orderName,
       );
     }
   }
@@ -86,7 +72,6 @@ class _CreateNewOrderViewState extends State<CreateNewOrderView> {
     deleteOrderIfTextEmpty();
     saveOrderIfTextNotEmpty();
     _customerNameController.dispose();
-    _orderIdController.dispose();
     super.dispose();
   }
 
@@ -95,6 +80,8 @@ class _CreateNewOrderViewState extends State<CreateNewOrderView> {
     context.read<NotificationsBloc>().add(const NotificationsEventSendNotifications());
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
+        elevation: 0,
         title: const Text('New Order'),
         centerTitle: true,
       ),
@@ -105,55 +92,42 @@ class _CreateNewOrderViewState extends State<CreateNewOrderView> {
             switch (snapshot.connectionState) {
               case ConnectionState.done:
                 setUpControllerListeners();
-                return Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        style: const TextStyle(
-                          color: Colors.white,
-                        ),
-                        controller: _customerNameController,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter customer name',
-                          hintStyle: TextStyle(color: Colors.white),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                          ),
-                          filled: true,
-                          fillColor: Colors.blueGrey,
-                        ),
-                        enableInteractiveSelection: false,
-                        autocorrect: false,
-                        enableSuggestions: false,
-                      ),
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 5,
+                      horizontal: 10,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        style: const TextStyle(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: const Color(0xffF7F7F7),
+                      boxShadow: const [
+                        BoxShadow(
                           color: Colors.white,
+                          spreadRadius: 1.5,
+                          blurRadius: 1.5,
                         ),
-                        controller: _orderIdController,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter order number',
-                          hintStyle: TextStyle(color: Colors.white),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                          ),
-                          filled: true,
-                          fillColor: Colors.blueGrey,
-                        ),
-                        enableInteractiveSelection: false,
-                        autocorrect: false,
-                        enableSuggestions: false,
-                      ),
+                      ],
                     ),
-                  ],
+                    child: TextField(
+                      cursorColor: Colors.black,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                      ),
+                      controller: _customerNameController,
+                      decoration: const InputDecoration(
+                        hintText: 'Enter Customer Name',
+                        hintStyle: TextStyle(
+                          color: Colors.grey,
+                        ),
+                        border: InputBorder.none,
+                      ),
+                      enableInteractiveSelection: false,
+                      autocorrect: false,
+                      enableSuggestions: false,
+                    ),
+                  ),
                 );
               default:
                 return const Scaffold(

@@ -93,11 +93,11 @@ class FirebaseCloudStorage {
     }
   }
 
-  Future<CloudOrder> createNewOrder() async {
+  Future<CloudOrder> createNewOrder({required ChatUser user}) async {
     final document = await orders.add(
       {
-        FirestoreConstants.orderNumberFieldName: '',
         FirestoreConstants.orderCustomerNumberFieldName: '',
+        FirestoreConstants.orderEmployeeNameFieldName: user.nickname,
         FirestoreConstants.orderDate: DateTime(
           DateTime.now().year,
           DateTime.now().month,
@@ -119,8 +119,8 @@ class FirebaseCloudStorage {
         DateTime.now().minute,
         DateTime.now().second,
       ).toString(),
-      orderId: '',
       customerId: '',
+      employeeId: user.nickname,
       items: const Stream.empty(),
     );
   }
@@ -144,46 +144,15 @@ class FirebaseCloudStorage {
     }
   }
 
-  Future<void> updateOrderCustomerName({
-    required String documentId,
-    required String customerName,
-  }) async {
-    try {
-      await orders.doc(documentId).update(
-        {
-          FirestoreConstants.orderCustomerNumberFieldName: customerName,
-        },
-      );
-    } catch (e) {
-      throw CouldNotUpdateOrderCustomerNameException();
-    }
-  }
-
-  Future<void> updateOrderName({
-    required String documentId,
-    required String orderName,
-  }) async {
-    try {
-      await orders.doc(documentId).update(
-        {
-          FirestoreConstants.orderNumberFieldName: orderName,
-        },
-      );
-    } catch (e) {
-      throw CouldNotUpdateOrderNameException();
-    }
-  }
 
   Future<void> updateOrder({
     required String documentId,
     required String customerName,
-    required String orderId,
   }) async {
     try {
       await orders.doc(documentId).update(
         {
           FirestoreConstants.orderCustomerNumberFieldName: customerName,
-          FirestoreConstants.orderNumberFieldName: orderId,
         },
       );
     } catch (e) {

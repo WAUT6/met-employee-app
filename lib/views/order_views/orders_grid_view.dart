@@ -66,7 +66,7 @@ class OrdersGridView extends StatelessWidget {
                 style: const TextStyle(color: Colors.black, fontSize: 20),
               ),
               footer: Text(
-                order.orderId,
+                order.employeeId,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.black,
