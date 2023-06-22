@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:metapp/bloc/chat_bloc/chat_bloc.dart';
 import 'package:metapp/bloc/io_bloc/io_bloc.dart';
 import 'package:metapp/bloc/notifications_bloc/notifications_bloc.dart';
@@ -43,7 +44,8 @@ void handleBackgroundMessage() async {
 }
 
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: "assets/.env");
   final ThemeData theme = ThemeData();
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
