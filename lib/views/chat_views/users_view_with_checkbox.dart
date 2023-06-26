@@ -9,8 +9,9 @@ import 'package:metapp/bloc/share_bloc/share_bloc.dart';
 
 import 'package:metapp/services/auth/auth_service.dart';
 import 'package:metapp/services/chat/chat_user.dart';
-import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'package:metapp/views/chat_views/users_list_view_with_checkbox.dart';
+
+import '../../services/cloud/firebase/firebase_cloud_storage.dart';
 
 class UsersViewWithCheckBox extends StatefulWidget {
   const UsersViewWithCheckBox({super.key});

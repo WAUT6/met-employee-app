@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:metapp/services/cloud/cloud_order_item.dart';
 
+import '../../../services/cloud/firebase/cloud_order_item.dart';
 import '../../../widgets/cloud_order_item_checkbox_widget.dart';
 
 typedef OnTapCallBack = void Function(CloudOrderItem);

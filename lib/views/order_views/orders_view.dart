@@ -3,14 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:metapp/constants/routes.dart';
 
-import 'package:metapp/services/cloud/cloud_order.dart';
-import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 
 import 'package:metapp/bloc/view_bloc/view_bloc.dart';
 
 import 'package:metapp/views/order_views/orders_grid_view.dart';
 
 import '../../bloc/orders_bloc/orders_bloc.dart';
+import '../../services/cloud/firebase/cloud_order.dart';
+import '../../services/cloud/firebase/firebase_cloud_storage.dart';
 import '../../utilities/dialogs/deletion_confirmation_dialog.dart';
 
 class OrdersView extends StatefulWidget {

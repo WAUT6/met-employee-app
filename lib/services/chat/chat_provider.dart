@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:metapp/services/chat/chat_message.dart';
-import 'package:metapp/services/cloud/cloud_storage_constants.dart';
-import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
+import 'package:metapp/services/cloud/firebase/cloud_storage_constants.dart';
 
+import '../cloud/firebase/firebase_cloud_storage.dart';
 import 'chat_user.dart';
 
 class ChatProvider {

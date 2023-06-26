@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:metapp/services/auth/auth_service.dart';
 import 'package:metapp/services/chat/chat_provider.dart';
-import 'package:metapp/services/cloud/cloud_order.dart';
-import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 
 import '../../bloc/notifications_bloc/notifications_bloc.dart';
 import '../../services/chat/chat_user.dart';
+import '../../services/cloud/firebase/cloud_order.dart';
+import '../../services/cloud/firebase/firebase_cloud_storage.dart';
 
 class CreateNewOrderView extends StatefulWidget {
   const CreateNewOrderView({super.key});

@@ -4,10 +4,10 @@ import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'package:http/http.dart' as http;
 
 import 'cloud_device_token.dart';
+import 'firebase/firebase_cloud_storage.dart';
 
 class HTTPRequestFailedException implements Exception {}
 

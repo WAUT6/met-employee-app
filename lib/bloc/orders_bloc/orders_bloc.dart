@@ -1,8 +1,8 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:metapp/services/cloud/cloud_order.dart';
 
+import '../../services/cloud/firebase/cloud_order.dart';
 import '../../services/cloud/orders_provider.dart';
 
 part 'orders_event.dart';

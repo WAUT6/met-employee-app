@@ -8,8 +8,9 @@ import 'package:metapp/bloc/chat_bloc/chat_bloc.dart';
 import 'package:metapp/bloc/chat_bloc/chat_events.dart';
 import 'package:metapp/bloc/chat_bloc/chat_states.dart';
 import 'package:metapp/services/chat/chat_message.dart';
-import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'package:metapp/views/chat_views/chat_list_view.dart';
+
+import '../../services/cloud/firebase/firebase_cloud_storage.dart';
 
 class ChatView extends StatefulWidget {
   const ChatView({super.key});

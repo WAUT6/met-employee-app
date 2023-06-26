@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'cloud_category.dart';
-import 'cloud_storage_constants.dart';
+import 'firebase/cloud_category.dart';
+import 'firebase/cloud_storage_constants.dart';
 
 class CloudCategoryItem {
   final String documentId;

@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:metapp/bloc/orders_bloc/orders_bloc.dart';
 import 'package:metapp/services/cloud/orders_provider.dart';
 
-import '../services/cloud/cloud_order_item.dart';
+import '../services/cloud/firebase/cloud_order_item.dart';
+
 
 class CloudOrderCheckBox extends StatefulWidget {
   final CloudOrderItem item;

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:metapp/bloc/chat_bloc/chat_events.dart';
 import 'package:metapp/services/chat/chat_provider.dart';
-import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 
 import '../bloc/chat_bloc/chat_bloc.dart';
 import '../services/chat/chat_user.dart';
+import '../services/cloud/firebase/firebase_cloud_storage.dart';
 
 class HeartWidget extends StatefulWidget {
   final String currentUserId;

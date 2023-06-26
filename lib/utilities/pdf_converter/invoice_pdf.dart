@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:metapp/services/cloud/cloud_order_item.dart';
+import 'package:metapp/services/cloud/firebase/cloud_order_item.dart';
 import 'package:metapp/utilities/pdf_converter/invoice.dart';
 import 'package:pdf/pdf.dart';
 

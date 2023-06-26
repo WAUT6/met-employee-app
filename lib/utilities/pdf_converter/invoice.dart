@@ -1,7 +1,8 @@
 import 'package:flutter/services.dart';
-import 'package:metapp/services/cloud/cloud_order_item.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+
+import '../../services/cloud/firebase/cloud_order_item.dart';
 
 class Invoice {
   final PdfColor baseColor;

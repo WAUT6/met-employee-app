@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:metapp/services/cloud/cloud_item.dart';
+
+import '../../services/cloud/firebase/cloud_item.dart';
 
 typedef ItemCallBack = void Function(CloudItem item);
 

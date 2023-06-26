@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:metapp/services/chat/chat_user.dart';
-import 'package:metapp/services/cloud/cloud_storage_constants.dart';
+import 'package:metapp/services/cloud/firebase/cloud_storage_constants.dart';
 
 class UserProvider {
   final FirebaseFirestore cloudStorage = FirebaseFirestore.instance;

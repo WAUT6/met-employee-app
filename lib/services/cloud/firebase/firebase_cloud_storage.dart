@@ -6,15 +6,16 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:metapp/services/chat/chat_exceptions.dart';
 import 'package:metapp/services/chat/chat_message.dart';
 import 'package:metapp/services/chat/chat_user.dart';
-import 'package:metapp/services/cloud/cloud_category.dart';
+import 'package:metapp/services/cloud/firebase/cloud_category.dart';
 import 'package:metapp/services/cloud/cloud_device_token.dart';
-import 'package:metapp/services/cloud/cloud_item.dart';
-import 'package:metapp/services/cloud/cloud_order.dart';
-import 'package:metapp/services/cloud/cloud_order_item.dart';
-import 'package:metapp/services/cloud/cloud_storage_constants.dart';
-import 'package:metapp/services/cloud/cloud_storage_exceptions.dart';
 
-import 'cloud_category_item.dart';
+import 'package:metapp/services/cloud/firebase/cloud_storage_constants.dart';
+
+import '../cloud_category_item.dart';
+import 'cloud_item.dart';
+import 'cloud_order.dart';
+import 'cloud_order_item.dart';
+import 'cloud_storage_exceptions.dart';
 
 class FirebaseCloudStorage {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;

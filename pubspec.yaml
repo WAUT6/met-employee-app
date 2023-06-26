@@ -59,6 +59,10 @@ dependencies:
   firebase_messaging: ^14.6.3
   flutter_local_notifications: ^14.1.1
   flutter_dotenv: ^5.1.0
+  google_maps_flutter: ^2.3.1
+  location: ^4.4.0
+  flutter_config: ^2.0.0
+  supabase_flutter: ^1.10.4
 
 
 dev_dependencies:
@@ -78,7 +82,7 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-    - assets/.env
+    - .env
     - assets/images/
     - assets/fonts/OpenSans-Bold.ttf
     - assets/fonts/OpenSans-Regular.ttf

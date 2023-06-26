@@ -7,10 +7,11 @@ import 'package:metapp/bloc/chat_bloc/chat_events.dart';
 import 'package:metapp/services/auth/auth_service.dart';
 import 'package:metapp/services/chat/chat_provider.dart';
 import 'package:metapp/services/chat/chat_user.dart';
-import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'package:metapp/views/chat_views/chat_view.dart';
 import 'package:metapp/views/chat_views/favorite_users_list_view.dart';
 import 'package:metapp/views/chat_views/users_list_view.dart';
+
+import '../../services/cloud/firebase/firebase_cloud_storage.dart';
 
 class UsersView extends StatefulWidget {
   const UsersView({super.key});

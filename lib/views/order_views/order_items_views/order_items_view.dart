@@ -3,11 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:metapp/bloc/io_bloc/io_bloc.dart';
 import 'package:metapp/bloc/io_bloc/io_events.dart';
 import 'package:metapp/constants/routes.dart';
-import 'package:metapp/services/cloud/cloud_order.dart';
-import 'package:metapp/services/cloud/cloud_order_item.dart';
-import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'package:metapp/utilities/generics/get_arguments.dart';
 import 'package:metapp/views/order_views/order_items_views/order_items_grid_view.dart';
+
+import '../../../services/cloud/firebase/cloud_order.dart';
+import '../../../services/cloud/firebase/cloud_order_item.dart';
+import '../../../services/cloud/firebase/firebase_cloud_storage.dart';
 
 class OrderItemsView extends StatefulWidget {
   const OrderItemsView({super.key});

@@ -1,5 +1,6 @@
-import 'package:metapp/services/cloud/cloud_order.dart';
-import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
+
+import 'firebase/cloud_order.dart';
+import 'firebase/firebase_cloud_storage.dart';
 
 
 class OrdersProvider {

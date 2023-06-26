@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:metapp/services/chat/chat_user.dart';
-import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
+
+import '../cloud/firebase/firebase_cloud_storage.dart';
 
 class SettingsProvider {
   final FirebaseCloudStorage _cloudStorage = FirebaseCloudStorage();

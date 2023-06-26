@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:metapp/services/cloud/cloud_item.dart';
-import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'package:metapp/utilities/generics/get_arguments.dart';
+
+import '../../services/cloud/firebase/cloud_item.dart';
+import '../../services/cloud/firebase/firebase_cloud_storage.dart';
 
 class CreateOrUpdateItemView extends StatefulWidget {
   const CreateOrUpdateItemView({super.key});

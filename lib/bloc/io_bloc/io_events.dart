@@ -1,4 +1,5 @@
-import 'package:metapp/services/cloud/cloud_order_item.dart';
+
+import '../../services/cloud/firebase/cloud_order_item.dart';
 
 abstract class IoEvent {
   const IoEvent();

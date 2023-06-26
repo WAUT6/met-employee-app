@@ -2,12 +2,14 @@ import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:metapp/services/auth/auth_service.dart';
-import 'package:metapp/services/cloud/firebase_cloud_storage.dart';
 import 'package:metapp/views/chat_views/users_view.dart';
 import 'package:metapp/views/dashboard_views/dashboard_view.dart';
 import 'package:metapp/views/item_views/items_view.dart';
+import 'package:metapp/views/maps_views/google_map_view.dart';
 import 'package:metapp/views/order_views/orders_view.dart';
 import 'package:metapp/views/settings_views/settings_view.dart';
+
+import '../services/cloud/firebase/firebase_cloud_storage.dart';
 
 class HomeMenuView extends StatefulWidget {
   const HomeMenuView({super.key});
@@ -28,6 +30,7 @@ class _HomeMenuViewState extends State<HomeMenuView> {
     const usersView = UsersView();
     const settingsView = SettingsView();
     const dashboardView = DashboardView();
+    const mapsView = GoogleMapsView();
     _authService = AuthService.firebase();
     _cloudStorage = FirebaseCloudStorage();
     _cloudStorage.addCurrentAuthUserToChatUsers(
@@ -35,7 +38,7 @@ class _HomeMenuViewState extends State<HomeMenuView> {
     _views.addAll([
       itemsView,
       ordersView,
-      dashboardView,
+      mapsView,
       usersView,
       settingsView,
     ]);

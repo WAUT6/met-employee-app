@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:metapp/bloc/chat_bloc/chat_bloc.dart';
 import 'package:metapp/bloc/io_bloc/io_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:metapp/bloc/notifications_bloc/notifications_bloc.dart';
 import 'package:metapp/bloc/orders_bloc/orders_bloc.dart';
 import 'package:metapp/bloc/settings_bloc/bloc/bloc/bloc/settings_bloc.dart';
 import 'package:metapp/bloc/share_bloc/share_bloc.dart';
+import 'package:metapp/bloc/supabase_bloc/supabase_bloc.dart';
 import 'package:metapp/constants/routes.dart';
 import 'package:metapp/helpers/loading/loading_screen.dart';
 import 'package:metapp/services/auth/auth_service.dart';
@@ -18,6 +20,7 @@ import 'package:metapp/bloc/view_bloc/view_bloc.dart';
 import 'package:metapp/services/chat/chat_provider.dart';
 import 'package:metapp/services/cloud/notifications_provider.dart';
 import 'package:metapp/services/cloud/orders_provider.dart';
+import 'package:metapp/services/cloud/supabase/supabase_provider.dart';
 import 'package:metapp/services/settings/settings_provider.dart';
 import 'package:metapp/views/chat_views/chat_view.dart';
 import 'package:metapp/views/chat_views/users_view_with_checkbox.dart';
@@ -36,7 +39,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 void handleBackgroundMessage() async {
-  Future.delayed(const Duration(seconds: 1), () async {
+  Future.delayed(const Duration(seconds: 3), () async {
     await FirebaseMessaging.instance.getInitialMessage();
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   });
@@ -45,7 +48,8 @@ void handleBackgroundMessage() async {
 
 
 void main() async {
-  await dotenv.load(fileName: "assets/.env");
+  await dotenv.load();
+  await FlutterConfig.loadEnvVariables();
   final ThemeData theme = ThemeData();
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
@@ -77,6 +81,7 @@ void main() async {
         ),
         BlocProvider(create: (context) => OrdersBloc(OrdersProvider(),),),
         BlocProvider(create: (context) => NotificationsBloc(NotificationsProvider(),),),
+        BlocProvider(create: (context) => SupabaseBloc(SupabaseProvider(),),),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -114,7 +119,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authBloc = context.read<AuthBloc>();
+    final supabaseBloc = context.read<SupabaseBloc>();
     authBloc.add(const AuthEventInitialize());
+    supabaseBloc.add(const SupabaseEventInitialize());
     handleBackgroundMessage();
     return BlocConsumer<AuthBloc, AuthState>(
       builder: (context, state) {

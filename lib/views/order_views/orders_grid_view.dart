@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:metapp/services/cloud/cloud_order.dart';
 import 'package:metapp/utilities/dialogs/deletion_confirmation_dialog.dart';
+
+import '../../services/cloud/firebase/cloud_order.dart';
 
 
 typedef OnTapCallBack = void Function(CloudOrder);
@@ -36,27 +37,13 @@ class OrdersGridView extends StatelessWidget {
         itemBuilder: (context, index) {
           final order = orders.elementAt(index);
           return GestureDetector(
-            onLongPressStart: (details) async {
-              Offset offset = details.globalPosition;
-              showMenu(context: context, position: RelativeRect.fromLTRB(
-                offset.dx,
-                offset.dy,
-                size.width - offset.dx,
-                size.height - offset.dy,
-              ), items: [
-              PopupMenuItem(
-                onTap: () async {
-                  final response = await showDeletionConfirmationDialog(context);
-                  if (response) {
-                    onDelete(order);
-                  } else {
-                    return;
-                  }
-                },
-                child: const Text('Delete Order'),
-                  ),
-                ],
-              );
+            onLongPress: () async {
+              final response = await showDeletionConfirmationDialog(context);
+              if(response) {
+                onDelete(order);
+              } else {
+                return;
+              }
             },
             onTap: () => onTap(order),
             child: GridTile(
